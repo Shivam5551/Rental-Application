@@ -10,7 +10,7 @@ export default async function RootLayout({
 }) {
     return (
         <NextAuthProvider>
-            <div className="h-16"><Appbar /></div>
+            <div className="h-16 bg-white dark:bg-black/80"><Appbar /></div>
             {children}
         </NextAuthProvider>
     )

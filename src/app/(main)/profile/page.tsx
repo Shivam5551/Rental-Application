@@ -2,8 +2,16 @@ import { DashboardCardContainer } from "@/components/dashboardCardContainer";
 import { RevenueOverview } from "@/components/RevenueOverview";
 import { UpdateProfile } from "@/components/UpdateProfile";
 import { WelcomeCard } from "@/components/welcomecard";
+import { authOptions } from "@/utils/authOptions";
+import { getServerSession } from "next-auth";
 
-export default function Profile(){
+export default async function Profile(){
+    const session = await getServerSession(authOptions);
+    if(!session) {
+        return <div>
+            Signin First
+        </div> 
+    }
     return(
         <div className="min-h-screen flex flex-col lg:flex-row  dark:bg-black bg-white overflow-auto">
             <div className="h-full p-5 w-full lg:w-[60%]">
@@ -11,8 +19,8 @@ export default function Profile(){
                 <DashboardCardContainer />
                 <RevenueOverview />
             </div>
-            <div className="h-full w-full bg-black lg:w-[40%]">
-                <UpdateProfile />
+            <div className="h-full p-5 w-full lg:w-[40%]">
+                <UpdateProfile session={session} />
             </div>
         </div>
     )

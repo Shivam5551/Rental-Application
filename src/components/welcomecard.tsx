@@ -28,7 +28,7 @@ export const WelcomeCard = async () => {
     return (
         <div className="w-full justify-between h-fit bg-red-100 text-blue-900 dark:text-blue-100 dark:bg-slate-800 rounded-xl shadow-md p-4 flex">
             <div className="lg:w-[60%] p-2">
-                <Heading className="dark:text-orange-200 text-left" title={"Welcome Back, " + session.user.name} />
+                <Heading className="dark:text-orange-200 text-left" title={"Welcome Back, " + (session.user.name ? session.user.name : "Undefined")} />
                 <span className="dark:text-white text-black text-base sm:text-xl font-light">This is your property report</span>
                 <div className="text-black dark:text-blue-200 mt-3 font-semibold text-2xl">Total Property Listed: {totalProperties}</div>
                 <div className=" w-full items-center flex justify-evenly">
