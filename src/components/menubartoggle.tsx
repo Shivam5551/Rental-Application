@@ -13,7 +13,7 @@ export const MenubarToggle = () => {
         const menubar = document.getElementById("menubar");
         if (menubar) {
           menubar.className = isMenubarOpen
-            ? "flex text-left flex-col space-y-3 pt-3 w-fit h-fit right-16 top-15 rounded-lg bg-gray-200 dark:bg-gray-800 px-4 pb-3 absolute"
+            ? "flex text-left flex-col space-y-3 pt-3 w-fit h-fit right-16 top-15 rounded-lg bg-gray-200 dark:bg-gray-700 px-4 pb-3 absolute"
             : "hidden md:flex flex-col md:flex-row space-x-4 items-center";
         }
         console.log("toggle menubar");

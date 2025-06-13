@@ -34,11 +34,11 @@ const Home = () => {
             </div>
             <div className='hidden lg:flex'>
               <Image
+              priority  
               className="h-[50dv] w-[50dvw] mr-5 rounded-lg shadow-2xl"
               src={HomepageImage}
               alt="Homepage"
               style={{ objectFit: "cover" }}
-              priority
             />
             </div>
           </div>

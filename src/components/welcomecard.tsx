@@ -14,7 +14,7 @@ const data = [
 
 export const WelcomeCard = async () => {
     const session = await getServerSession(authOptions);
-    console.log(session)
+    // console.log(session)
     if (!session) {
         return <div className="w-full h-100 text-4xl">
             Login Required
@@ -44,6 +44,7 @@ export const WelcomeCard = async () => {
             </div>
             <div className="md:flex hidden justify-center items-baseline-last">
                 <Image
+                    priority
                     className="h-50 md:h-70 w-90 lg:w-100"
                     width={100}
                     height={100}

@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String
+  email      String     @unique
+  password   String?
+  image      String?
+  properties Property[]
+  inquiries  Inquiry[]
+  reviews    Review[]
+  bookings   Booking[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  provider   Provider
+  payments   Payment[]
+  token      Token[]
+
+  @@index([email])
+}
+
+model Property {
+  id          String          @id @default(uuid())
+  title       String
+  description String
+  price       Int
+  location    String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  userId      String
+  booked      Boolean
+  petfriendly Boolean
+  user        User            @relation(fields: [userId], references: [id])
+  images      PropertyImage[]
+  bookings    Booking[]
+  inquiries   Inquiry[]
+  reviews     Review[]
+
+  @@index([userId])
+}
+
+model PropertyImage {
+  id         String   @id @default(uuid())
+  url        String
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
+
+  @@index([propertyId])
+}
+
+model Inquiry {
+  id         String   @id @default(uuid())
+  message    String
+  createdAt  DateTime @default(now())
+  userId     String
+  propertyId String
+  user       User     @relation(fields: [userId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int
+  comment    String
+  createdAt  DateTime @default(now())
+  userId     String
+  propertyId String
+  user       User     @relation(fields: [userId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Booking {
+  id         String    @id @default(uuid())
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Int
+  createdAt  DateTime  @default(now())
+  userId     String
+  propertyId String
+  user       User      @relation(fields: [userId], references: [id])
+  property   Property  @relation(fields: [propertyId], references: [id])
+  payment    Payment[]
+
+  @@unique([userId, propertyId, startDate])
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  amount            Int
+  currency          String        @default("INR")
+  status            PaymentStatus
+  razorpayOrderId   String
+  razorpayPaymentId String
+  razorpaySignature String
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  bookingId         String
+  booking           Booking       @relation(fields: [bookingId], references: [id])
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([userId])
+}
+
+model Token {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum Provider {
+  Google
+  Email
+}

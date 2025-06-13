@@ -103,7 +103,7 @@ export const UpdateProfile = ({ session }: { session: Session }) => {
   
 
     return (
-        <div className="flex flex-col p-5 items-center bg-neutral-100 dark:bg-slate-800 rounded-xl justify-center">
+        <div className="flex flex-col p-5 items-center shadow-md bg-neutral-100 dark:bg-slate-800 rounded-xl justify-center">
             <div className="h-30 w-30 rounded-full flex items-center justify-center">
                 {imagePreview ? (
                     <Image
