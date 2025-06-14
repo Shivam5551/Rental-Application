@@ -28,21 +28,28 @@ model User {
 }
 
 model Property {
-  id          String          @id @default(uuid())
-  title       String
-  description String
-  price       Int
-  location    String
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  userId      String
-  booked      Boolean
-  petfriendly Boolean
-  user        User            @relation(fields: [userId], references: [id])
-  images      PropertyImage[]
-  bookings    Booking[]
-  inquiries   Inquiry[]
-  reviews     Review[]
+  id            String          @id @default(uuid())
+  title         String
+  description   String
+  price         Int
+  discount      Int             @default(0)
+  location      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  userId        String
+  verified      Boolean         @default(false)
+  booked        Boolean         @default(false)
+  petfriendly   Boolean         @default(false)
+  area          Int
+  beds          Int
+  baths         Int
+  firesafety    Boolean         @default(false)
+  showcaseimage String
+  user          User            @relation(fields: [userId], references: [id])
+  images        PropertyImage[]
+  bookings      Booking[]
+  inquiries     Inquiry[]
+  reviews       Review[]
 
   @@index([userId])
 }

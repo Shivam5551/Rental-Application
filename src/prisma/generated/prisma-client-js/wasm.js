@@ -136,12 +136,19 @@ exports.Prisma.PropertyScalarFieldEnum = {
   title: 'title',
   description: 'description',
   price: 'price',
+  discount: 'discount',
   location: 'location',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
+  verified: 'verified',
   booked: 'booked',
-  petfriendly: 'petfriendly'
+  petfriendly: 'petfriendly',
+  area: 'area',
+  beds: 'beds',
+  baths: 'baths',
+  firesafety: 'firesafety',
+  showcaseimage: 'showcaseimage'
 };
 
 exports.Prisma.PropertyImageScalarFieldEnum = {

@@ -1,9 +1,9 @@
 'use client'
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export const Searchbar = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const handleChange = (e: any) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     }
 

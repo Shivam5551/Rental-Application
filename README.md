@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BookIT 🏠
 
-## Getting Started
+A modern rental property platform built with Next.js, similar to Airbnb, where users can rent properties for short-term stays (1 day, 2 days, 1 week, etc.).
 
-First, run the development server:
+## Features ✨
 
+- **Property Listings**: Browse and search available rental properties
+- **Flexible Rental Periods**: Rent properties for 1 day, 2 days, 1 week, or custom durations
+- **User Authentication**: Secure login with NextAuth.js (Google OAuth & Email)
+- **Payment Integration**: Seamless payments with Razorpay
+- **Image Upload**: Optimized image uploads with ImageKit integration
+- **Property Management**: Property owners can list and manage their properties
+- **Booking System**: Complete booking workflow with date selection
+- **Reviews & Ratings**: Users can rate and review properties
+- **Responsive Design**: Modern UI with Tailwind CSS
+- **Database**: PostgreSQL with Prisma ORM
+
+## Tech Stack 🛠️
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS 4
+- **Authentication**: NextAuth.js v4
+- **Database**: PostgreSQL with Prisma ORM
+- **Payment**: Razorpay Integration
+- **Image Management**: ImageKit for optimized image uploads and transformations
+- **Charts**: Recharts for analytics
+- **Icons**: React Icons
+- **Development**: ESLint, TypeScript
+
+## Getting Started 🚀
+
+### Prerequisites
+
+- Node.js 18+ 
+- PostgreSQL database
+- Razorpay account for payments
+- ImageKit account for image management
+
+### Installation
+
+1. Clone the repository:
 ```bash
+git clone <your-repo-url>
+cd next-app
+```
+
+2. Install dependencies:
+```bash
+pnpm install
+# or
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+Create a `.env.local` file in the root directory:
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/bookit_db"
+NEXTAUTH_SECRET="your-nextauth-secret"
+NEXTAUTH_URL="http://localhost:3000"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+RAZORPAY_KEY_ID="your-razorpay-key-id"
+RAZORPAY_KEY_SECRET="your-razorpay-key-secret"
+
+# ImageKit Configuration (Optional - for optimized image handling)
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY="your-imagekit-public-key"
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT="https://ik.imagekit.io/your-imagekit-id"
+IMAGEKIT_PRIVATE_KEY="your-imagekit-private-key"
+```
+
+### ImageKit Setup (Optional)
+
+For optimized image uploads and transformations:
+
+1. Create an account at [ImageKit.io](https://imagekit.io/)
+2. Get your ImageKit credentials from the dashboard
+3. Add the ImageKit environment variables to your `.env.local`
+
+
+**ImageKit Benefits:**
+- Automatic image optimization and compression
+- Real-time image transformations
+- CDN delivery for faster loading
+- Support for multiple image formats
+
+4. Set up the database:
+```bash
+npx prisma migrate dev
+npx prisma db seed
+```
+
+5. Run the development server:
+```bash
+pnpm dev
+# or
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database Schema 📊
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application uses a comprehensive database schema with the following main models:
 
-## Learn More
+- **User**: User profiles with authentication
+- **Property**: Rental property listings
+- **Booking**: Property bookings with date ranges
+- **Payment**: Razorpay payment records
+- **Review**: Property reviews and ratings
+- **Inquiry**: User inquiries about properties
 
-To learn more about Next.js, take a look at the following resources:
+## Key Features Implementation 🔧
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Authentication
+- Google OAuth integration
+- Email/password authentication
+- Session management with NextAuth.js
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Payment Processing
+- Razorpay integration for secure payments
+- Order creation and payment verification
+- Payment status tracking
 
-## Deploy on Vercel
+### Property Management
+- Property listing with images
+- Availability calendar
+- Price management with discounts
+- Pet-friendly options
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Booking System
+- Date range selection
+- Price calculation
+- Booking confirmation
+- Payment processing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts 📝
+
+- `pnpm dev` - Start development server with Turbopack
+- `pnpm build` - Build the application for production
+- `pnpm start` - Start the production server
+- `pnpm lint` - Run ESLint for code quality

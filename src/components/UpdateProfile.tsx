@@ -3,7 +3,7 @@
 import axios, { isAxiosError } from "axios";
 import { Session } from "next-auth"
 import { signIn } from "next-auth/react";
-import Image from "next/image"
+import Image from "next/image";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
 
@@ -69,6 +69,8 @@ export const UpdateProfile = ({ session }: { session: Session }) => {
         if (updateState) {
             submitRequest();
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateState]);
 
     useEffect(() => {
@@ -115,11 +117,11 @@ export const UpdateProfile = ({ session }: { session: Session }) => {
                     />
                 ) : session.user?.image ? (
                     <Image
-                        className="rounded-full"
+                        className="rounded-full bg-gray-400"
                         src={session.user.image}
-                        alt="profile image"
+                        alt=""
                         width={100}
-                        height={100}
+                        height={100} 
                     />
                 ) : <div className="bg-neutral-200 p-8 rounded-full dark:bg-black dark:text-white text-2xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">

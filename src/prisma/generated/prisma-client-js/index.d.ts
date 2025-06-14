@@ -2964,10 +2964,18 @@ export namespace Prisma {
 
   export type PropertyAvgAggregateOutputType = {
     price: number | null
+    discount: number | null
+    area: number | null
+    beds: number | null
+    baths: number | null
   }
 
   export type PropertySumAggregateOutputType = {
     price: number | null
+    discount: number | null
+    area: number | null
+    beds: number | null
+    baths: number | null
   }
 
   export type PropertyMinAggregateOutputType = {
@@ -2975,12 +2983,19 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: number | null
+    discount: number | null
     location: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    verified: boolean | null
     booked: boolean | null
     petfriendly: boolean | null
+    area: number | null
+    beds: number | null
+    baths: number | null
+    firesafety: boolean | null
+    showcaseimage: string | null
   }
 
   export type PropertyMaxAggregateOutputType = {
@@ -2988,12 +3003,19 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: number | null
+    discount: number | null
     location: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    verified: boolean | null
     booked: boolean | null
     petfriendly: boolean | null
+    area: number | null
+    beds: number | null
+    baths: number | null
+    firesafety: boolean | null
+    showcaseimage: string | null
   }
 
   export type PropertyCountAggregateOutputType = {
@@ -3001,22 +3023,37 @@ export namespace Prisma {
     title: number
     description: number
     price: number
+    discount: number
     location: number
     createdAt: number
     updatedAt: number
     userId: number
+    verified: number
     booked: number
     petfriendly: number
+    area: number
+    beds: number
+    baths: number
+    firesafety: number
+    showcaseimage: number
     _all: number
   }
 
 
   export type PropertyAvgAggregateInputType = {
     price?: true
+    discount?: true
+    area?: true
+    beds?: true
+    baths?: true
   }
 
   export type PropertySumAggregateInputType = {
     price?: true
+    discount?: true
+    area?: true
+    beds?: true
+    baths?: true
   }
 
   export type PropertyMinAggregateInputType = {
@@ -3024,12 +3061,19 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    discount?: true
     location?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
+    verified?: true
     booked?: true
     petfriendly?: true
+    area?: true
+    beds?: true
+    baths?: true
+    firesafety?: true
+    showcaseimage?: true
   }
 
   export type PropertyMaxAggregateInputType = {
@@ -3037,12 +3081,19 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    discount?: true
     location?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
+    verified?: true
     booked?: true
     petfriendly?: true
+    area?: true
+    beds?: true
+    baths?: true
+    firesafety?: true
+    showcaseimage?: true
   }
 
   export type PropertyCountAggregateInputType = {
@@ -3050,12 +3101,19 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    discount?: true
     location?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
+    verified?: true
     booked?: true
     petfriendly?: true
+    area?: true
+    beds?: true
+    baths?: true
+    firesafety?: true
+    showcaseimage?: true
     _all?: true
   }
 
@@ -3150,12 +3208,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount: number
     location: string
     createdAt: Date
     updatedAt: Date
     userId: string
+    verified: boolean
     booked: boolean
     petfriendly: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety: boolean
+    showcaseimage: string
     _count: PropertyCountAggregateOutputType | null
     _avg: PropertyAvgAggregateOutputType | null
     _sum: PropertySumAggregateOutputType | null
@@ -3182,12 +3247,19 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    discount?: boolean
     location?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    verified?: boolean
     booked?: boolean
     petfriendly?: boolean
+    area?: boolean
+    beds?: boolean
+    baths?: boolean
+    firesafety?: boolean
+    showcaseimage?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     images?: boolean | Property$imagesArgs<ExtArgs>
     bookings?: boolean | Property$bookingsArgs<ExtArgs>
@@ -3201,12 +3273,19 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    discount?: boolean
     location?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    verified?: boolean
     booked?: boolean
     petfriendly?: boolean
+    area?: boolean
+    beds?: boolean
+    baths?: boolean
+    firesafety?: boolean
+    showcaseimage?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["property"]>
 
@@ -3215,12 +3294,19 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    discount?: boolean
     location?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    verified?: boolean
     booked?: boolean
     petfriendly?: boolean
+    area?: boolean
+    beds?: boolean
+    baths?: boolean
+    firesafety?: boolean
+    showcaseimage?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["property"]>
 
@@ -3229,15 +3315,22 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    discount?: boolean
     location?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    verified?: boolean
     booked?: boolean
     petfriendly?: boolean
+    area?: boolean
+    beds?: boolean
+    baths?: boolean
+    firesafety?: boolean
+    showcaseimage?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "price" | "location" | "createdAt" | "updatedAt" | "userId" | "booked" | "petfriendly", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "price" | "discount" | "location" | "createdAt" | "updatedAt" | "userId" | "verified" | "booked" | "petfriendly" | "area" | "beds" | "baths" | "firesafety" | "showcaseimage", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     images?: boolean | Property$imagesArgs<ExtArgs>
@@ -3267,12 +3360,19 @@ export namespace Prisma {
       title: string
       description: string
       price: number
+      discount: number
       location: string
       createdAt: Date
       updatedAt: Date
       userId: string
+      verified: boolean
       booked: boolean
       petfriendly: boolean
+      area: number
+      beds: number
+      baths: number
+      firesafety: boolean
+      showcaseimage: string
     }, ExtArgs["result"]["property"]>
     composites: {}
   }
@@ -3705,12 +3805,19 @@ export namespace Prisma {
     readonly title: FieldRef<"Property", 'String'>
     readonly description: FieldRef<"Property", 'String'>
     readonly price: FieldRef<"Property", 'Int'>
+    readonly discount: FieldRef<"Property", 'Int'>
     readonly location: FieldRef<"Property", 'String'>
     readonly createdAt: FieldRef<"Property", 'DateTime'>
     readonly updatedAt: FieldRef<"Property", 'DateTime'>
     readonly userId: FieldRef<"Property", 'String'>
+    readonly verified: FieldRef<"Property", 'Boolean'>
     readonly booked: FieldRef<"Property", 'Boolean'>
     readonly petfriendly: FieldRef<"Property", 'Boolean'>
+    readonly area: FieldRef<"Property", 'Int'>
+    readonly beds: FieldRef<"Property", 'Int'>
+    readonly baths: FieldRef<"Property", 'Int'>
+    readonly firesafety: FieldRef<"Property", 'Boolean'>
+    readonly showcaseimage: FieldRef<"Property", 'String'>
   }
     
 
@@ -10870,12 +10977,19 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     price: 'price',
+    discount: 'discount',
     location: 'location',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
+    verified: 'verified',
     booked: 'booked',
-    petfriendly: 'petfriendly'
+    petfriendly: 'petfriendly',
+    area: 'area',
+    beds: 'beds',
+    baths: 'baths',
+    firesafety: 'firesafety',
+    showcaseimage: 'showcaseimage'
   };
 
   export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
@@ -11171,12 +11285,19 @@ export namespace Prisma {
     title?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     price?: IntFilter<"Property"> | number
+    discount?: IntFilter<"Property"> | number
     location?: StringFilter<"Property"> | string
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
     userId?: StringFilter<"Property"> | string
+    verified?: BoolFilter<"Property"> | boolean
     booked?: BoolFilter<"Property"> | boolean
     petfriendly?: BoolFilter<"Property"> | boolean
+    area?: IntFilter<"Property"> | number
+    beds?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    firesafety?: BoolFilter<"Property"> | boolean
+    showcaseimage?: StringFilter<"Property"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     images?: PropertyImageListRelationFilter
     bookings?: BookingListRelationFilter
@@ -11189,12 +11310,19 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     location?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
     booked?: SortOrder
     petfriendly?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
+    firesafety?: SortOrder
+    showcaseimage?: SortOrder
     user?: UserOrderByWithRelationInput
     images?: PropertyImageOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
@@ -11210,12 +11338,19 @@ export namespace Prisma {
     title?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     price?: IntFilter<"Property"> | number
+    discount?: IntFilter<"Property"> | number
     location?: StringFilter<"Property"> | string
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
     userId?: StringFilter<"Property"> | string
+    verified?: BoolFilter<"Property"> | boolean
     booked?: BoolFilter<"Property"> | boolean
     petfriendly?: BoolFilter<"Property"> | boolean
+    area?: IntFilter<"Property"> | number
+    beds?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    firesafety?: BoolFilter<"Property"> | boolean
+    showcaseimage?: StringFilter<"Property"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     images?: PropertyImageListRelationFilter
     bookings?: BookingListRelationFilter
@@ -11228,12 +11363,19 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     location?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
     booked?: SortOrder
     petfriendly?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
+    firesafety?: SortOrder
+    showcaseimage?: SortOrder
     _count?: PropertyCountOrderByAggregateInput
     _avg?: PropertyAvgOrderByAggregateInput
     _max?: PropertyMaxOrderByAggregateInput
@@ -11249,12 +11391,19 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Property"> | string
     description?: StringWithAggregatesFilter<"Property"> | string
     price?: IntWithAggregatesFilter<"Property"> | number
+    discount?: IntWithAggregatesFilter<"Property"> | number
     location?: StringWithAggregatesFilter<"Property"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     userId?: StringWithAggregatesFilter<"Property"> | string
+    verified?: BoolWithAggregatesFilter<"Property"> | boolean
     booked?: BoolWithAggregatesFilter<"Property"> | boolean
     petfriendly?: BoolWithAggregatesFilter<"Property"> | boolean
+    area?: IntWithAggregatesFilter<"Property"> | number
+    beds?: IntWithAggregatesFilter<"Property"> | number
+    baths?: IntWithAggregatesFilter<"Property"> | number
+    firesafety?: BoolWithAggregatesFilter<"Property"> | boolean
+    showcaseimage?: StringWithAggregatesFilter<"Property"> | string
   }
 
   export type PropertyImageWhereInput = {
@@ -11755,11 +11904,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     user: UserCreateNestedOneWithoutPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     bookings?: BookingCreateNestedManyWithoutPropertyInput
@@ -11772,12 +11928,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryUncheckedCreateNestedManyWithoutPropertyInput
@@ -11789,11 +11952,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUpdateManyWithoutPropertyNestedInput
@@ -11806,12 +11976,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUncheckedUpdateManyWithoutPropertyNestedInput
@@ -11823,12 +12000,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
   }
 
   export type PropertyUpdateManyMutationInput = {
@@ -11836,11 +12020,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropertyUncheckedUpdateManyInput = {
@@ -11848,12 +12039,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropertyImageCreateInput = {
@@ -12484,16 +12682,27 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     location?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
     booked?: SortOrder
     petfriendly?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
+    firesafety?: SortOrder
+    showcaseimage?: SortOrder
   }
 
   export type PropertyAvgOrderByAggregateInput = {
     price?: SortOrder
+    discount?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
   }
 
   export type PropertyMaxOrderByAggregateInput = {
@@ -12501,12 +12710,19 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     location?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
     booked?: SortOrder
     petfriendly?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
+    firesafety?: SortOrder
+    showcaseimage?: SortOrder
   }
 
   export type PropertyMinOrderByAggregateInput = {
@@ -12514,16 +12730,27 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     location?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    verified?: SortOrder
     booked?: SortOrder
     petfriendly?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
+    firesafety?: SortOrder
+    showcaseimage?: SortOrder
   }
 
   export type PropertySumOrderByAggregateInput = {
     price?: SortOrder
+    discount?: SortOrder
+    area?: SortOrder
+    beds?: SortOrder
+    baths?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -13611,11 +13838,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     bookings?: BookingCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryCreateNestedManyWithoutPropertyInput
@@ -13627,11 +13861,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryUncheckedCreateNestedManyWithoutPropertyInput
@@ -13814,12 +14055,19 @@ export namespace Prisma {
     title?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     price?: IntFilter<"Property"> | number
+    discount?: IntFilter<"Property"> | number
     location?: StringFilter<"Property"> | string
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
     userId?: StringFilter<"Property"> | string
+    verified?: BoolFilter<"Property"> | boolean
     booked?: BoolFilter<"Property"> | boolean
     petfriendly?: BoolFilter<"Property"> | boolean
+    area?: IntFilter<"Property"> | number
+    beds?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    firesafety?: BoolFilter<"Property"> | boolean
+    showcaseimage?: StringFilter<"Property"> | string
   }
 
   export type InquiryUpsertWithWhereUniqueWithoutUserInput = {
@@ -14225,11 +14473,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     user: UserCreateNestedOneWithoutPropertiesInput
     bookings?: BookingCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryCreateNestedManyWithoutPropertyInput
@@ -14241,12 +14496,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     bookings?: BookingUncheckedCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryUncheckedCreateNestedManyWithoutPropertyInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutPropertyInput
@@ -14273,11 +14535,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     bookings?: BookingUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUpdateManyWithoutPropertyNestedInput
@@ -14289,12 +14558,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     bookings?: BookingUncheckedUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUncheckedUpdateManyWithoutPropertyNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14342,11 +14618,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     user: UserCreateNestedOneWithoutPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     bookings?: BookingCreateNestedManyWithoutPropertyInput
@@ -14358,12 +14641,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPropertyInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutPropertyInput
@@ -14433,11 +14723,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUpdateManyWithoutPropertyNestedInput
@@ -14449,12 +14746,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPropertyNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14502,11 +14806,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     user: UserCreateNestedOneWithoutPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     bookings?: BookingCreateNestedManyWithoutPropertyInput
@@ -14518,12 +14829,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     bookings?: BookingUncheckedCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryUncheckedCreateNestedManyWithoutPropertyInput
@@ -14593,11 +14911,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUpdateManyWithoutPropertyNestedInput
@@ -14609,12 +14934,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14662,11 +14994,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     user: UserCreateNestedOneWithoutPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryCreateNestedManyWithoutPropertyInput
@@ -14678,12 +15017,19 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     inquiries?: InquiryUncheckedCreateNestedManyWithoutPropertyInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutPropertyInput
@@ -14789,11 +15135,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUpdateManyWithoutPropertyNestedInput
@@ -14805,12 +15158,19 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUncheckedUpdateManyWithoutPropertyNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutPropertyNestedInput
@@ -15053,11 +15413,18 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    discount?: number
     location: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    booked: boolean
-    petfriendly: boolean
+    verified?: boolean
+    booked?: boolean
+    petfriendly?: boolean
+    area: number
+    beds: number
+    baths: number
+    firesafety?: boolean
+    showcaseimage: string
   }
 
   export type InquiryCreateManyUserInput = {
@@ -15110,11 +15477,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUpdateManyWithoutPropertyNestedInput
@@ -15126,11 +15500,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutPropertyNestedInput
     inquiries?: InquiryUncheckedUpdateManyWithoutPropertyNestedInput
@@ -15142,11 +15523,18 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    discount?: IntFieldUpdateOperationsInput | number
     location?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verified?: BoolFieldUpdateOperationsInput | boolean
     booked?: BoolFieldUpdateOperationsInput | boolean
     petfriendly?: BoolFieldUpdateOperationsInput | boolean
+    area?: IntFieldUpdateOperationsInput | number
+    beds?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    firesafety?: BoolFieldUpdateOperationsInput | boolean
+    showcaseimage?: StringFieldUpdateOperationsInput | string
   }
 
   export type InquiryUpdateWithoutUserInput = {

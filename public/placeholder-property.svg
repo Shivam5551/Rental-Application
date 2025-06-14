@@ -1,0 +1,9 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="#F3F4F6"/>
+<rect x="50" y="50" width="300" height="200" rx="8" fill="#E5E7EB"/>
+<path d="M180 120L190 110L200 120L220 100L240 120V170H160V140L180 120Z" fill="#9CA3AF"/>
+<circle cx="185" cy="105" r="8" fill="#9CA3AF"/>
+<rect x="160" y="180" width="80" height="40" rx="4" fill="#D1D5DB"/>
+<text x="200" y="202" text-anchor="middle" fill="#6B7280" font-family="system-ui" font-size="12">Property Image</text>
+<text x="200" y="215" text-anchor="middle" fill="#9CA3AF" font-family="system-ui" font-size="10">Not Available</text>
+</svg>

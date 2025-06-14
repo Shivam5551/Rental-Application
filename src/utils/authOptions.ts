@@ -1,8 +1,9 @@
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials"
-import Google from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 import prisma from "./prismaClient";
 import { compareSync } from "bcrypt-ts";
+import { SessionStrategy } from "next-auth";
 
 const isTokenExpired = (expiresAt: Date) => {
     return new Date() > expiresAt;
@@ -31,39 +32,47 @@ const validateStoredToken = async (userId: string) => {
 };
 
 
-const refreshAccessToken = async (token: JWT) => {
-    try {
-        const url = `https://oauth2.googleapis.com/token?` +
-            new URLSearchParams({
-                client_id: process.env.GOOGLE_CLIENT_ID || '',
-                client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
-                grant_type: "refresh_token",
-                refresh_token: token.refreshToken ? String(token.refreshToken) : '',
-            }).toString();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const refreshAccessToken = async (token: JWT, account: any) => {
+    // Use provider from token if account is not available
+    const provider = account?.provider || token.provider;
+    
+    if (provider === "google") {
+        try {
+            const url = `https://oauth2.googleapis.com/token?` +
+                new URLSearchParams({
+                    client_id: process.env.GOOGLE_CLIENT_ID || '',
+                    client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
+                    grant_type: "refresh_token",
+                    refresh_token: token.refreshToken ? String(token.refreshToken) : '',
+                }).toString();
 
-        const response = await fetch(url, {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            method: "POST",
-        });
+            const response = await fetch(url, {
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                method: "POST",
+            });
 
-        const refreshedTokens = await response.json();
+            const refreshedTokens = await response.json();
 
-        if (!response.ok) {
-            throw refreshedTokens;
+            if (!response.ok) {
+                throw refreshedTokens;
+            }
+
+            return {
+                ...token,
+                accessToken: refreshedTokens.access_token,
+                accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+                refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+            };
+        } catch (error) {
+            console.log(error);
+            return {
+                ...token,
+                error: "RefreshAccessTokenError",
+            };
         }
-
-        return {
-            ...token,
-            accessToken: refreshedTokens.access_token,
-            accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
-            refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
-        };
-    } catch (error) {
-        console.log(error);
-        return {
-            ...token,
-            error: "RefreshAccessTokenError",
-        };
+    } else {
+        return null;
     }
 };
 
@@ -139,7 +148,7 @@ export const authOptions = {
                 }
             },
         }),
-        Google({
+        GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
             authorization: {
@@ -154,6 +163,7 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET || 'secret',
 
     callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         session: async ({ session, token }: any) => {
             if (token) {
                 if (token.error) {
@@ -172,6 +182,7 @@ export const authOptions = {
             }
             return session;
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jwt: async ({ user, token, account }: any) => {
             async function createOrUpdateToken(userId: string, refreshToken: string, accessToken?: string) {
                 const expiresTime = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30); // 30 days
@@ -211,6 +222,7 @@ export const authOptions = {
                     accessToken: accessToken || "credentials-access-token",
                     accessTokenExpires: account?.expires_in ? Date.now() + account.expires_in * 1000 : Date.now() + 1000 * 60 * 60,
                     refreshToken: refreshToken,
+                    provider: account?.provider || "credentials",
                     user,
                     uid: userId
                 };
@@ -228,6 +240,7 @@ export const authOptions = {
                             accessToken: "credentials-access-token",
                             accessTokenExpires: Date.now() + 1000 * 60 * 60,
                             refreshToken: tokenValidation.token?.refreshToken,
+                            provider: "credentials",
                             user,
                             uid: user.id
                         };
@@ -246,6 +259,7 @@ export const authOptions = {
                             accessToken: account.access_token,
                             accessTokenExpires: Date.now() + (account.expires_in || 3600) * 1000,
                             refreshToken: tokenValidation.token?.refreshToken,
+                            provider: "google",
                             user,
                             uid: user.id
                         };
@@ -261,21 +275,54 @@ export const authOptions = {
             if (token.accessTokenExpires && Date.now() >= token.accessTokenExpires) {
                 // console.log("Access token expired, attempting refresh");
 
-                // Validate stored token before refresh
-                if (token.uid) {
-                    const tokenValidation = await validateStoredToken(token.uid);
-                    if (tokenValidation.expired) {
-                        // console.log("Stored refresh token also expired, user needs to re-authenticate");
+                // Only refresh for Google provider
+                if (token.provider === "google") {
+                    // Validate stored token before refresh
+                    if (token.uid) {
+                        const tokenValidation = await validateStoredToken(token.uid);
+                        if (tokenValidation.expired) {
+                            // console.log("Stored refresh token also expired, user needs to re-authenticate");
+                            return { ...token, error: "RefreshAccessTokenError" };
+                        }
+                    }
+
+                    // Ensure we have a refresh token before attempting refresh
+                    if (!token.refreshToken) {
+                        console.log("No refresh token available for Google provider");
+                        return { ...token, error: "RefreshAccessTokenError" };
+                    }
+
+                    return refreshAccessToken(token, account);
+                } else {
+                    // For credentials provider, validate stored refresh token
+                    if (token.uid) {
+                        const tokenValidation = await validateStoredToken(token.uid);
+                        if (tokenValidation.expired) {
+                            // console.log("Stored refresh token expired, user needs to re-authenticate");
+                            return { ...token, error: "RefreshAccessTokenError" };
+                        }
+                        
+                        // If stored token is still valid, extend the access token
+                        return {
+                            ...token,
+                            accessTokenExpires: Date.now() + 1000 * 60 * 60, // 1 hour
+                        };
+                    } else {
+                        // No user ID, force re-authentication
                         return { ...token, error: "RefreshAccessTokenError" };
                     }
                 }
-
-                return refreshAccessToken(token);
             }
 
-            // Return current token if still valid
-            return token;
+            // Return current token if still valid, but ensure provider is set
+            const finalToken = {
+                ...token,
+                provider: token.provider || "credentials" // Fallback provider
+            };
+            
+            return finalToken;
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         signIn: async ({ account, profile, user }: any) => {
             async function findUserByEmail(email: string) {
                 const isExists = await prisma.user.findFirst({
@@ -317,7 +364,7 @@ export const authOptions = {
                                 name: true,
                             }
                         });
-                        console.log("User created successfully:", newUser.email);
+                        // console.log("User created successfully:", newUser.email);
                         user.id = newUser.id;
                         return true;
                     } catch (error) {
@@ -326,7 +373,7 @@ export const authOptions = {
                     }
                 } else {
                     user.id = existingUser.id;
-                    console.log("Google user already exists:", existingUser.email);
+                    // console.log("Google user already exists:", existingUser.email);
                     return true;
                 }
             }
@@ -334,8 +381,13 @@ export const authOptions = {
             return false;
         }
     },
+    session: {
+        strategy: "jwt" as SessionStrategy,
+        maxAge: 30 * 24 * 60 * 60 //30days age
+    },
     pages: {
-        signIn: '/signin'
+        signIn: '/signin',
+        error: '/signin'
     }
 }
 
