@@ -62,7 +62,7 @@ export default function Signup() {
         if(isSubmitting) {
             sendSignupRequest();
         }
-    }, [isSubmitting, formDataState]);
+    }, [isSubmitting, formDataState, router]);
 
     const handleSubmit = useCallback(async (formData: FormData)=> {
         const email = formData.get("Email") as string;

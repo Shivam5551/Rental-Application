@@ -13,6 +13,7 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
+      "src/utils/prismaClient.ts",
       "src/prisma/generated/**/*",
       "src/prisma/generated/",
       "**/prisma/generated/**",

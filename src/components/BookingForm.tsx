@@ -36,17 +36,14 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
     setIsLoading(true);
 
     try {
-      // Here you would typically make an API call to create the booking
       console.log('Booking data:', {
         propertyId,
         ...formData,
         totalPrice
       });
       
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Redirect to success page or booking confirmation
+      //call razorpay webhook
       router.push(`/booking-success?property=${propertyTitle}`);
     } catch (error) {
       console.error('Booking failed:', error);
@@ -126,15 +123,15 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">
-                ₹{pricePerNight.toLocaleString()} × {calculateNights()} nights
+                Rs.{pricePerNight.toLocaleString()} × {calculateNights()} nights
               </span>
               <span className="text-gray-900 dark:text-white">
-                ₹{totalPrice.toLocaleString()}
+                Rs.{totalPrice.toLocaleString()}
               </span>
             </div>
             <div className="border-t border-gray-200 dark:border-gray-600 pt-2 flex justify-between font-semibold">
               <span className="text-gray-900 dark:text-white">Total</span>
-              <span className="text-gray-900 dark:text-white">₹{totalPrice.toLocaleString()}</span>
+              <span className="text-gray-900 dark:text-white">Rs.{totalPrice.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -143,9 +140,9 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
       <button
         type="submit"
         disabled={isLoading || calculateNights() === 0}
-        className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white py-3 px-4 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
+        className="w-full bg-orange-600 cursor-pointer hover:bg-orange-700 disabled:bg-gray-400 text-white py-3 px-4 rounded-lg font-semibold transition-colors disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Processing...' : `Book Now - ₹${totalPrice.toLocaleString()}`}
+        {isLoading ? 'Processing...' : `Book Now - Rs.${totalPrice.toLocaleString()}`}
       </button>
 
       <p className="text-xs text-gray-500 dark:text-gray-400 text-center">

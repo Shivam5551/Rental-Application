@@ -109,7 +109,7 @@ export const PropertySearchFilters = ({
 
           <div>
             <label className="block text-sm dark:text-gray-200 font-medium text-gray-700 mb-1">
-              Min Price (₹/night)
+              Min Price (Rs./night)
             </label>
             <input
               type="number"
@@ -122,7 +122,7 @@ export const PropertySearchFilters = ({
 
           <div>
             <label className="block text-sm dark:text-gray-200 font-medium text-gray-700 mb-1">
-              Max Price (₹/night)
+              Max Price (Rs./night)
             </label>
             <input
               type="number"

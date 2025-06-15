@@ -4,3 +4,8 @@ export { default as ReviewsContainer } from './ReviewsContainer';
 export { default as ReviewsHeader } from './ReviewsHeader';
 export { default as ReviewsHero } from './ReviewsHero';
 export { default as ReviewStats } from './ReviewStats';
+export { default as AddReviewForm } from './AddReviewForm';
+export { default as PropertySummaryForReview } from './PropertySummaryForReview';
+export { default as ReviewGuidelines } from './ReviewGuidelines';
+export { default as BookingSummary } from './BookingSummary';
+export { default as ReviewSuccess } from './ReviewSuccess';

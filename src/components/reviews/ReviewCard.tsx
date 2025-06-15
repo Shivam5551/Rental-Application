@@ -77,7 +77,7 @@ export default function ReviewCard({ review, showProperty = true }: ReviewCardPr
       {showProperty && (
         <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
           <Link 
-            href={`/property/${review.property.id}`}
+            href={`/property/details/${review.property.id}`}
             className="flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg p-2 transition-colors"
           >
             <div className="relative w-12 h-12 flex-shrink-0">
