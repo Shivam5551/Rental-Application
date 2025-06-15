@@ -226,7 +226,7 @@ export const PropertySearchFilters = ({
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 px-6 py-2 cursor-pointer bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? (
               <div className="flex items-center justify-center">
@@ -241,7 +241,7 @@ export const PropertySearchFilters = ({
           <button
             type="button"
             onClick={handleReset}
-            className="px-6 py-2 border bg-orange-600 border-gray-300  dark:hover:text-black text-white rounded-lg hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 cursor-pointer border bg-orange-600 border-gray-300  dark:hover:text-black text-white rounded-lg hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
           >
             Reset Filters
           </button>

@@ -4,6 +4,7 @@ import { FaStar, FaBed, FaBath, FaRulerCombined, FaPaw, FaShieldAlt, FaCheckCirc
 import { ImageKitProvider, Image as ImageKitImage } from '@imagekit/next';
 import { IMAGEKIT_CONFIG } from '@/utils/imagekitConfig';
 import Image from 'next/image';
+import { BookNowButton } from '@/components/BookNowButton';
 
 interface PropertyDetailsPageProps {
   params: Promise<{
@@ -13,7 +14,8 @@ interface PropertyDetailsPageProps {
 
 export default async function PropertyDetailsPage({ params }: PropertyDetailsPageProps) {
   const resolvedParams = await params;
-  
+
+
   const property = await prisma.property.findUnique({
     where: {
       id: resolvedParams.id
@@ -240,9 +242,7 @@ export default async function PropertyDetailsPage({ params }: PropertyDetailsPag
                 <span className="text-gray-600 dark:text-gray-300 ml-2">/night</span>
               </div>
 
-              <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors mb-4">
-                Book Now
-              </button>
+              <BookNowButton id={resolvedParams.id}/>
 
               {/* Host Info */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-6">

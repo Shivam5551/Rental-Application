@@ -54,7 +54,6 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 2500,
-    rating: 5,
     beds: 4,
     baths: 3,
     firesafety: true,
@@ -69,7 +68,6 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1200,
-    rating: 4,
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -84,7 +82,6 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 3000,
-    rating: 5,
     beds: 5,
     baths: 4,
     firesafety: true,
@@ -99,7 +96,6 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1500,
-    rating: 4,
     beds: 3,
     baths: 2,
     firesafety: true,
@@ -114,7 +110,6 @@ const properties = [
     verified: false,
     petfriendly: true,
     area: 600,
-    rating: 3,
     beds: 1,
     baths: 1,
     firesafety: false,
@@ -129,7 +124,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 3500,
-    rating: 5,
+    
     beds: 4,
     baths: 4,
     firesafety: true,
@@ -144,7 +139,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1800,
-    rating: 5,
+    
     beds: 3,
     baths: 2,
     firesafety: true,
@@ -159,7 +154,7 @@ const properties = [
     verified: false,
     petfriendly: false,
     area: 1000,
-    rating: 4,
+    
     beds: 2,
     baths: 1,
     firesafety: true,
@@ -174,7 +169,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 4000,
-    rating: 5,
+    
     beds: 6,
     baths: 5,
     firesafety: true,
@@ -189,7 +184,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1100,
-    rating: 3,
+    
     beds: 2,
     baths: 1,
     firesafety: false,
@@ -204,7 +199,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 500,
-    rating: 4,
+    
     beds: 1,
     baths: 1,
     firesafety: true,
@@ -219,7 +214,7 @@ const properties = [
     verified: false,
     petfriendly: true,
     area: 800,
-    rating: 4,
+    
     beds: 1,
     baths: 1,
     firesafety: false,
@@ -234,7 +229,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1200,
-    rating: 5,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -249,7 +244,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 900,
-    rating: 4,
+    
     beds: 1,
     baths: 1,
     firesafety: true,
@@ -264,7 +259,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 2200,
-    rating: 5,
+    
     beds: 3,
     baths: 3,
     firesafety: true,
@@ -279,7 +274,7 @@ const properties = [
     verified: false,
     petfriendly: true,
     area: 1500,
-    rating: 3,
+    
     beds: 3,
     baths: 2,
     firesafety: false,
@@ -294,7 +289,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1300,
-    rating: 4,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -309,7 +304,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 800,
-    rating: 4,
+    
     beds: 1,
     baths: 1,
     firesafety: true,
@@ -324,7 +319,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 2800,
-    rating: 5,
+    
     beds: 4,
     baths: 3,
     firesafety: true,
@@ -339,7 +334,7 @@ const properties = [
     verified: false,
     petfriendly: false,
     area: 400,
-    rating: 4,
+    
     beds: 1,
     baths: 1,
     firesafety: false,
@@ -354,7 +349,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1800,
-    rating: 5,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -369,7 +364,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1600,
-    rating: 4,
+    
     beds: 3,
     baths: 2,
     firesafety: true,
@@ -384,7 +379,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 600,
-    rating: 5,
+    
     beds: 1,
     baths: 1,
     firesafety: true,
@@ -399,7 +394,7 @@ const properties = [
     verified: false,
     petfriendly: true,
     area: 700,
-    rating: 3,
+    
     beds: 1,
     baths: 1,
     firesafety: false,
@@ -414,7 +409,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1400,
-    rating: 4,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -429,7 +424,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1100,
-    rating: 5,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -444,7 +439,7 @@ const properties = [
     verified: false,
     petfriendly: true,
     area: 1000,
-    rating: 4,
+    
     beds: 2,
     baths: 1,
     firesafety: false,
@@ -459,7 +454,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 2500,
-    rating: 5,
+    
     beds: 3,
     baths: 3,
     firesafety: true,
@@ -474,7 +469,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 1200,
-    rating: 4,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -489,7 +484,7 @@ const properties = [
     verified: true,
     petfriendly: false,
     area: 1600,
-    rating: 5,
+    
     beds: 2,
     baths: 2,
     firesafety: true,
@@ -504,7 +499,7 @@ const properties = [
     verified: true,
     petfriendly: true,
     area: 2000,
-    rating: 4,
+    
     beds: 3,
     baths: 3,
     firesafety: true,
