@@ -43,7 +43,7 @@ export default async function Profile(){
                 <RevenueOverview />
             </div>
             <div className="h-full p-5 space-y-4 w-full lg:w-[40%]">
-                <UpdateProfile session={session} />
+                <UpdateProfile />
                 <UserPropertiesCard />
             </div>
         </div>

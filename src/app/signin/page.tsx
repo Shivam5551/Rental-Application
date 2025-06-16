@@ -10,6 +10,7 @@ import { SubmitButton } from "@/components/submitButton";
 import WarnHeading from "@/components/warnheading";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Signin() {
     const router = useRouter();
@@ -17,18 +18,23 @@ export default function Signin() {
     const signin = async (formData: FormData) => {
         const email = formData.get("Email")
         const password = formData.get("Password");
-        // await new Promise(res => setTimeout(res, 5000));
-        if (email && password && String(password).length > 8) {
+        if(String(password).length < 8) {
+            toast.error("Short Password!");
+            return;
+        }
+        if (email && password && String(password).length >= 8) {
             const res = await signIn("credentials", {
                 email,
                 password,
                 redirect: false
             });
             if (res?.ok) {
-                router.push('/')
+                toast("Login Successful!")
+                router.push('/');
             }
             else {
                 router.push('/signin?error=invalid');
+                toast.error("Invalid Credentials")
             }
         }
     }

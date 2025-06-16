@@ -1,5 +1,4 @@
-import { ImageKitProvider, Image as ImageKitImage } from '@imagekit/next';
-import { IMAGEKIT_CONFIG } from '@/utils/imagekitConfig';
+import { Image as ImageKitImage } from '@imagekit/next';
 
 interface PropertyImageGalleryProps {
   showcaseImage: string;
@@ -9,8 +8,8 @@ interface PropertyImageGalleryProps {
 export function PropertyImageGallery({ showcaseImage, title }: PropertyImageGalleryProps) {
   return (
     <div className="aspect-video rounded-lg overflow-hidden">
-      <ImageKitProvider urlEndpoint={IMAGEKIT_CONFIG.urlEndpoint}>
-        <ImageKitImage
+      <ImageKitImage
+          urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL}
           src={showcaseImage}
           alt={title}
           width={800}
@@ -22,7 +21,6 @@ export function PropertyImageGallery({ showcaseImage, title }: PropertyImageGall
           }]}
           className="w-full h-full object-cover"
         />
-      </ImageKitProvider>
     </div>
   );
 }

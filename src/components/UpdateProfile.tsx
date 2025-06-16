@@ -1,13 +1,22 @@
 'use client'
 
+import { ImageKitAuthenticator } from "@/utils/ImagekitAuthenticator";
+import { upload } from "@imagekit/next";
 import axios, { isAxiosError } from "axios";
-import { Session } from "next-auth"
-import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
+export interface IAuthenticator{
+    token: string;
+    expire: number;
+    signature: string;
+    publicKey: string;
+}
 
-export const UpdateProfile = ({ session }: { session: Session }) => {
+export const UpdateProfile = () => {
+    const { data: session, update } = useSession();
     const [updateProfilePhoto, setUpdateProfilePhoto] = useState(false);
     const [updateName, setUpdateName] = useState(false);
     const [newName, setNewName] = useState<string>('')
@@ -20,47 +29,122 @@ export const UpdateProfile = ({ session }: { session: Session }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [updateState, setUpdateState] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const abortController = new AbortController();
+
+
+    const authenticator = useCallback(async () => {
+        const data = await ImageKitAuthenticator();
+        if(!data) {
+            toast.error("Failed to Authenticate")
+            return null;
+        }
+        const { signature, expire, token, publicKey }: IAuthenticator  = data;
+        return { signature, expire, token, publicKey };
+    }, []);
+
+    const handleUpload = async () => {
+        const file = selectedImage;
+        if (!file) {
+            return;
+        }
+
+        let authParams;
+        try {
+            authParams = await authenticator();
+            if(!authParams) {
+                throw new Error("Auth Error")
+            }
+        } catch (authError) {
+            toast.error("Unable to authenticate request")
+            console.error("Failed to authenticate for upload:", authError);
+            return;
+        }
+        const { signature, expire, token, publicKey }: IAuthenticator = authParams;
+
+        try {
+            const uploadResponse = await upload({
+                expire,
+                token,
+                signature,
+                publicKey,
+                file,
+                fileName: file.name,
+                abortSignal: abortController.signal,
+            });
+            return uploadResponse.url;
+        } catch (error) {
+            toast.error("Unable to upload profile photo")
+            console.log(error);
+            return;
+        }
+    };
 
     useEffect(() => {
         const submitRequest = async () => {
-            let formData: FormData | null = null;
-            formData = new FormData();
-            if (updateName) formData.append("name", newName);
-            if (updateEmail) formData.append("email", newEmail);
-            if (updatePassword) {
-                formData.append("oldPassword", oldPassword);
-                formData.append("newPassword", newPassword);
-            }
-            if (updateProfilePhoto && selectedImage) {
+            const payload: Record<string,string> = {};
+            let uploadedImageUrl: string | null = null;
 
-                formData.append("image", selectedImage);
+            if (updateProfilePhoto && selectedImage) {
+                const uploadResult = await handleUpload();
+                if(!uploadResult) {
+                    toast.error("Unable to update profile try again later!");
+                    setUpdateState(false);
+                    return;
+                }
+                uploadedImageUrl = uploadResult;
+                payload.image = uploadResult;
+            }
+
+            if (updateName && newName.trim()) payload.name = newName.trim();
+            if (updateEmail && newEmail.trim()) payload.email = newEmail.trim();
+            if (updatePassword) {
+                payload.oldPassword = oldPassword;
+                payload.newPassword = newPassword;
             }
 
             try {
-                const res = (updateProfilePhoto && selectedImage)
-                    ? await axios.post("api/v1/update/profile", formData, {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    })
-                    : await axios.post("api/v1/update/profile", formData);
+                const res = await axios.post("api/update/profile", payload);
 
                 if (res.data.success) {
-                    await signIn();
+                    const sessionUpdateData: Record<string, string> = {};
+                    
+                    if (updateName && newName.trim()) {
+                        sessionUpdateData.name = newName.trim();
+                    }
+                    if (updateEmail && newEmail.trim()) {
+                        sessionUpdateData.email = newEmail.trim();
+                    }
+                    if (updateProfilePhoto && uploadedImageUrl) {
+                        sessionUpdateData.image = uploadedImageUrl;
+                    }
+
+                    if (Object.keys(sessionUpdateData).length > 0) {
+                        await update(sessionUpdateData);
+                    }
+                    
                     setUpdateName(false);
                     setUpdateEmail(false);
                     setUpdatePassword(false);
                     setUpdateProfilePhoto(false);
+                    setNewName('');
+                    setNewEmail('');
                     setNewPassword('');
                     setOldPassword('');
                     setSelectedImage(null);
                     setImagePreview(null);
-                    alert("Done: " + res.data.message);
-
+                    
+                    toast.success("Profile Updated Successfully")
+                } else {
+                    toast.error(res.data.message || "Failed to update profile");
                 }
             } catch (error) {
                 if (isAxiosError(error)) {
-                    alert(error.response?.data.message || "Error Occurred");
+                    toast.error(error.response?.data.message || "Update failed")
+                    console.log(error);
                 }
-                console.log(error);
+                else {
+                    toast.error("Unable to update Profile")
+                }
             } finally {
                 setUpdateState(false);
             }
@@ -79,15 +163,24 @@ export const UpdateProfile = ({ session }: { session: Session }) => {
         }
         return () => setImagePreview(null);
     }, [selectedImage]);
+
       const handleUpdateDetails = useCallback(() => {
-        if (updatePassword && (!oldPassword || !newPassword)) {
-            alert("Please fill both password fields");
+        if (updatePassword && (!oldPassword.trim() || !newPassword.trim())) {
+            toast.error("Please fill both password fields");
+            return;
+        }
+        if (updateName && !newName.trim()) {
+            toast.error("Please enter a valid name");
+            return;
+        }
+        if (updateEmail && !newEmail.trim()) {
+            toast.error("Please enter a valid email");
             return;
         }
         if (!updateState && (updateEmail || updateName || updatePassword || updateProfilePhoto)) {
             setUpdateState(true);
         }
-    }, [updateEmail, updatePassword, oldPassword, newPassword, updateName, updateProfilePhoto, updateState]);
+    }, [updateEmail, updatePassword, oldPassword, newPassword, updateName, updateProfilePhoto, updateState, newName, newEmail]);
 
 
     const handleImageChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

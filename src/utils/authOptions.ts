@@ -171,7 +171,13 @@ export const authOptions = {
                     session.error = token.error;
                 }
 
-                session.user = token.user;
+                // Update session with token data (including updates from JWT callback)
+                session.user = {
+                    ...token.user,
+                    name: token.name || token.user?.name,
+                    email: token.email || token.user?.email,
+                    image: token.picture || token.user?.image,
+                };
                 session.accessToken = token.accessToken;
 
                 if (token.uid) {
@@ -183,7 +189,17 @@ export const authOptions = {
             return session;
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        jwt: async ({ user, token, account }: any) => {
+        jwt: async ({ user, token, account, trigger, session }: any) => {
+            // Handle session updates (when user profile is updated)
+            if (trigger === "update" && session) {
+                // Update token with new user data from session
+                return {
+                    ...token,
+                    name: session.name || token.name,
+                    email: session.email || token.email,
+                    picture: session.image || token.picture,
+                };
+            }
             async function createOrUpdateToken(userId: string, refreshToken: string, accessToken?: string) {
                 const expiresTime = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30); // 30 days
 

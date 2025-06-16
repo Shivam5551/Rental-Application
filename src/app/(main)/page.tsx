@@ -9,9 +9,6 @@ import Image from "next/image";
 
 const Home = async () => {
 
-
-
-
     return (
       <div className="bg-white dark:bg-slate-950 text-gray-900 dark:text-white min-h-screen flex flex-col">
         <main className="flex-grow">

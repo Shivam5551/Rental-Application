@@ -2,7 +2,9 @@
 import { PrismaClient } from "./generated/prisma-client-js/client.js";
 import { hashSync } from "bcrypt-ts";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL
+});
 
 
 // Sample data arrays

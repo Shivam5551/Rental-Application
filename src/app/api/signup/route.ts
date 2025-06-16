@@ -19,6 +19,13 @@ export async function POST(request: NextRequest) {
             status: 400
         })
     }
+    if(password.length < 8) {
+        return NextResponse.json({
+            message: "Password must contain 8 characters!"
+        }, {
+            status: 400
+        });
+    }
     try{
         const isExists = await prisma?.user.findFirst({
             where: {

@@ -5,9 +5,10 @@ import Heading from "@/components/heading";
 import { LabelledInputBox } from "@/components/labelledInputBox"
 import { ORDIV } from "@/components/orDiv";
 import { PasswordInputBox } from "@/components/passwordInputbox"
+import { SubHeading } from "@/components/subHeading";
 import { SubmitButton } from "@/components/submitButton";
 import WarnHeading from "@/components/warnheading";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react"
@@ -48,7 +49,10 @@ export default function Signup() {
                     toast.error("User already exists!");
                 }
             } catch (error) {
-                console.log(error);
+                if(isAxiosError(error)) {
+                    toast.error("Server not responding");
+                    return;
+                }
                 toast.error("User already exists!");
             }finally {
                 setIsSubmitting(false);
@@ -78,6 +82,10 @@ export default function Signup() {
             })
             return;
         }
+        if(password.length < 8 || confirmPassword.length < 8) {
+            toast.error("Password must contain 8 characters!");
+            return;
+        }
         if(email && name && password && confirmPassword) {
             setIsSubmitting(true);
             setFormDataState({
@@ -97,6 +105,7 @@ export default function Signup() {
                 <LabelledInputBox label="Email" placeholder="Enter your email" type="email"/>
                 <PasswordInputBox label="Password" placeholder="Enter a password" type="password"/>
                 <PasswordInputBox label="Confirm Password" placeholder="Confirm you password" type="password" />
+                <SubHeading className="text-sm" title="*Password must contain 8 characters" />
                 <SubmitButton label="Signup"/>
                 </form>
                 <ORDIV/>

@@ -1,9 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { ImageKitProvider, Image } from '@imagekit/next';
-import type { UploadResponse } from '@imagekit/next';
-import { IMAGEKIT_CONFIG } from '@/utils/imagekitConfig';
+import { useCallback, useState } from 'react';
+import { upload } from '@imagekit/next';
+import { IoCloudUploadOutline } from 'react-icons/io5';
+import { toast } from 'react-toastify';
+import { ImageKitAuthenticator } from '@/utils/ImagekitAuthenticator';
+import { IAuthenticator } from './UpdateProfile';
+import Image from 'next/image';
+import axios from 'axios';
 
 interface PropertyFormData {
   title: string;
@@ -14,13 +18,11 @@ interface PropertyFormData {
   baths: number;
   area: number;
   location: string;
-  petfriendly: boolean;
-  showcaseimage: string;
-  image1?: string;
-  image2?: string;
+  petfriendly: boolean
 }
 
 export const RentPropertyForm = () => {
+  const abortController = new AbortController();
   const [formData, setFormData] = useState<PropertyFormData>({
     title: '',
     description: '',
@@ -31,15 +33,26 @@ export const RentPropertyForm = () => {
     area: 0,
     location: '',
     petfriendly: false,
-    showcaseimage: '',
-    image1: '',
-    image2: ''
   });
 
-  const [uploadedImages, setUploadedImages] = useState({
-    showcase: false,
-    image1: false,
-    image2: false
+  interface UploadedImages {
+    showcase: File | null;
+    image1?: File | null;
+    image2?: File | null;
+  }
+  interface ImagePreview {
+    showcase: string | null;
+    image1: string | null;
+    image2: string | null;
+  }
+
+  const [imagePreview, setImagePreview] = useState<ImagePreview>({
+    showcase: null,
+    image1: null,
+    image2: null
+  });
+  const [uploadedImages, setUploadedImages] = useState<UploadedImages>({
+    showcase: null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,80 +61,156 @@ export const RentPropertyForm = () => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
-              type === 'number' ? Number(value) : value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked :
+        type === 'number' ? Number(value) : value
     }));
   };
 
-  const onUploadSuccess = (result: UploadResponse, imageType: 'showcase' | 'image1' | 'image2') => {
-    setFormData(prev => ({
-      ...prev,
-      [imageType === 'showcase' ? 'showcaseimage' : imageType]: result.url
-    }));
+  const authenticator = useCallback(async () => {
+    const data = await ImageKitAuthenticator();
+    if (!data) {
+      toast.error("Failed to Authenticate")
+      return null;
+    }
+    const { signature, expire, token, publicKey }: IAuthenticator = data;
+    return { signature, expire, token, publicKey };
+  }, []);
 
-    setUploadedImages(prev => ({
-      ...prev,
-      [imageType]: true
-    }));
-  };
+  const handleUpload = useCallback(async (file: File) => {
+    if (!file) {
+      return;
+    }
 
-  const onUploadError = (err: Error) => {
-    console.error('Upload error:', err);
-    alert('Failed to upload image. Please try again.');
-  };
-
-  const handleImageUpload = async (file: File, imageType: 'showcase' | 'image1' | 'image2') => {
+    let authParams;
     try {
-      // Use the original upload API for now, we'll integrate ImageKit in the provider
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('type', imageType);
+      authParams = await authenticator();
+      if (!authParams) {
+        throw new Error("Auth Error")
+      }
+    } catch (authError) {
+      toast.error("Unable to authenticate request")
+      console.error("Failed to authenticate for upload:", authError);
+      return;
+    }
+    const { signature, expire, token, publicKey }: IAuthenticator = authParams;
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
+    try {
+      const uploadResponse = await upload({
+        expire,
+        token,
+        signature,
+        publicKey,
+        file,
+        fileName: file.name,
+        abortSignal: abortController.signal,
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        onUploadSuccess(result as UploadResponse, imageType);
-      } else {
-        throw new Error('Upload failed');
-      }
+      return uploadResponse.url;
+
     } catch (error) {
-      onUploadError(error as Error);
+      toast.error("Unable to upload images")
+      console.log(error);
+      return;
     }
-  };
+  }, [authenticator, abortController.signal]);
+
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, imageType: 'showcase' | 'image1' | 'image2') => {
     const file = e.target.files?.[0];
     if (file) {
-      handleImageUpload(file, imageType);
+      if (imageType === 'showcase') {
+        setUploadedImages((c) => (
+          {
+            ...c,
+            showcase: file
+          }
+        ));
+        setImagePreview((c) => ({
+          ...c,
+          showcase: URL.createObjectURL(file)
+        }))
+      }
+      if (uploadedImages.showcase && imageType === 'image1') {
+        setUploadedImages((c) => (
+          {
+            ...c,
+            image1: file
+          }
+        ));
+        setImagePreview((c) => ({
+          ...c,
+          image1: URL.createObjectURL(file)
+        }))
+      }
+      if (uploadedImages.showcase && uploadedImages.image1 && imageType === "image2") {
+        setUploadedImages((c) => (
+          {
+            ...c,
+            image2: file
+          }
+        ));
+        setImagePreview((c) => ({
+          ...c,
+          image2: URL.createObjectURL(file)
+        }))
+      }
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.showcaseimage) {
-      alert('Showcase image is required!');
+
+    if (!uploadedImages.showcase) {
+      toast.error('Showcase image is required!');
+      return;
+    }
+    if (!formData.area || !formData.baths || !formData.beds || !formData.description || !formData.location || !formData.price || !formData.title) {
+      toast.error('Fields mark with * required');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/properties', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+      let showcaseImageUri = null;
+      let image1Uri = null;
+      let image2Uri = null;
+      if (uploadedImages.showcase) {
+        const showcaseImageUrl = await handleUpload(uploadedImages.showcase);
 
-      if (response.ok) {
-        alert('Property listed successfully!');
-        // Reset form or redirect
+        if (!showcaseImageUrl) {
+          return;
+        }
+        console.log("SHOWCASEURL", showcaseImageUrl);
+
+        showcaseImageUri = showcaseImageUrl;
+        if (uploadedImages.image1) {
+          const image1Url = await handleUpload(uploadedImages.image1)
+          if (!image1Url) {
+            return;
+          }
+          image1Uri = image1Url;
+        }
+        if (uploadedImages.image2) {
+          const image2Url = await handleUpload(uploadedImages.image2);
+          if (!image2Url) {
+            return;
+          }
+          image2Uri = image2Url;
+        }
+      }
+
+      const response = await axios.post('/api/properties', {
+        ...formData,
+        showcaseimage: showcaseImageUri,
+        image1: image1Uri,
+        image2: image2Uri
+      })
+
+      if (response.data.success) {
+        toast('Property listed successfully!');
+
         setFormData({
           title: '',
           description: '',
@@ -132,37 +221,29 @@ export const RentPropertyForm = () => {
           area: 0,
           location: '',
           petfriendly: false,
-          showcaseimage: '',
-          image1: '',
-          image2: ''
         });
         setUploadedImages({
-          showcase: false,
-          image1: false,
-          image2: false
+          showcase: null,
+          image1: null,
+          image2: null
         });
-      } else {
-        throw new Error('Failed to create property');
-      }
+      } 
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to list property. Please try again.');
+      toast.error('Failed to list property. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <ImageKitProvider
-      urlEndpoint={IMAGEKIT_CONFIG.urlEndpoint}
-    >
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Information */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Basic Information</h2>
-        
+        <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900">Basic Information</h2>
+
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="title" className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
             Property Title *
           </label>
           <input
@@ -172,13 +253,13 @@ export const RentPropertyForm = () => {
             value={formData.title}
             onChange={handleInputChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Enter property title"
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="description" className="block text-sm dark:text-gray-50 font-medium text-gray-700 mb-2">
             Description *
           </label>
           <textarea
@@ -188,14 +269,14 @@ export const RentPropertyForm = () => {
             onChange={handleInputChange}
             required
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border dark:text-white border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Describe your property"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="price" className="block text-sm dark:text-gray-50 font-medium text-gray-700 mb-2">
               Price per night Rs. *
             </label>
             <input
@@ -206,13 +287,13 @@ export const RentPropertyForm = () => {
               onChange={handleInputChange}
               required
               min="1"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border dark:text-white border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="1000"
             />
           </div>
 
           <div>
-            <label htmlFor="discount" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="discount" className="block dark:text-gray-50 text-sm font-medium text-gray-700 mb-2">
               Discount Rs.
             </label>
             <input
@@ -222,12 +303,12 @@ export const RentPropertyForm = () => {
               value={formData.discount}
               onChange={handleInputChange}
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border dark:text-gray-50 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="100"
             />
           </div>
           <div>
-            <label htmlFor="beds" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="beds" className="block dark:text-gray-50 text-sm font-medium text-gray-700 mb-2">
               Beds
             </label>
             <input
@@ -237,13 +318,13 @@ export const RentPropertyForm = () => {
               value={formData.beds}
               onChange={handleInputChange}
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border dark:text-gray-50 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="10"
               required
             />
           </div>
           <div>
-            <label htmlFor="baths" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="baths" className="block text-sm dark:text-gray-50 font-medium text-gray-700 mb-2">
               Baths
             </label>
             <input
@@ -253,13 +334,13 @@ export const RentPropertyForm = () => {
               value={formData.baths}
               onChange={handleInputChange}
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border dark:text-gray-50 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="10"
               required
             />
           </div>
           <div>
-            <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="area" className="block dark:text-gray-50 text-sm font-medium text-gray-700 mb-2">
               Area
             </label>
             <input
@@ -269,29 +350,29 @@ export const RentPropertyForm = () => {
               value={formData.area}
               onChange={handleInputChange}
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 dark:text-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="1000"
               required
             />
           </div>
           <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
-            Location *
-          </label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="City, State"
-          />
-        </div>
+            <label htmlFor="location" className="block dark:text-gray-50 text-sm font-medium text-gray-700 mb-2">
+              Location *
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border dark:text-gray-50 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="City, State"
+            />
+          </div>
         </div>
 
-        
+
 
         <div className="flex items-center">
           <input
@@ -300,9 +381,9 @@ export const RentPropertyForm = () => {
             name="petfriendly"
             checked={formData.petfriendly}
             onChange={handleInputChange}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 text-blue-600 dark:text-gray-50 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="petfriendly" className="ml-2 block text-sm text-gray-700">
+          <label htmlFor="petfriendly" className="ml-2 dark:text-gray-50 block text-sm text-gray-700">
             Pet Friendly
           </label>
         </div>
@@ -310,39 +391,31 @@ export const RentPropertyForm = () => {
 
       {/* Image Upload Section */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Property Images</h2>
-        
-        {/* Showcase Image - Required */}
+        <h2 className="text-xl font-semibold dark:text-gray-50 text-gray-900">Property Images</h2>
+
         <div className="p-4 border border-gray-200 rounded-lg">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
             Showcase Image * (Main image for your property)
           </label>
-          
+
           {!uploadedImages.showcase ? (
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, 'showcase')}
-                className="w-full cursor-pointer"
-              />
-              <p className="mt-2 text-sm text-gray-500">
-                Click to upload your main property image
-              </p>
-            </div>
+            <label htmlFor="showcase"
+              className="bg-white text-slate-500 dark:text-gray-200 dark:bg-slate-600 font-semibold text-base rounded min-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto">
+              <IoCloudUploadOutline size={40} />
+              Upload file
+
+              <input type="file" id='showcase' accept="image/*"
+                onChange={(e) => handleFileChange(e, 'showcase')} className="hidden" />
+              <p className="text-xs font-medium text-slate-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+            </label>
           ) : (
             <div className="space-y-2">
-              <div className="relative">
+              <div className="relative w-full flex items-center justify-center ">
                 <Image
                   width={300}
                   height={200}
-                  src={formData.showcaseimage}
-                  transformation={[{
-                    height: 200,
-                    width: 300,
-                    crop: 'maintain_ratio'
-                  }]}
-                  className="rounded-lg object-cover"
+                  src={imagePreview.showcase as string}
+                  className="rounded-lg flex justify-center items-center object-cover"
                   alt="Showcase image"
                 />
               </div>
@@ -350,7 +423,8 @@ export const RentPropertyForm = () => {
                 type="button"
                 onClick={() => {
                   setFormData(prev => ({ ...prev, showcaseimage: '' }));
-                  setUploadedImages(prev => ({ ...prev, showcase: false }));
+                  setUploadedImages(prev => ({ ...prev, showcase: null }));
+                  setImagePreview(prev => ({ ...prev, showcase: null }));
                 }}
                 className="text-sm text-red-600 hover:text-red-800"
               >
@@ -360,96 +434,86 @@ export const RentPropertyForm = () => {
           )}
         </div>
 
-        {/* Additional Images - Show only after showcase image is uploaded */}
         {uploadedImages.showcase && (
           <>
             {/* Image 1 */}
             <div className="p-4 border border-gray-200 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
                 Additional Image 1 (Optional)
               </label>
-              
-              {!uploadedImages.image1 ? (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'image1')}
-                    className="w-full cursor-pointer"
+
+              {!uploadedImages.image1 && !imagePreview.image1 ? (
+                <label htmlFor="image1"
+                  className="bg-white text-slate-500 dark:text-gray-200 dark:bg-slate-600 font-semibold text-base rounded min-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto">
+                  <IoCloudUploadOutline size={40} />
+                  Upload More file
+
+                  <input type="file" id='image1' accept="image/*"
+                    onChange={(e) => handleFileChange(e, 'image1')} className="hidden" />
+                  <p className="text-xs font-medium text-slate-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                </label>
+              ) : (<div className="space-y-2">
+                <div className="relative w-full flex items-center justify-center ">
+                  <Image
+                    width={300}
+                    height={200}
+                    src={imagePreview.image1 as string}
+                    className="rounded-lg flex justify-center items-center object-cover"
+                    alt="Property image 1"
                   />
-                  <p className="mt-2 text-sm text-gray-500">
-                    Click to upload additional image
-                  </p>
                 </div>
-              ) : (                  <div className="space-y-2">
-                    <div className="relative">
-                      <Image
-                        src={formData.image1 || ''}
-                        transformation={[{
-                          height: 200,
-                          width: 300,
-                          crop: 'maintain_ratio'
-                        }]}
-                        className="rounded-lg object-cover"
-                        alt="Property image 1"
-                      />
-                    </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFormData(prev => ({ ...prev, image1: '' }));
-                      setUploadedImages(prev => ({ ...prev, image1: false }));
-                    }}
-                    className="text-sm text-red-600 hover:text-red-800"
-                  >
-                    Remove image
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, image1: '' }));
+                    setUploadedImages(prev => ({ ...prev, image1: null }));
+                    setImagePreview(prev => ({ ...prev, image1: null }));
+                  }}
+                  className="text-sm text-red-600 hover:text-red-800"
+                >
+                  Remove image
+                </button>
+              </div>
               )}
             </div>
 
-            {/* Image 2 */}
             <div className="p-4 border border-gray-200 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
                 Additional Image 2 (Optional)
               </label>
-              
-              {!uploadedImages.image2 ? (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'image2')}
-                    className="w-full cursor-pointer"
+
+              {!uploadedImages.image2 && !imagePreview.image2 ? (
+                <label htmlFor="image2"
+                  className="bg-white text-slate-500 dark:text-gray-200 dark:bg-slate-600 font-semibold text-base rounded min-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto">
+                  <IoCloudUploadOutline size={40} />
+                  Upload file
+
+                  <input type="file" id='image2' accept="image/*"
+                    onChange={(e) => handleFileChange(e, 'image2')} className="hidden" />
+                  <p className="text-xs font-medium text-slate-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                </label>
+              ) : (<div className="space-y-2">
+                <div className="relative w-full flex items-center justify-center ">
+                  <Image
+                    width={300}
+                    height={200}
+                    src={imagePreview.image2 as string}
+                    className="rounded-lg flex justify-center items-center object-cover"
+                    alt="Property image 2"
                   />
-                  <p className="mt-2 text-sm text-gray-500">
-                    Click to upload additional image
-                  </p>
                 </div>
-              ) : (                  <div className="space-y-2">
-                    <div className="relative">
-                      <Image
-                        src={formData.image2 || ''}
-                        transformation={[{
-                          height: 200,
-                          width: 300,
-                          crop: 'maintain_ratio'
-                        }]}
-                        className="rounded-lg object-cover"
-                        alt="Property image 2"
-                      />
-                    </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFormData(prev => ({ ...prev, image2: '' }));
-                      setUploadedImages(prev => ({ ...prev, image2: false }));
-                    }}
-                    className="text-sm text-red-600 hover:text-red-800"
-                  >
-                    Remove image
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, image2: '' }));
+                    setUploadedImages(prev => ({ ...prev, image2: null }));
+                    setImagePreview(prev => ({ ...prev, image2: null }));
+                  }}
+                  className="text-sm text-red-600 hover:text-red-800"
+                >
+                  Remove image
+                </button>
+              </div>
               )}
             </div>
           </>
@@ -460,13 +524,12 @@ export const RentPropertyForm = () => {
       <div className="pt-6">
         <button
           type="submit"
-          disabled={isSubmitting || !formData.showcaseimage}
+          disabled={isSubmitting || !uploadedImages.showcase}
           className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Listing Property...' : 'List Property'}
         </button>
       </div>
     </form>
-    </ImageKitProvider>
   );
 };
