@@ -43,7 +43,7 @@ export const Appbar = async () => {
                         <NavLink href="/about" title="About" symbol={<GoInfo size={22} />} />
                         {
                             !!session && !!session.user && !!session.user.id &&
-                            <NavLink href="/booked" title="My Bookings" symbol={<LuNotebookTabs className="font-extralight" size={22}/>} />
+                            <NavLink href="/bookings" title="My Bookings" symbol={<LuNotebookTabs className="font-extralight" size={22}/>} />
                         }
                         {(session && session.user && session?.user?.id) ?
                             
