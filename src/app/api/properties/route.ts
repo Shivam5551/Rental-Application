@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     if (!session || !session.user?.email) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Authentication required', success: false },
         { status: 401 }
       );
     }
@@ -46,21 +46,22 @@ export async function POST(request: NextRequest) {
     }:IProperty = body;
 
     // Validate required fields
-    if (!title || !description || !price || !location || !showcaseimage) {
+    if (!title || !description || !price || !location || !showcaseimage || !beds || !area) {
+      console.log("SOmething is missing");
+      
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields', success: false },
         { status: 400 }
       );
     }
 
-    // Find user by email
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email }
+      where: { id: session.user.id }
     });
 
     if (!user) {
       return NextResponse.json(
-        { error: 'User not found' },
+        { error: 'User not found', success: false },
         { status: 404 }
       );
     }
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
         area: Math.round(area),
         beds: beds,
         baths: baths,
-        discount: discount || 0,
+        discount: discount*100 || 0,
         location,
         petfriendly: !!petfriendly,
         showcaseimage,
@@ -104,6 +105,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
+        success: true,
         message: 'Property created successfully',
         property: {
           id: property.id,
@@ -111,13 +113,13 @@ export async function POST(request: NextRequest) {
           price: property.price
         }
       },
-      { status: 201 }
+      { status: 200 }
     );
 
   } catch (error) {
     console.error('Error creating property:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', success: false },
       { status: 500 }
     );
   }
