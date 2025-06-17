@@ -1,7 +1,7 @@
 'use client'
 import axios from "axios";
 import { redirect } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 interface IResult {
@@ -24,7 +24,8 @@ export const Searchbar = () => {
 
         return () => document.removeEventListener("click", handleClickOutside);
 
-    })
+    }, []);
+    
     useEffect(() => {
         async function callApi() {
             try {
