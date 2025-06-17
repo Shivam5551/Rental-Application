@@ -83,7 +83,6 @@ export const AboutStats = async () => {
   return (
     <section className="py-20 bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Our Impact in Numbers
@@ -93,7 +92,6 @@ export const AboutStats = async () => {
           </p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {statsData.map((stat, index) => {
             const colors = getColorClasses(stat.color);
@@ -121,7 +119,6 @@ export const AboutStats = async () => {
           })}
         </div>
 
-        {/* Additional Metrics */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Quality Assurance</h3>

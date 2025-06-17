@@ -7,14 +7,12 @@ export const EmptyBookingsState = () => {
     return (
         <div className="min-h-[60vh] flex items-center justify-center">
             <div className="text-center max-w-md mx-auto px-4">
-                {/* Illustration */}
                 <div className="w-32 h-32 mx-auto mb-8 relative">
                     <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/20 dark:to-orange-800/20 rounded-full flex items-center justify-center">
                         <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-lg">
                             <FaCalendarAlt className="w-8 h-8 text-orange-600 dark:text-orange-400" />
                         </div>
                     </div>
-                    {/* Floating icons */}
                     <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                         <FaHome className="w-4 h-4 text-white" />
                     </div>
@@ -23,7 +21,6 @@ export const EmptyBookingsState = () => {
                     </div>
                 </div>
 
-                {/* Content */}
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                     No Bookings Yet
                 </h3>
@@ -31,7 +28,6 @@ export const EmptyBookingsState = () => {
                     Your adventure awaits! Discover amazing properties and create unforgettable memories.
                 </p>
 
-                {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                     <Link href="/properties">
                         <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
@@ -48,7 +44,6 @@ export const EmptyBookingsState = () => {
                     </Link>
                 </div>
 
-                {/* Features */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                     <div className="text-center">
                         <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -72,7 +67,6 @@ export const EmptyBookingsState = () => {
                     </div>
                 </div>
 
-                {/* Additional Help */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
                     <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
                         How it works

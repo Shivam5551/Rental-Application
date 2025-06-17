@@ -75,7 +75,6 @@ export const PropertySearchFilters = ({
 
   return (
     <div className="space-y-6">
-      {/* Quick Location Search */}
       <div>
         <h3 className="text-sm font-medium dark:text-gray-200 text-gray-700 mb-3">Popular Destinations</h3>
         <div className="flex flex-wrap gap-2">
@@ -92,7 +91,6 @@ export const PropertySearchFilters = ({
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Location and Price */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm dark:text-gray-200 font-medium text-gray-700 mb-1">
@@ -134,7 +132,6 @@ export const PropertySearchFilters = ({
           </div>
         </div>
 
-        {/* Beds, Baths, Area */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm dark:text-gray-200 font-medium text-gray-700 mb-1">
@@ -185,7 +182,6 @@ export const PropertySearchFilters = ({
 
 
 
-        {/* Amenities and Features */}
         <div>
           <h3 className="text-sm font-medium dark:text-white text-gray-700 mb-3">Amenities & Features</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -221,7 +217,6 @@ export const PropertySearchFilters = ({
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 pt-4">
           <button
             type="submit"

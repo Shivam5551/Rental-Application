@@ -238,7 +238,6 @@ export const RentPropertyForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Basic Information */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900">Basic Information</h2>
 
@@ -389,7 +388,6 @@ export const RentPropertyForm = () => {
         </div>
       </div>
 
-      {/* Image Upload Section */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold dark:text-gray-50 text-gray-900">Property Images</h2>
 
@@ -436,7 +434,6 @@ export const RentPropertyForm = () => {
 
         {uploadedImages.showcase && (
           <>
-            {/* Image 1 */}
             <div className="p-4 border border-gray-200 rounded-lg">
               <label className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
                 Additional Image 1 (Optional)
@@ -520,7 +517,6 @@ export const RentPropertyForm = () => {
         )}
       </div>
 
-      {/* Submit Button */}
       <div className="pt-6">
         <button
           type="submit"

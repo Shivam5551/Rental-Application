@@ -50,7 +50,6 @@ export function PropertyPricingSidebar({ propertyId, price, discount, host }: Pr
 
       <BookNowButton id={propertyId} />
 
-      {/* Host Info */}
       <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
         <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Hosted by</h4>
         <div className="flex items-center gap-3">

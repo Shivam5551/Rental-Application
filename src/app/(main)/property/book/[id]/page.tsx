@@ -64,7 +64,6 @@ export default async function BookingPage({ params }: BookingPageProps) {
             discount={property.discount}
           />
 
-          {/* Booking Form */}
           <BookingFormSection 
             propertyId={property.id}
             pricePerNight={discountedPrice}

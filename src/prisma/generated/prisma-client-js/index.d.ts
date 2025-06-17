@@ -1717,6 +1717,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     image: string | null
+    bankaccountnumber: string | null
+    bankifscnumber: string | null
     createdAt: Date | null
     updatedAt: Date | null
     provider: $Enums.Provider | null
@@ -1728,6 +1730,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     image: string | null
+    bankaccountnumber: string | null
+    bankifscnumber: string | null
     createdAt: Date | null
     updatedAt: Date | null
     provider: $Enums.Provider | null
@@ -1739,6 +1743,8 @@ export namespace Prisma {
     email: number
     password: number
     image: number
+    bankaccountnumber: number
+    bankifscnumber: number
     createdAt: number
     updatedAt: number
     provider: number
@@ -1752,6 +1758,8 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    bankaccountnumber?: true
+    bankifscnumber?: true
     createdAt?: true
     updatedAt?: true
     provider?: true
@@ -1763,6 +1771,8 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    bankaccountnumber?: true
+    bankifscnumber?: true
     createdAt?: true
     updatedAt?: true
     provider?: true
@@ -1774,6 +1784,8 @@ export namespace Prisma {
     email?: true
     password?: true
     image?: true
+    bankaccountnumber?: true
+    bankifscnumber?: true
     createdAt?: true
     updatedAt?: true
     provider?: true
@@ -1858,6 +1870,8 @@ export namespace Prisma {
     email: string
     password: string | null
     image: string | null
+    bankaccountnumber: string | null
+    bankifscnumber: string | null
     createdAt: Date
     updatedAt: Date
     provider: $Enums.Provider
@@ -1886,6 +1900,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    bankaccountnumber?: boolean
+    bankifscnumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     provider?: boolean
@@ -1904,6 +1920,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    bankaccountnumber?: boolean
+    bankifscnumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     provider?: boolean
@@ -1915,6 +1933,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    bankaccountnumber?: boolean
+    bankifscnumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     provider?: boolean
@@ -1926,12 +1946,14 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     image?: boolean
+    bankaccountnumber?: boolean
+    bankifscnumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     provider?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "createdAt" | "updatedAt" | "provider", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "image" | "bankaccountnumber" | "bankifscnumber" | "createdAt" | "updatedAt" | "provider", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     properties?: boolean | User$propertiesArgs<ExtArgs>
     inquiries?: boolean | User$inquiriesArgs<ExtArgs>
@@ -1960,6 +1982,8 @@ export namespace Prisma {
       email: string
       password: string | null
       image: string | null
+      bankaccountnumber: string | null
+      bankifscnumber: string | null
       createdAt: Date
       updatedAt: Date
       provider: $Enums.Provider
@@ -2397,6 +2421,8 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly bankaccountnumber: FieldRef<"User", 'String'>
+    readonly bankifscnumber: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly provider: FieldRef<"User", 'Provider'>
@@ -10964,6 +10990,8 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     image: 'image',
+    bankaccountnumber: 'bankaccountnumber',
+    bankifscnumber: 'bankifscnumber',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     provider: 'provider'
@@ -11201,6 +11229,8 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bankaccountnumber?: StringNullableFilter<"User"> | string | null
+    bankifscnumber?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     provider?: EnumProviderFilter<"User"> | $Enums.Provider
@@ -11218,6 +11248,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bankaccountnumber?: SortOrderInput | SortOrder
+    bankifscnumber?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     provider?: SortOrder
@@ -11238,6 +11270,8 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bankaccountnumber?: StringNullableFilter<"User"> | string | null
+    bankifscnumber?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     provider?: EnumProviderFilter<"User"> | $Enums.Provider
@@ -11255,6 +11289,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bankaccountnumber?: SortOrderInput | SortOrder
+    bankifscnumber?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     provider?: SortOrder
@@ -11272,6 +11308,8 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankaccountnumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankifscnumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     provider?: EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider
@@ -11804,6 +11842,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -11821,6 +11861,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -11838,6 +11880,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -11855,6 +11899,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -11872,6 +11918,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -11883,6 +11931,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -11894,6 +11944,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -12559,6 +12611,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    bankaccountnumber?: SortOrder
+    bankifscnumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     provider?: SortOrder
@@ -12570,6 +12624,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    bankaccountnumber?: SortOrder
+    bankifscnumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     provider?: SortOrder
@@ -12581,6 +12637,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     image?: SortOrder
+    bankaccountnumber?: SortOrder
+    bankifscnumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     provider?: SortOrder
@@ -14221,6 +14279,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14237,6 +14297,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14369,6 +14431,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14385,6 +14449,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14582,6 +14648,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14598,6 +14666,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14681,6 +14751,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14697,6 +14769,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14770,6 +14844,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14786,6 +14862,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14869,6 +14947,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14885,6 +14965,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -14958,6 +15040,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -14974,6 +15058,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -15093,6 +15179,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -15109,6 +15197,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -15198,6 +15288,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -15214,6 +15306,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -15271,6 +15365,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -15287,6 +15383,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -15334,6 +15432,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -15350,6 +15450,8 @@ export namespace Prisma {
     email: string
     password?: string | null
     image?: string | null
+    bankaccountnumber?: string | null
+    bankifscnumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     provider: $Enums.Provider
@@ -15382,6 +15484,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
@@ -15398,6 +15502,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bankaccountnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankifscnumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider

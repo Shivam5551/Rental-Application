@@ -25,7 +25,6 @@ export function PropertyDetailsSection({
         Property Details
       </h2>
       
-      {/* Property Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="flex items-center gap-2">
           <FaBed className="text-orange-600 dark:text-orange-400" />
@@ -45,7 +44,6 @@ export function PropertyDetailsSection({
         </div>
       </div>
 
-      {/* Amenities */}
       <div className="flex flex-wrap gap-2 mb-6">
         {petFriendly && (
           <span className="flex items-center gap-1 text-sm text-green-600 bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">
@@ -61,7 +59,6 @@ export function PropertyDetailsSection({
         )}
       </div>
 
-      {/* Description */}
       <div>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Description</h3>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed">

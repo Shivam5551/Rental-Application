@@ -38,7 +38,6 @@ export default function ReviewStats({ totalReviews, averageRating, ratingDistrib
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Overall Stats */}
         <div className="space-y-4">
           <div className="text-center">
             <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
@@ -53,7 +52,6 @@ export default function ReviewStats({ totalReviews, averageRating, ratingDistrib
           </div>
         </div>
 
-        {/* Rating Distribution */}
         <div className="space-y-2">
           {[5, 4, 3, 2, 1].map((rating) => (
             <div key={rating} className="flex items-center gap-3">

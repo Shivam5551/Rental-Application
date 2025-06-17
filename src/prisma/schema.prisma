@@ -9,20 +9,22 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  name       String
-  email      String     @unique
-  password   String?
-  image      String?
-  properties Property[]
-  inquiries  Inquiry[]
-  reviews    Review[]
-  bookings   Booking[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  provider   Provider
-  payments   Payment[]
-  token      Token[]
+  id                String     @id @default(uuid())
+  name              String
+  email             String     @unique
+  password          String?
+  image             String?
+  bankaccountnumber String?
+  bankifscnumber    String?
+  properties        Property[]
+  inquiries         Inquiry[]
+  reviews           Review[]
+  bookings          Booking[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  provider          Provider
+  payments          Payment[]
+  token             Token[]
 
   @@index([email])
 }

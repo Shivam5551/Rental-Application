@@ -4,13 +4,11 @@ export const BookingsLoading = () => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Skeleton */}
                 <div className="mb-8">
                     <div className="h-8 w-48 bg-gray-200 dark:bg-slate-700 rounded-lg animate-pulse mb-2"></div>
                     <div className="h-4 w-64 bg-gray-200 dark:bg-slate-700 rounded animate-pulse"></div>
                 </div>
 
-                {/* Stats Skeleton */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     {[...Array(4)].map((_, i) => (
                         <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 animate-pulse">
@@ -25,17 +23,14 @@ export const BookingsLoading = () => {
                     ))}
                 </div>
 
-                {/* Bookings Skeleton */}
                 <div className="space-y-6">
                     {[...Array(3)].map((_, i) => (
                         <div key={i} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 animate-pulse">
                             <div className="md:flex">
-                                {/* Image Skeleton */}
                                 <div className="md:w-1/3">
                                     <div className="w-full h-48 md:h-full bg-gray-200 dark:bg-slate-700"></div>
                                 </div>
 
-                                {/* Content Skeleton */}
                                 <div className="md:w-2/3 p-6">
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex-1">

@@ -7,42 +7,61 @@ const prisma = new PrismaClient({
 });
 
 
-// Sample data arrays
+//GITHUB AGENT GENERATED
 const users = [
   {
     email: "alice@gmail.com",
-    password: hashSync("Alice12345", 10),
+    password: hashSync("AliceSecure123", 10), 
     name: "Alice Johnson",
     provider: "Email" as const,
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "1234567890123456",
+    bankifscnumber: "HDFC0000123"
   },
   {
     email: "bob@gmail.com",
-    password: hashSync("Bob12345", 10),
+    password: hashSync("BobSecure123", 10), 
     name: "Bob Smith",
     provider: "Email" as const,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "2345678901234567",
+    bankifscnumber: "ICICI000456"
   },
   {
     email: "charlie@gmail.com",
-    password: hashSync("Charlie12345", 10),
+    password: hashSync("CharlieSecure123", 10), 
     name: "Charlie Brown",
     provider: "Email" as const,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "3456789012345678",
+    bankifscnumber: "AXIS0000789"
   },
   {
     email: "diana@gmail.com",
-    password: hashSync("Diana12345", 10),
+    password: hashSync("DianaSecure123", 10), 
     name: "Diana Wilson",
     provider: "Email" as const,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "4567890123456789",
+    bankifscnumber: "SBI0000012"
   },
   {
     email: "emma@gmail.com",
-    password: hashSync("Emma12345", 10),
+    password: hashSync("EmmaSecure123", 10), 
     name: "Emma Davis",
     provider: "Email" as const,
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "5678901234567890",
+    bankifscnumber: "PNB0000345"
+  },
+  {
+    email: "frank@gmail.com",
+    password: hashSync("FrankSecure123", 10), 
+    name: "Frank Miller",
+    provider: "Email" as const,
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    bankaccountnumber: "6789012345678901",
+    bankifscnumber: "BOB0000678"
   }
 ];
 
@@ -512,187 +531,250 @@ const properties = [
 async function main() {
   console.log("🌱 Starting database seeding...");
 
-  // Clear existing data
-  console.log("🧹 Cleaning existing data...");
-  await prisma.payment.deleteMany();
-  await prisma.booking.deleteMany();
-  await prisma.review.deleteMany();
-  await prisma.inquiry.deleteMany();
-  await prisma.propertyImage.deleteMany();
-  await prisma.property.deleteMany();
-  await prisma.token.deleteMany();
-  await prisma.user.deleteMany();
+  try {
+    // Clear existing data in dependency order
+    console.log("🧹 Cleaning existing data...");
+    await prisma.payment.deleteMany();
+    await prisma.booking.deleteMany();
+    await prisma.review.deleteMany();
+    await prisma.inquiry.deleteMany();
+    await prisma.propertyImage.deleteMany();
+    await prisma.property.deleteMany();
+    await prisma.token.deleteMany();
+    await prisma.user.deleteMany();
 
-  // Create users
-  console.log("👥 Creating users...");
-  const createdUsers = [];
-  for (const userData of users) {
-    const user = await prisma.user.create({
-      data: userData
-    });
-    createdUsers.push(user);
-  }
-
-  // Create properties
-  console.log("🏠 Creating properties...");
-  const createdProperties = [];
-  for (let i = 0; i < properties.length; i++) {
-    const propertyData = properties[i];
-    const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
-    
-    const property = await prisma.property.create({
-      data: {
-        ...propertyData,
-        userId: randomUser.id
+    // Create users
+    console.log("👥 Creating users...");
+    const createdUsers = [];
+    for (const userData of users) {
+      try {
+        const user = await prisma.user.create({
+          data: userData
+        });
+        createdUsers.push(user);
+        console.log(`   ✓ Created user: ${user.name} (${user.email})`);
+      } catch (error) {
+        console.error(`   ❌ Failed to create user ${userData.name}:`, error);
       }
-    });
-    createdProperties.push(property);
-
-    // Add additional images for some properties
-    if (i % 3 === 0) {
-      await prisma.propertyImage.createMany({
-        data: [
-          {
-            url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=600&fit=crop",
-            propertyId: property.id
-          },
-          {
-            url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
-            propertyId: property.id
-          }
-        ]
-      });
     }
-  }
 
-  // Create bookings
-  console.log("📅 Creating bookings...");
-  const bookings = [];
-  for (let i = 0; i < 15; i++) {
-    const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
-    const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
-    
-    // Ensure user doesn't book their own property
-    if (randomUser.id === randomProperty.userId) continue;
+    if (createdUsers.length === 0) {
+      throw new Error("No users were created successfully");
+    }
 
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 30) + 1);
-    
-    const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + Math.floor(Math.random() * 7) + 1);
-    
-    const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    const totalPrice = (randomProperty.price - randomProperty.discount) * nights;
+    // Create properties
+    console.log("🏠 Creating properties...");
+    const createdProperties = [];
+    for (let i = 0; i < properties.length; i++) {
+      const propertyData = properties[i];
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      
+      try {
+        const property = await prisma.property.create({
+          data: {
+            ...propertyData,
+            userId: randomUser.id
+          }
+        });
+        createdProperties.push(property);
 
-    const booking = await prisma.booking.create({
-      data: {
-        startDate,
-        endDate,
-        totalPrice,
-        userId: randomUser.id,
-        propertyId: randomProperty.id
+        // Add additional images for some properties
+        if (i % 4 === 0) {
+          await prisma.propertyImage.createMany({
+            data: [
+              {
+                url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=600&fit=crop",
+                propertyId: property.id
+              },
+              {
+                url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop",
+                propertyId: property.id
+              },
+              {
+                url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop",
+                propertyId: property.id
+              }
+            ]
+          });
+        }
+        console.log(`   ✓ Created property: ${property.title}`);
+      } catch (error) {
+        console.error(`   ❌ Failed to create property ${propertyData.title}:`, error);
       }
-    });
-    bookings.push(booking);
-  }
+    }
 
-  // Create payments
-  console.log("💳 Creating payments...");
-  for (const booking of bookings) {
-    const paymentStatuses = ["COMPLETED", "COMPLETED", "COMPLETED", "PENDING", "FAILED"];
-    const randomStatus = paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)];
-
-    await prisma.payment.create({
-      data: {
-        amount: booking.totalPrice,
-        currency: "INR",
-        status: randomStatus as "COMPLETED" | "PENDING" | "FAILED",
-        razorpayOrderId: `order_${Math.random().toString(36)}`,
-        razorpayPaymentId: randomStatus === "COMPLETED" ? `pay_${Math.random().toString(36)}` : "",
-        razorpaySignature: randomStatus === "COMPLETED" ? `sig_${Math.random().toString(36)}` : "",
-        userId: booking.userId,
-        bookingId: booking.id
-      }
-    });
-  }
-
-  // Create reviews
-  console.log("⭐ Creating reviews...");
-  const reviewComments = [
-    "Amazing stay! The property exceeded all expectations. Beautiful location and excellent host.",
-    "Great place, very clean and comfortable. Would definitely recommend to others.",
-    "Lovely property with stunning views. The host was very responsive and helpful.",
-    "Perfect for a weekend getaway. Everything was as described and more!",
-    "Beautiful place but had some minor issues with WiFi. Overall a good experience.",
-    "Absolutely fantastic! The photos don't do justice to how beautiful this place is.",
-    "Good value for money. Clean, comfortable, and well-located.",
-    "Outstanding property with top-notch amenities. Five stars!",
-    "Nice place but could use some updates. Still enjoyed our stay.",
-    "Wonderful host and beautiful property. Highly recommended!",
-    "Peaceful location and great for families. Kids loved the space.",
-    "Modern amenities and stylish decor. Perfect for business travelers.",
-    "Cozy and charming property. Felt like home away from home.",
-    "Great location but property needs maintenance. Average experience.",
-    "Exceptional service and beautiful surroundings. Will definitely return!"
-  ];
-
-  for (let i = 0; i < 40; i++) {
-    const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
-    const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+    // Create bookings
+    console.log("📅 Creating bookings...");
+    const bookings = [];
+    const bookingAttempts = Math.min(20, createdProperties.length * 2);
     
-    // Ensure user doesn't review their own property
-    if (randomUser.id === randomProperty.userId) continue;
+    for (let i = 0; i < bookingAttempts; i++) {
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+      
+      // Ensure user doesn't book their own property
+      if (randomUser.id === randomProperty.userId) continue;
 
-    const rating = Math.floor(Math.random() * 2) + 3;
-    const comment = reviewComments[Math.floor(Math.random() * reviewComments.length)];
+      try {
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 30) + 1);
+        
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + Math.floor(Math.random() * 7) + 1);
+        
+        const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        const totalPrice = (randomProperty.price - randomProperty.discount) * nights;
 
-    await prisma.review.create({
-      data: {
-        rating,
-        comment,
-        userId: randomUser.id,
-        propertyId: randomProperty.id
+        const booking = await prisma.booking.create({
+          data: {
+            startDate,
+            endDate,
+            totalPrice,
+            userId: randomUser.id,
+            propertyId: randomProperty.id
+          }
+        });
+        bookings.push(booking);
+        console.log(`   ✓ Created booking: ${booking.id} for ${randomProperty.title}`);
+      } catch (error) {
+        console.error(`   ❌ Failed to create booking:`, error);
       }
-    });
-  }
+    }
 
-  // Create inquiries
-  console.log("💬 Creating inquiries...");
-  const inquiryMessages = [
-    "Hi, I'm interested in booking this property for next month. Is it available?",
-    "Could you please provide more details about the amenities?",
-    "Is parking available? I'll be traveling with a car.",
-    "What's the cancellation policy for this property?",
-    "Are pets allowed? I have a small dog.",
-    "Is the property suitable for elderly guests?",
-    "Can you arrange airport pickup service?",
-    "What's included in the price? Are utilities extra?",
-    "Is there a minimum stay requirement?",
-    "Do you offer any discounts for longer stays?"
-  ];
+    // Create payments
+    console.log("💳 Creating payments...");
+    let paymentCount = 0;
+    for (const booking of bookings) {
+      try {
+        const paymentStatuses = ["COMPLETED", "COMPLETED", "COMPLETED", "PENDING", "FAILED"];
+        const randomStatus = paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)];
 
-  for (let i = 0; i < 25; i++) {
-    const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
-    const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
-    const randomMessage = inquiryMessages[Math.floor(Math.random() * inquiryMessages.length)];
-
-    await prisma.inquiry.create({
-      data: {
-        message: randomMessage,
-        userId: randomUser.id,
-        propertyId: randomProperty.id
+        await prisma.payment.create({
+          data: {
+            amount: booking.totalPrice,
+            currency: "INR",
+            status: randomStatus as "COMPLETED" | "PENDING" | "FAILED",
+            razorpayOrderId: `order_${Math.random().toString(36).substr(2, 9)}`,
+            razorpayPaymentId: randomStatus === "COMPLETED" ? `pay_${Math.random().toString(36).substr(2, 9)}` : "",
+            razorpaySignature: randomStatus === "COMPLETED" ? `sig_${Math.random().toString(36).substr(2, 9)}` : "",
+            userId: booking.userId,
+            bookingId: booking.id
+          }
+        });
+        paymentCount++;
+        console.log(`   ✓ Created payment for booking ${booking.id} with status ${randomStatus}`);
+      } catch (error) {
+        console.error(`   ❌ Failed to create payment for booking ${booking.id}:`, error);
       }
-    });
-  }
+    }
 
-  console.log("✅ Database seeding completed successfully!");
-  console.log(`Created:
+    // Create reviews
+    console.log("⭐ Creating reviews...");
+    const reviewComments = [
+      "Amazing stay! The property exceeded all expectations. Beautiful location and excellent host.",
+      "Great place, very clean and comfortable. Would definitely recommend to others.",
+      "Lovely property with stunning views. The host was very responsive and helpful.",
+      "Perfect for a weekend getaway. Everything was as described and more!",
+      "Beautiful place but had some minor issues with WiFi. Overall a good experience.",
+      "Absolutely fantastic! The photos don't do justice to how beautiful this place is.",
+      "Good value for money. Clean, comfortable, and well-located.",
+      "Outstanding property with top-notch amenities. Five stars!",
+      "Nice place but could use some updates. Still enjoyed our stay.",
+      "Wonderful host and beautiful property. Highly recommended!",
+      "Peaceful location and great for families. Kids loved the space.",
+      "Modern amenities and stylish decor. Perfect for business travelers.",
+      "Cozy and charming property. Felt like home away from home.",
+      "Great location but property needs maintenance. Average experience.",
+      "Exceptional service and beautiful surroundings. Will definitely return!"
+    ];
+
+    let reviewCount = 0;
+    const maxReviews = Math.min(50, createdProperties.length * 3);
+    
+    for (let i = 0; i < maxReviews; i++) {
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+      
+      // Ensure user doesn't review their own property
+      if (randomUser.id === randomProperty.userId) continue;
+
+      try {
+        const rating = Math.floor(Math.random() * 3) + 3; // 3-5 stars
+        const comment = reviewComments[Math.floor(Math.random() * reviewComments.length)];
+
+        await prisma.review.create({
+          data: {
+            rating,
+            comment,
+            userId: randomUser.id,
+            propertyId: randomProperty.id
+          }
+        });
+        reviewCount++;
+      } catch (error) {
+        console.error(`   ❌ Failed to create review:`, error);
+      }
+    }
+    console.log(`   ✓ Created ${reviewCount} reviews`);
+
+    // Create inquiries
+    console.log("💬 Creating inquiries...");
+    const inquiryMessages = [
+      "Hi, I'm interested in booking this property for next month. Is it available?",
+      "Could you please provide more details about the amenities?",
+      "Is parking available? I'll be traveling with a car.",
+      "What's the cancellation policy for this property?",
+      "Are pets allowed? I have a small dog.",
+      "Is the property suitable for elderly guests?",
+      "Can you arrange airport pickup service?",
+      "What's included in the price? Are utilities extra?",
+      "Is there a minimum stay requirement?",
+      "Do you offer any discounts for longer stays?",
+      "What's the check-in and check-out time?",
+      "Is Wi-Fi available throughout the property?",
+      "Can you accommodate dietary restrictions for breakfast?",
+      "Are there any local attractions nearby?",
+      "Is the property child-friendly and safe?"
+    ];
+
+    let inquiryCount = 0;
+    const maxInquiries = Math.min(30, createdProperties.length * 2);
+    
+    for (let i = 0; i < maxInquiries; i++) {
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+      const randomMessage = inquiryMessages[Math.floor(Math.random() * inquiryMessages.length)];
+
+      try {
+        await prisma.inquiry.create({
+          data: {
+            message: randomMessage,
+            userId: randomUser.id,
+            propertyId: randomProperty.id
+          }
+        });
+        inquiryCount++;
+      } catch (error) {
+        console.error(`   ❌ Failed to create inquiry:`, error);
+      }
+    }
+    console.log(`   ✓ Created ${inquiryCount} inquiries`);
+
+    console.log("✅ Database seeding completed successfully!");
+    console.log(`
+📊 Final Statistics:
     👥 ${createdUsers.length} users
     🏠 ${createdProperties.length} properties
     📅 ${bookings.length} bookings
-    💳 ${bookings.length} payments
-    ⭐ 40 reviews
-    💬 25 inquiries`);
+    💳 ${paymentCount} payments
+    ⭐ ${reviewCount} reviews
+    💬 ${inquiryCount} inquiries
+    `);
+
+  } catch (error) {
+    console.error("❌ Critical error during seeding:", error);
+    throw error;
+  }
 }
 
 main()

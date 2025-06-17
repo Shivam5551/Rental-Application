@@ -95,7 +95,6 @@ export default function AddReviewForm({ propertyId, bookingId, userId, propertyT
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Rating Section */}
       <div className="space-y-3">
         <label className="block text-lg font-semibold text-gray-900 dark:text-white">
           Rate your experience
@@ -142,7 +141,6 @@ export default function AddReviewForm({ propertyId, bookingId, userId, propertyT
         )}
       </div>
 
-      {/* Comment Section */}
       <div className="space-y-3">
         <label htmlFor="comment" className="block text-lg font-semibold text-gray-900 dark:text-white">
           Share your experience
@@ -172,14 +170,12 @@ export default function AddReviewForm({ propertyId, bookingId, userId, propertyT
         </div>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
           <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
         </div>
       )}
 
-      {/* Submit Button */}
       <div className="flex gap-4 pt-4">
         <button
           type="button"

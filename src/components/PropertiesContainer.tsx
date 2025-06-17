@@ -57,7 +57,6 @@ export const PropertiesContainer = ({
 
   return (
     <div className="space-y-6">
-      {/* Search and Filter Section */}
       <div className="bg-white dark:bg-slate-800 dark:text-white rounded-lg shadow-sm border p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
           <div className="flex items-center gap-4">
@@ -129,7 +128,6 @@ export const PropertiesContainer = ({
             </div>
           )}
 
-          {/* Pagination */}
           {properties.length > 0 && (
             <PropertyPagination
               currentPage={currentPage}

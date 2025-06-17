@@ -31,7 +31,6 @@ export default function ReviewCard({ review, showProperty = true }: ReviewCardPr
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-      {/* User Info */}
       <div className="flex items-center gap-3 mb-4">
         <div className="relative w-10 h-10">
           {review.user.image ? (
@@ -60,7 +59,6 @@ export default function ReviewCard({ review, showProperty = true }: ReviewCardPr
         </div>
       </div>
 
-      {/* Rating */}
       <div className="flex items-center gap-2 mb-3">
         <div className="flex">{renderStars(review.rating)}</div>
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -68,12 +66,10 @@ export default function ReviewCard({ review, showProperty = true }: ReviewCardPr
         </span>
       </div>
 
-      {/* Comment */}
       <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
         {review.comment}
       </p>
 
-      {/* Property Info */}
       {showProperty && (
         <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
           <Link 

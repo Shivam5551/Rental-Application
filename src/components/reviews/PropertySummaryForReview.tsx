@@ -43,7 +43,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
-      {/* Property Image */}
       <div className="relative h-48 sm:h-56">
         <Image
           src={property.showcaseimage}
@@ -52,7 +51,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           className="object-cover"
         />
         
-        {/* Discount Badge */}
         {property.discount > 0 && (
           <div className="absolute top-4 right-4">
             <span className="bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
@@ -62,9 +60,7 @@ export default function PropertySummaryForReview({ property, averageRating, tota
         )}
       </div>
 
-      {/* Property Details */}
       <div className="p-6 space-y-4">
-        {/* Title and Location */}
         <div>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
             {property.title}
@@ -75,7 +71,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           </p>
         </div>
 
-        {/* Property Features */}
         <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300">
           <span className="flex items-center gap-1">
             <FaBed className="w-4 h-4" />
@@ -91,7 +86,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           </span>
         </div>
 
-        {/* Rating */}
         {averageRating && (
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
@@ -103,7 +97,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           </div>
         )}
 
-        {/* Price */}
         <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-600">
           <div className="flex items-center gap-2">
             {property.discount > 0 ? (
@@ -124,7 +117,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           </div>
         </div>
 
-        {/* Host Info */}
         <div className="flex items-center gap-3 pt-2 border-t border-gray-200 dark:border-gray-600">
           {property.user.image ? (
             <Image
@@ -151,7 +143,6 @@ export default function PropertySummaryForReview({ property, averageRating, tota
           </div>
         </div>
 
-        {/* Action Button */}
         <div className="pt-4">
           <Link href={`/property/details/${property.id}`}>
             <button className="w-full py-3 px-4 border border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-semibold rounded-lg transition-colors">

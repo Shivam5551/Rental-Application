@@ -64,7 +64,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
       </div>
 
       <div className="space-y-4">
-        {/* Booking ID */}
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600 dark:text-gray-300">Booking ID:</span>
           <span className="text-sm font-mono text-gray-900 dark:text-white">
@@ -72,7 +71,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           </span>
         </div>
 
-        {/* Dates */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
@@ -95,7 +93,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           </div>
         </div>
 
-        {/* Duration and Guests */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
@@ -120,7 +117,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           )}
         </div>
 
-        {/* Total Price */}
         <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
           <div className="flex justify-between items-center">
             <span className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -132,7 +128,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           </div>
         </div>
 
-        {/* Payment Status */}
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600 dark:text-gray-300">Payment Status:</span>
           <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(getPaymentStatus())}`}>
@@ -140,7 +135,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           </span>
         </div>
 
-        {/* Booking Date */}
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600 dark:text-gray-300">Booked on:</span>
           <span className="text-gray-900 dark:text-white">
@@ -148,7 +142,6 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
           </span>
         </div>
 
-        {/* Status Indicator */}
         {isCompleted && (
           <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
             <p className="text-sm text-green-800 dark:text-green-300 font-medium">

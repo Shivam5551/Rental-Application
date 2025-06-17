@@ -47,7 +47,7 @@ export const Appbar = async () => {
                         }
                         {(session && session.user && session?.user?.id) ?
                             
-                            <div className="flex flex-col xl:flex-row space-y-1 xl:space-y-0  items-center">
+                            <div className="flex flex-col xl:flex-row xl:space-x-1 space-y-1 xl:space-y-0  items-center">
                                 <NavLink href="/reviews/user" title="My Reviews" symbol={<MdOutlineRateReview size={22}/>} />
                                 <NavLink href="/profile" title="Profile" symbol={<CgProfile size={22}/>} />
                                 

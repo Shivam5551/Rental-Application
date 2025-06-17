@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation';
 interface BookingFormProps {
   propertyId: string;
   pricePerNight: number;
-  propertyTitle: string;
 }
 
-export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: BookingFormProps) => {
+export const BookingForm = ({ propertyId, pricePerNight }: BookingFormProps) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     checkIn: '',
@@ -36,17 +35,31 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
     setIsLoading(true);
 
     try {
-      console.log('Booking data:', {
+      if (!formData.checkIn || !formData.checkOut) {
+        alert('Please select check-in and check-out dates');
+        return;
+      }
+
+      const nights = calculateNights();
+      if (nights <= 0) {
+        alert('Check-out date must be after check-in date');
+        return;
+      }
+
+      // Redirect to checkout with booking details
+      const searchParams = new URLSearchParams({
         propertyId,
-        ...formData,
-        totalPrice
+        amount: totalPrice.toString(),
+        checkIn: formData.checkIn,
+        checkOut: formData.checkOut,
+        guests: formData.guests.toString(),
+        nights: nights.toString()
       });
-      
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      //call razorpay webhook
-      router.push(`/booking-success?property=${propertyTitle}`);
+
+      router.push(`/checkout?${searchParams.toString()}`);
     } catch (error) {
       console.error('Booking failed:', error);
+      alert('Failed to proceed to checkout. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +121,7 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
           onChange={handleInputChange}
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
+          {[1, 2, 3, 4].map(num => (
             <option key={num} value={num}>
               {num} {num === 1 ? 'Guest' : 'Guests'}
             </option>
@@ -116,7 +129,6 @@ export const BookingForm = ({ propertyId, pricePerNight, propertyTitle }: Bookin
         </select>
       </div>
 
-      {/* Booking Summary */}
       {calculateNights() > 0 && (
         <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-4">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Booking Summary</h3>

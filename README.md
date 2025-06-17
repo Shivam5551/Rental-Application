@@ -120,7 +120,7 @@ GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
 # Razorpay (Indian Payment Gateway)
-RAZORPAY_KEY_ID="your-razorpay-key-id"
+NEXT_PUBLIC_RAZORPAY_KEY_ID="your-razorpay-key-id"
 RAZORPAY_KEY_SECRET="your-razorpay-key-secret"
 
 # ImageKit (Optional - for optimized image handling)

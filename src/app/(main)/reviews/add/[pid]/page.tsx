@@ -104,18 +104,18 @@ export default async function AddReviewPage({ params, searchParams }: AddReviewP
     });
 
     if (!booking) {
-      redirect(`/booked?error=booking-not-found`);
+      redirect(`/bookings?error=booking-not-found`);
     }
   }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
-      {/* Header */}
+
       <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center gap-4 mb-4">
             <Link 
-              href={booking ? '/booked' : `/property/details/${propertyId}`}
+              href={'/bookings'}
               className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
             >
               <FaArrowLeft className="w-4 h-4 text-white" />
@@ -135,12 +135,9 @@ export default async function AddReviewPage({ params, searchParams }: AddReviewP
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content - Review Form */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Review Form */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Rate Your Stay
@@ -154,25 +151,20 @@ export default async function AddReviewPage({ params, searchParams }: AddReviewP
               />
             </div>
 
-            {/* Guidelines */}
             <ReviewGuidelines />
           </div>
 
-          {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Property Summary */}
             <PropertySummaryForReview
               property={property}
               averageRating={averageRating}
               totalReviews={property._count.reviews}
             />
 
-            {/* Booking Summary */}
             {booking && (
               <BookingSummary booking={booking} />
             )}
 
-            {/* Help Section */}
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
               <h3 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">
                 Need Help?

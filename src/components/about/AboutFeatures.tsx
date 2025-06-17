@@ -112,7 +112,6 @@ export const AboutFeatures = () => {
   return (
     <section className="py-20 bg-gray-50 dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Why Choose BookIT?
@@ -123,7 +122,6 @@ export const AboutFeatures = () => {
           </p>
         </div>
 
-        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => {
             const colors = getColorClasses(feature.color);
@@ -148,7 +146,6 @@ export const AboutFeatures = () => {
           })}
         </div>
 
-        {/* Bottom CTA */}
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-2xl p-12">
             <h3 className="text-3xl font-bold text-white mb-4">

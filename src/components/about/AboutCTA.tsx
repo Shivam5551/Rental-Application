@@ -7,9 +7,7 @@ export const AboutCTA = () => {
   return (
     <section className="py-20 bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main CTA */}
-        <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-3xl p-12 lg:p-16 text-center relative overflow-hidden">
-          {/* Background Pattern */}
+       <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-3xl p-12 lg:p-16 text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-20 h-20 border-2 border-white rounded-full"></div>
             <div className="absolute top-20 right-20 w-16 h-16 border-2 border-white rounded-full"></div>
@@ -42,8 +40,7 @@ export const AboutCTA = () => {
           </div>
         </div>
 
-        {/* Contact Information */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+       <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
               <FaPhone className="text-orange-600 dark:text-orange-400 text-xl" />
@@ -97,31 +94,6 @@ export const AboutCTA = () => {
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="mt-16">
-          <div className="bg-gray-50 dark:bg-slate-800 rounded-2xl p-8 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Stay Updated
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-              Subscribe to our newsletter for the latest property listings, market insights, 
-              and platform updates.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
-              />
-              <button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 whitespace-nowrap">
-                Subscribe
-              </button>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
-              We respect your privacy. Unsubscribe at any time.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );

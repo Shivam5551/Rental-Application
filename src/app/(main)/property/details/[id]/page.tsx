@@ -71,7 +71,7 @@ export default async function PropertyDetailsPage({ params }: PropertyDetailsPag
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+
         <PropertyHeader 
           title={property.title}
           location={property.location}
@@ -79,15 +79,12 @@ export default async function PropertyDetailsPage({ params }: PropertyDetailsPag
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Image Gallery */}
             <PropertyImageGallery 
               showcaseImage={property.showcaseimage}
               title={property.title}
             />
 
-            {/* Property Details */}
             <PropertyDetailsSection 
               beds={property.beds}
               baths={property.baths}
@@ -98,14 +95,12 @@ export default async function PropertyDetailsPage({ params }: PropertyDetailsPag
               fireSafety={property.firesafety}
             />
 
-            {/* Reviews */}
             <PropertyReviews 
               reviews={property.reviews}
               totalReviews={property._count.reviews}
             />
           </div>
 
-          {/* Sidebar */}
           <div className="lg:col-span-1">
             <PropertyPricingSidebar 
               propertyId={resolvedParams.id}

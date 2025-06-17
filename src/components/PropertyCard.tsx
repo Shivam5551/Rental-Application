@@ -39,7 +39,6 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
 
   return (
     <div className="bg-white dark:bg-slate-800 dark:hover:shadow-amber-100 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group cursor-pointer">
-      {/* Image Section */}
       
         <div className="relative h-48 bg-gray-200">
           <Image
@@ -50,7 +49,6 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
             className="w-full h-full object-cover"
           />
 
-          {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-1">
             {property.verified && (
               <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
@@ -66,9 +64,7 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
           </div>
         </div>
 
-      {/* Content Section */}
       <div className="p-4">
-        {/* Title and Location */}
         <div className="mb-3">
           <h3 className="font-semibold dark:text-white text-gray-900 text-lg mb-1 line-clamp-1">
             {property.title}
@@ -82,7 +78,6 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
           </p>
         </div>
 
-        {/* Property Details */}
         <div className="flex items-center justify-between text-sm dark:text-gray-300 text-gray-600 mb-3">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
@@ -115,7 +110,6 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
           )}
         </div>
 
-        {/* Rating */}
         <div className="mb-3">
           {renderStars()}
         </div>

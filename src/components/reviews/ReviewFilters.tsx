@@ -38,7 +38,6 @@ export default function ReviewFilters({
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
       <div className="flex flex-wrap gap-4 items-center">
-        {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg"
@@ -49,9 +48,7 @@ export default function ReviewFilters({
           Filters
         </button>
 
-        {/* Desktop Filters */}
-        <div className={`${isOpen ? 'block' : 'hidden'} md:flex flex-1 flex-wrap gap-4 items-center`}>
-          {/* Sort By */}
+        <div className={`${isOpen ? 'block' : 'hidden'} md:flex flex-1 flex-wrap gap-4 space-y-2 items-center`}>
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Sort by:
@@ -69,7 +66,6 @@ export default function ReviewFilters({
             </select>
           </div>
 
-          {/* Filter by Rating */}
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Rating:

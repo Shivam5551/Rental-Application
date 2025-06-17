@@ -65,7 +65,6 @@ export const AboutTestimonials = async () => {
               key={testimonial.id}
               className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative"
             >
-              {/* Quote Icon */}
               <div className="absolute top-6 right-6 text-orange-200 dark:text-orange-800">
                 <FaQuoteLeft className="text-2xl" />
               </div>

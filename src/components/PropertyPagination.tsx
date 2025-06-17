@@ -62,7 +62,6 @@ export const PropertyPagination = ({
         
         <div>
           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            {/* Previous Button */}
             <button
               onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -74,7 +73,6 @@ export const PropertyPagination = ({
               </svg>
             </button>
             
-            {/* Page Numbers */}
             {pageNumbers[0] > 1 && (
               <>
                 <button
@@ -121,7 +119,6 @@ export const PropertyPagination = ({
               </>
             )}
             
-            {/* Next Button */}
             <button
               onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}

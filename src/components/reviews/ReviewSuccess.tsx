@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaCheckCircle, FaStar, FaHome, FaList } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 interface ReviewSuccessProps {
   propertyTitle?: string;
@@ -12,6 +13,7 @@ interface ReviewSuccessProps {
 
 export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSuccessProps) {
   const router = useRouter();
+  const [pop, setPop] = useState(false);
 
   useEffect(() => {
     // Auto redirect after 10 seconds
@@ -22,28 +24,31 @@ export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSucce
     return () => clearTimeout(timer);
   }, [router]);
 
+  useEffect(() => {
+    if(!pop) {
+      setPop(true);
+      toast("You'll be redirected to your reviews in 10 seconds...")
+    }
+    return;
+  }, [pop])
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        {/* Success Card */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-8 text-center">
-          {/* Success Icon */}
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <FaCheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
           </div>
 
-          {/* Title */}
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
             Review Submitted!
           </h1>
 
-          {/* Message */}
           <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-            Thank you for sharing your experience! Your review helps other travelers 
+            Thank you for sharing your experience! Your review helps other travelers
             make informed decisions and helps hosts improve their services.
           </p>
 
-          {/* Property Info */}
           {propertyTitle && (
             <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-center gap-2 text-orange-800 dark:text-orange-300">
@@ -53,14 +58,6 @@ export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSucce
             </div>
           )}
 
-          {/* Next Steps */}
-          <div className="space-y-3 mb-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Your review will be visible within 24 hours after moderation.
-            </p>
-          </div>
-
-          {/* Action Buttons */}
           <div className="space-y-3">
             <Link href="/reviews/user">
               <button className="w-full py-3 px-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center gap-2">
@@ -87,23 +84,18 @@ export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSucce
             </div>
           </div>
 
-          {/* Auto redirect notice */}
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-6">
-            You&apos;ll be redirected to your reviews in 10 seconds...
-          </p>
-        </div>
 
-        {/* Additional Tips */}
-        <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <h3 className="font-medium text-blue-900 dark:text-blue-200 mb-2">
-            💡 Did you know?
-          </h3>
-          <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
-            <li>• Honest reviews help maintain quality standards</li>
-            <li>• Detailed feedback helps hosts improve</li>
-            <li>• You can edit your review within 24 hours</li>
-            <li>• Reviews boost your profile credibility</li>
-          </ul>
+          <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+            <h3 className="font-medium text-blue-900 dark:text-blue-200 mb-2">
+              💡 Did you know?
+            </h3>
+            <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+              <li>• Honest reviews help maintain quality standards</li>
+              <li>• Detailed feedback helps hosts improve</li>
+              <li>• You can edit your review within 24 hours</li>
+              <li>• Reviews boost your profile credibility</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

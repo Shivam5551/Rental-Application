@@ -20,7 +20,6 @@ export const UnauthorizedAccess = () => {
                     </div>
                 </div>
 
-                {/* Content */}
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                     Authentication Required
                 </h2>
@@ -28,7 +27,6 @@ export const UnauthorizedAccess = () => {
                     Please sign in to access your booking history and manage your reservations securely.
                 </p>
 
-                {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                     <Link href="/api/auth/signin">
                         <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
@@ -45,7 +43,6 @@ export const UnauthorizedAccess = () => {
                     </Link>
                 </div>
 
-                {/* Benefits */}
                 <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-6 border border-gray-200 dark:border-slate-600 mb-6">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center justify-center gap-2">
                         <FaShieldAlt className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -79,7 +76,6 @@ export const UnauthorizedAccess = () => {
                     </div>
                 </div>
 
-                {/* Back to Home */}
                 <div className="flex items-center justify-center gap-4">
                     <Link href="/" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium transition-colors">
                         ← Back to Home

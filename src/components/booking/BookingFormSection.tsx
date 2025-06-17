@@ -15,7 +15,6 @@ export function BookingFormSection({ propertyId, pricePerNight, propertyTitle }:
       <BookingForm 
         propertyId={propertyId} 
         pricePerNight={pricePerNight}
-        propertyTitle={propertyTitle}
       />
     </div>
   );
