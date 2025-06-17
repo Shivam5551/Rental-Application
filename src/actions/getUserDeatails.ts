@@ -21,16 +21,10 @@ export const getUserDetails = async () => {
     if(!user?.properties) {
         return null
     }
-    const verified = user?.properties.map((p) => {
-        if(p.verified) {
-            return p;
-        }
-    });
-    const booked = user.properties.map((p) => {
-        if(p.booked) {
-            return p;
-        }
-    });
+    const verified = user?.properties.filter(p => p.verified);
+    
+    const booked = user.properties.filter(b => b.verified)
+    
     const totalProperty = user.properties.length;
     const unverified = totalProperty - verified.length;
     const vacant = totalProperty - booked.length;

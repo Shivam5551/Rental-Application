@@ -5,7 +5,6 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -95,6 +94,7 @@ export default function CheckoutComponent() {
                 name: "BookIT",
                 description: `Booking for ${nights} nights`,
                 order_id: orderId,
+                /* eslint-disable @typescript-eslint/no-explicit-any */
                 handler: async function (response: any) {
                     const data = {
                         orderCreationId: orderId,
@@ -138,10 +138,12 @@ export default function CheckoutComponent() {
             };
             
             const paymentObject = new window.Razorpay(options);
+            /* eslint-disable @typescript-eslint/no-explicit-any */
             paymentObject.on("payment.failed", function (response: any) {
                 setLoading(false);
                 console.log("Payment failed:", response.error);
                 toast.error("Payment failed: " + response.error.description);
+                router.push(`/booking-failed/${orderId}`)
             });
             
             setLoading(false);
@@ -196,7 +198,7 @@ export default function CheckoutComponent() {
             <div className="container h-screen flex justify-center items-center">
                 <div className="text-center">
                     <h2 className="text-xl font-semibold mb-2">Property Not Found</h2>
-                    <p className="text-gray-600">The property you're trying to book does not exist.</p>
+                    <p className="text-gray-600">The property you&apos;re trying to book does not exist.</p>
                 </div>
             </div>
         );

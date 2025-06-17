@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { 
   FaShieldAlt, 
   FaSearch, 
@@ -12,6 +13,7 @@ import {
 } from 'react-icons/fa';
 
 export const AboutFeatures = () => {
+  const router = useRouter();
   const features = [
     {
       icon: FaSearch,
@@ -156,10 +158,10 @@ export const AboutFeatures = () => {
               rental properties through our platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+              <button onClick={()=> router.push('/properties')} className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
                 Browse Properties
               </button>
-              <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-all duration-200">
+              <button onClick={() => router.push('/property/rent')} className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-all duration-200">
                 List Your Property
               </button>
             </div>

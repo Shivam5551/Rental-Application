@@ -19,7 +19,7 @@ export default function NotFound() {
         </h1>
         
         <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
-          The booking you're looking for doesn't exist or you don't have permission to view it.
+          The booking you&apos;re looking for doesn&apos;t exist or you don&apos;t have permission to view it.
         </p>
         
         <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">

@@ -295,12 +295,12 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
 
                 <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
                     <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                        What's Next?
+                        What&apos;s Next?
                     </h3>
                     <ul className="space-y-2 text-blue-800 dark:text-blue-200">
                         <li className="flex items-center space-x-2">
                             <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                            <span>You'll receive a confirmation email with your booking details</span>
+                            <span>You&apos;ll receive a confirmation email with your booking details</span>
                         </li>
                         <li className="flex items-center space-x-2">
                             <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
@@ -308,7 +308,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                         </li>
                         <li className="flex items-center space-x-2">
                             <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                            <span>Save the host's contact information for your trip</span>
+                            <span>Save the host&apos;s contact information for your trip</span>
                         </li>
                     </ul>
                 </div>

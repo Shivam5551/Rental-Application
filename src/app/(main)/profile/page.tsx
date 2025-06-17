@@ -1,4 +1,5 @@
 import { getUserDetails } from "@/actions/getUserDeatails";
+import { BankDetailsCard } from "@/components/bankDetailsCard";
 import { DashboardCardContainer } from "@/components/dashboardCardContainer";
 import { RevenueOverview } from "@/components/RevenueOverview";
 import { UpdateProfile } from "@/components/UpdateProfile";
@@ -44,6 +45,7 @@ export default async function Profile(){
             </div>
             <div className="h-full p-5 space-y-4 w-full lg:w-[40%]">
                 <UpdateProfile />
+                <BankDetailsCard />
                 <UserPropertiesCard />
             </div>
         </div>

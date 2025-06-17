@@ -1,4 +1,4 @@
-export const DashboardCard = ({ children, heading, value }: { children: React.ReactNode; heading: string; value: number }) => {
+export const DashboardCard = ({ children, heading, value }: { children: React.ReactNode; heading: string; value: number | string }) => {
     return (
         <div className="bg-white duration-500 transform transition-all rounded-xl hover:rounded-2xl shadow-md border hover:shadow-slate-800 dark:hover:shadow-orange-300 p-2 font-semibold dark:bg-slate-800">
             <div className="flex items-center gap-2 p-2">{children} <span className="text-black dark:text-white text-xl">{heading}</span></div>

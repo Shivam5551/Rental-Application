@@ -35,7 +35,7 @@ const Home = async () => {
                 </Link>
                 <Link href="/about">
                 <Button btClass="bg-white text-black dark:text-white dark:bg-black dark:hover:bg-gray-800 hover:bg-gray-200 cursor-pointer outline">
-                  Watch Demo
+                  About
                 </Button></Link>
               </div>
             </div>

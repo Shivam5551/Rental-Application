@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
             propertyId,
             checkIn,
             checkOut,
-            guests,
             totalAmount
         } = await request.json();
 
