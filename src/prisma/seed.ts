@@ -639,7 +639,6 @@ async function main() {
 
       try {
         // Create varied booking dates (past, current, future)
-        const baseDate = new Date();
         let startDate;
         
         if (i % 3 === 0) {

@@ -1,6 +1,5 @@
 import { getBookedProperties } from "@/actions/getBookedProperties";
 import { getRenterWelcomeCardData } from "@/actions/getRenterDashboardStats";
-import { PropertiesContainer } from "@/components/PropertiesContainer";
 import { PopularProperties } from "@/components/renter/PopularProperties";
 import { RenterBookingsCard } from "@/components/renter/RenterBookingsCard";
 import { RenterDashboardCardContainer } from "@/components/renter/RenterDashboardCardContainer";
