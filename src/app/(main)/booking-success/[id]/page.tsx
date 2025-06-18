@@ -3,6 +3,7 @@ import prisma from "@/utils/prismaClient";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 // Custom SVG Icons
 const CheckCircleIcon = ({ className }: { className: string }) => (
@@ -128,7 +129,9 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
 
                                 <div className="flex items-start space-x-4 mb-6">
                                     {booking.property.showcaseimage && (
-                                        <img
+                                        <Image
+                                            height={100}
+                                            width={100}
                                             src={booking.property.showcaseimage}
                                             alt={booking.property.title}
                                             className="w-20 h-20 object-cover rounded-lg"
@@ -259,7 +262,9 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                             </h3>
                             <div className="flex items-center space-x-3">
                                 {booking.property.user.image && (
-                                    <img
+                                    <Image 
+                                        height={100}
+                                        width={100}
                                         src={booking.property.user.image}
                                         alt={booking.property.user.name || 'Host'}
                                         className="w-12 h-12 rounded-full object-cover"
