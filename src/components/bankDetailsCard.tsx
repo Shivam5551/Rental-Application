@@ -50,7 +50,7 @@ export const BankDetailsCard = () => {
         if(submitting) {
             submitRequest();
         }
-    }, [submitting])
+    }, [submitting, formData])
 
     const submitForm = useCallback((formData: FormData) => {
         if(!updating) {

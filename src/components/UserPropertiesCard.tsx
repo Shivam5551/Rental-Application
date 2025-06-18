@@ -55,7 +55,7 @@ export const UserPropertiesCard = async () => {
                                 <h2 className="text-lg font-semibold">{prop.title}</h2>
                                 <p className="text-gray-600 dark:text-gray-400 font-medium">{prop.location}</p>
                                 <div className="text-gray-800 dark:text-white  font-bold mt-1">
-                                    {prop.discount ? <div className="flex items-center"><span style={{ textDecorationColor: "red", textDecorationThickness: "2px", textDecorationLine: "line-through" }} className="text-base mr-2 whitespace-pre items-center font-light">{" Rs." + (prop.price).toFixed(2) + " "}</span><span>Rs.{(prop.price * (1-(prop.discount/10000))).toFixed(2)}</span></div> : <span>{"Rs." + prop.price.toFixed(2)}</span>}
+                                    {prop.discount ? <div className="flex items-center"><span style={{ textDecorationColor: "red", textDecorationThickness: "2px", textDecorationLine: "line-through" }} className="text-base mr-2 whitespace-pre items-center font-light">{" Rs." + (prop.price/100).toFixed(2) + " "}</span><span>Rs.{((prop.price/100)* (1-(prop.discount/10000))).toFixed(2)}</span></div> : <span>{"Rs." + (prop.price/100).toFixed(2)}</span>}
                                 </div>
                                 <div className="flex items-center mt-2 space-x-2">
                                     <span className={`text-xs px-2 py-1 rounded ${prop.petfriendly ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-800'}`}>

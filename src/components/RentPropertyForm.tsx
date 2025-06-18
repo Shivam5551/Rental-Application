@@ -8,6 +8,7 @@ import { ImageKitAuthenticator } from '@/utils/ImagekitAuthenticator';
 import { IAuthenticator } from './UpdateProfile';
 import Image from 'next/image';
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 
 interface PropertyFormData {
   title: string;
@@ -21,9 +22,16 @@ interface PropertyFormData {
   petfriendly: boolean
 }
 
-export const RentPropertyForm = () => {
+
+interface Images{ 
+    showcase: string; 
+    image1: string; 
+    image2: string; 
+}
+
+export const RentPropertyForm = ({ property, images, id }: { property?: PropertyFormData, images?: Images, id?: string }) => {
   const abortController = new AbortController();
-  const [formData, setFormData] = useState<PropertyFormData>({
+  const [formData, setFormData] = useState<PropertyFormData>(property ?? {
     title: '',
     description: '',
     price: 0,
@@ -46,11 +54,14 @@ export const RentPropertyForm = () => {
     image2: string | null;
   }
 
-  const [imagePreview, setImagePreview] = useState<ImagePreview>({
+
+  const [imagePreview, setImagePreview] = useState<ImagePreview>(images ?? {
     showcase: null,
     image1: null,
     image2: null
   });
+  
+  
   const [uploadedImages, setUploadedImages] = useState<UploadedImages>({
     showcase: null,
   });
@@ -161,7 +172,7 @@ export const RentPropertyForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!uploadedImages.showcase) {
+    if (!uploadedImages.showcase && !imagePreview.showcase) {
       toast.error('Showcase image is required!');
       return;
     }
@@ -203,13 +214,14 @@ export const RentPropertyForm = () => {
 
       const response = await axios.post('/api/properties', {
         ...formData,
-        showcaseimage: showcaseImageUri,
-        image1: image1Uri,
-        image2: image2Uri
+        showcaseimage: showcaseImageUri ?? imagePreview.showcase,
+        image1: image1Uri ?? imagePreview.image1,
+        image2: image2Uri ?? imagePreview.image2,
+        id
       })
 
       if (response.data.success) {
-        toast('Property listed successfully!');
+        toast(response.data.message);
 
         setFormData({
           title: '',
@@ -227,6 +239,10 @@ export const RentPropertyForm = () => {
           image1: null,
           image2: null
         });
+        setTimeout(() => {
+          redirect('/profile')
+        }, 5000);
+        toast.info("Redirecting to profile page...");
       } 
     } catch (error) {
       console.error('Error:', error);
@@ -396,7 +412,7 @@ export const RentPropertyForm = () => {
             Showcase Image * (Main image for your property)
           </label>
 
-          {!uploadedImages.showcase ? (
+          {( !imagePreview.showcase && !uploadedImages.showcase )? (
             <label htmlFor="showcase"
               className="bg-white text-slate-500 dark:text-gray-200 dark:bg-slate-600 font-semibold text-base rounded min-w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto">
               <IoCloudUploadOutline size={40} />
@@ -432,7 +448,7 @@ export const RentPropertyForm = () => {
           )}
         </div>
 
-        {uploadedImages.showcase && (
+        {(uploadedImages.showcase || imagePreview.showcase) && (
           <>
             <div className="p-4 border border-gray-200 rounded-lg">
               <label className="block text-sm font-medium dark:text-gray-50 text-gray-700 mb-2">
@@ -520,7 +536,7 @@ export const RentPropertyForm = () => {
       <div className="pt-6">
         <button
           type="submit"
-          disabled={isSubmitting || !uploadedImages.showcase}
+          disabled={isSubmitting || (!uploadedImages.showcase && !imagePreview.showcase)}
           className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Listing Property...' : 'List Property'}

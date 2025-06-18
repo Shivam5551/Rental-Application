@@ -10,12 +10,10 @@ interface PropertyCardProps {
 
 export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
   const discountedPrice = property.discount > 0 
-    ? property.price - property.discount 
-    : property.price;
+    ? ((property.price/100)* (1-(property.discount/10000))).toFixed(2) 
+    : property.price/100;
 
-  const discountPercentage = property.discount > 0 
-    ? Math.round((property.discount / property.price) * 100)
-    : 0;
+  const discountPercentage = (property.discount/100) ? property.discount/100 : 0
 
   const renderStars = () => {
     // console.log(rating);
@@ -138,15 +136,15 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
             {property.discount > 0 ? (
               <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
-              Rs.{discountedPrice.toFixed(2)}
+              Rs.{discountedPrice}
             </span>
             <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
-              Rs.{property.price.toFixed(2)}
+              Rs.{(property.price/100).toFixed(2)}
             </span>
               </div>
             ) : (
               <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
-            Rs.{property.price.toFixed(2)}
+            Rs.{(property.price/100).toFixed(2)}
               </span>
             )}
             <span className="text-sm text-gray-600 dark:text-gray-300">/Night</span>

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function CheckoutComponent() {
@@ -60,17 +60,7 @@ export default function CheckoutComponent() {
         }
     }, [propertyExists, amount, session?.user?.id]);
 
-    useEffect(() => {
-        console.log("Reached process payment useEffect", loading1, idRef.current, propertyExists, session?.user.id);
-        
-        if (!loading1 && idRef.current && propertyExists && session?.user?.id) {
-            console.log("will process payment");
-            
-            processPayment();
-        }
-    }, [loading1, propertyExists, session?.user?.id]);
-
-    const processPayment = async () => {
+    const processPayment = useCallback(async () => {
         setLoading(true);
         const orderId = idRef.current;
         
@@ -153,8 +143,20 @@ export default function CheckoutComponent() {
             toast.error("Failed to process payment");
             setLoading(false);
         }
-    };
+    }, [amount, checkIn, checkOut, guests, nights, propertyId, router, session])
+    
 
+    useEffect(() => {
+        console.log("Reached process payment useEffect", loading1, idRef.current, propertyExists, session?.user.id);
+        
+        if (!loading1 && idRef.current && propertyExists && session?.user?.id) {
+            console.log("will process payment");
+            
+            processPayment();
+        }
+    }, [loading1, propertyExists, session?.user?.id, processPayment]);
+
+    
     if (status === 'loading') {
         return (
             <div className="container h-screen flex min-w-screen justify-center items-center">

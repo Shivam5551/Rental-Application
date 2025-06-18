@@ -54,7 +54,7 @@ export const getBookedProperties = async (): Promise<IBookedProperties[]> => {
                 location: booking.property.location,
                 showcaseimage: booking.property.showcaseimage,
                 price: booking.property.price,
-                discount: Math.floor(booking.property.discount/100),
+                discount: booking.property.discount,
                 beds: booking.property.beds,
                 baths: booking.property.baths,
                 area: booking.property.area,

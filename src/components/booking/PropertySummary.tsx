@@ -9,7 +9,10 @@ interface PropertySummaryProps {
 }
 
 export function PropertySummary({ title, location, showcaseImage, price, discount }: PropertySummaryProps) {
-  const discountedPrice = discount > 0 ? price - discount : price;
+    const discountedPrice = discount > 0
+    ? ((price / 100) * (1 - (discount / 10000))).toFixed(2)
+    : price / 100;
+
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-lg p-6">
@@ -39,12 +42,12 @@ export function PropertySummary({ title, location, showcaseImage, price, discoun
                 Rs.{discountedPrice.toLocaleString()}
               </span>
               <span className="text-lg text-gray-500 dark:text-gray-400 line-through">
-                Rs.{price.toLocaleString()}
+                Rs.{(price/100).toLocaleString()}
               </span>
             </div>
           ) : (
             <span className="text-2xl font-bold text-gray-900 dark:text-white">
-              Rs.{price.toLocaleString()}
+              Rs.{(price/100).toLocaleString()}
             </span>
           )}
           <span className="text-gray-600 dark:text-gray-300 ml-2">/Night</span>

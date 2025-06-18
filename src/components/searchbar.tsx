@@ -36,6 +36,8 @@ export const Searchbar = () => {
                     }
                 }
             } catch (error) {
+                console.log("Search Error:", error);
+                
                 toast.error("Search Api Not responding!")
             }
         }

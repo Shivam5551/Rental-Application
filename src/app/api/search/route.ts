@@ -47,6 +47,8 @@ export async function GET(request: NextRequest) {
             status: 200
         })
     } catch (error) {
+        console.log("Search error:", error);
+        
         return NextResponse.json({
             message: "Unable to retrieve Data"
         }, {

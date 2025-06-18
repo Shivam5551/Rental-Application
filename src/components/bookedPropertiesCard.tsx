@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { IBookedProperties } from "@/utils/interfaces";
 import { FaBed, FaBath, FaRulerCombined, FaCalendarAlt, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
-export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: IBookedProperties}) => {
+export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: IBookedProperties }) => {
     const formatDate = (date: Date) => {
         return new Date(date).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -22,7 +22,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
     const isUpcoming = new Date(bookedProperties.startDate) > new Date();
     const isOngoing = new Date(bookedProperties.startDate) <= new Date() && new Date(bookedProperties.endDate) >= new Date();
     const isPast = new Date(bookedProperties.endDate) < new Date();
-    
+
     const getStatusBadge = () => {
         if (isOngoing) {
             return (
@@ -45,9 +45,10 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
         }
     };
 
-    const discountedPrice = bookedProperties.property.discount > 0 
-        ? bookedProperties.property.price - (bookedProperties.property.price * bookedProperties.property.discount / 100)
-        : bookedProperties.property.price;
+
+    const discountedPrice: number = bookedProperties.property.discount > 0
+        ? ((bookedProperties.property.price / 100) * (1 - (bookedProperties.property.discount / 10000)))
+        : bookedProperties.property.price / 100;
 
     return (
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-slate-700 mb-6">
@@ -60,7 +61,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                         height={200}
                         className="w-full h-48 md:h-full object-cover"
                     />
-                    
+
                     <div className="absolute top-3 right-3">
                         {getStatusBadge()}
                     </div>
@@ -68,7 +69,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                     {bookedProperties.property.discount > 0 && (
                         <div className="absolute top-3 left-3">
                             <span className="px-2 py-1 text-xs font-bold rounded bg-red-500 text-white">
-                                {bookedProperties.property.discount}% OFF
+                                {bookedProperties.property.discount / 100}% OFF
                             </span>
                         </div>
                     )}
@@ -85,18 +86,23 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                 {bookedProperties.property.location}
                             </p>
                         </div>
-                        
+
                         <div className="text-right ml-4">
                             <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                                Rs.{bookedProperties.totalPrice.toLocaleString()}
+                                Rs.{(bookedProperties.totalPrice / 100).toLocaleString()}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Total for {calculateNights()} {calculateNights() === 1 ? 'night' : 'nights'}
                             </p>
                             {bookedProperties.property.discount > 0 && (
-                                <p className="text-xs text-gray-400 line-through">
-                                    Rs.{(discountedPrice * calculateNights()).toLocaleString()}
-                                </p>
+                                <div className='flex justify-center items-center gap-2'>
+                                    <p className="text-xs text-gray-400 line-through">
+                                        Rs.{bookedProperties.property.price / 100}
+                                    </p>
+                                    <p className='text-xs text-black dark:text-white'>
+                                        Rs.{discountedPrice}
+                                    </p>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -129,7 +135,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                     </p>
                                 </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
                                     <FaCalendarAlt className="w-4 h-4 text-orange-600 dark:text-orange-400" />
@@ -173,7 +179,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                     View Property
                                 </button>
                             </Link>
-                            
+
                             {isPast && (
                                 <Link href={`/reviews/add/${bookedProperties.property.id}`}>
                                     <button className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors">

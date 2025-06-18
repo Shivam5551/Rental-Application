@@ -23,7 +23,7 @@ export default async function BookingPage({ params }: BookingPageProps) {
   }
 
   const resolvedParams = await params;
-  
+
   const property = await prisma.property.findUnique({
     where: {
       id: resolvedParams.id
@@ -42,21 +42,22 @@ export default async function BookingPage({ params }: BookingPageProps) {
   if (!property) {
     notFound();
   }
+  const discountedPrice: number = property.discount > 0
+    ? ((property.price / 100) * (1 - (property.discount / 10000)))
+    : property.price / 100;
 
-  const discountedPrice = property.discount > 0 
-    ? property.price - property.discount 
-    : property.price;
+
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <BookingHeader 
+        <BookingHeader
           propertyTitle={property.title}
           location={property.location}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <PropertySummary 
+          <PropertySummary
             title={property.title}
             location={property.location}
             showcaseImage={property.showcaseimage}
@@ -64,7 +65,7 @@ export default async function BookingPage({ params }: BookingPageProps) {
             discount={property.discount}
           />
 
-          <BookingFormSection 
+          <BookingFormSection
             propertyId={property.id}
             pricePerNight={discountedPrice}
             propertyTitle={property.title}

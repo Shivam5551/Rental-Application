@@ -4,18 +4,19 @@ import { authOptions } from '@/utils/authOptions';
 import prisma from '@/utils/prismaClient';
 
 interface IProperty {
+  id?: string,
   title: string,
-      description: string,
-      price: number,
-      discount: number,
-      location: string,
-      petfriendly: boolean,
-      showcaseimage: string,
-      beds: number,
-      baths: number,
-      area: number,
-      image1?: string,
-      image2?: string
+  description: string,
+  price: number,
+  discount: number,
+  location: string,
+  petfriendly: boolean,
+  showcaseimage: string,
+  beds: number,
+  baths: number,
+  area: number,
+  image1?: string,
+  image2?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
+      id,
       title,
       description,
       price,
@@ -47,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!title || !description || !price || !location || !showcaseimage || !beds || !area) {
-      console.log("SOmething is missing");
+      console.log("Something is missing");
       
       return NextResponse.json(
         { error: 'Missing required fields', success: false },
@@ -66,12 +68,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create property
-    const property = await prisma.property.create({
-      data: {
+    // Upsert property (create if not exists, update if exists)
+    const property = await prisma.property.upsert({
+      where: {
+        id: id || 'new-property', // If id is provided, use it; otherwise, use a dummy ID that won't match any existing records
+      },
+      create: {
         title,
         description,
-        price: price,
+        price: price*100,
         verified: false,
         area: Math.round(area),
         beds: beds,
@@ -82,16 +87,39 @@ export async function POST(request: NextRequest) {
         showcaseimage,
         booked: false,
         userId: user.id
+      },
+      update: {
+        title,
+        description,
+        price: price,
+        area: Math.round(area),
+        beds: beds,
+        baths: baths,
+        discount: discount*100 || 0,
+        location,
+        petfriendly: !!petfriendly,
+        showcaseimage,
       }
     });
 
+    // Handle property images
+    if (id) {
+      // For existing property, first delete existing images
+      await prisma.propertyImage.deleteMany({
+        where: {
+          propertyId: property.id
+        }
+      });
+    }
+    
+    // Create new images
     if (image1) {
       await prisma.propertyImage.create({
           data: {
             url: image1,
             propertyId: property.id
           }
-        })
+        });
     }
     if (image2) {
       await prisma.propertyImage.create({
@@ -99,14 +127,15 @@ export async function POST(request: NextRequest) {
             url: image2,
             propertyId: property.id
           }
-        })
+        });
     }
 
+    const action = id ? 'updated' : 'created';
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Property created successfully',
+        message: `Property ${action} successfully`,
         property: {
           id: property.id,
           title: property.title,
@@ -117,7 +146,7 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('Error creating property:', error);
+    console.error('Error processing property:', error);
     return NextResponse.json(
       { error: 'Internal server error', success: false },
       { status: 500 }

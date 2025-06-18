@@ -69,7 +69,7 @@ const properties = [
   {
     title: "Luxury Beachfront Villa in Goa",
     description: "Stunning 4-bedroom villa with private beach access, infinity pool, and breathtaking ocean views. Perfect for families and groups looking for an unforgettable getaway.",
-    price: 15000,
+    price: 1500000,
     discount: 2000,
     location: "Goa",
     verified: true,
@@ -83,7 +83,7 @@ const properties = [
   {
     title: "Modern Apartment in Mumbai Central",
     description: "Contemporary 2-bedroom apartment in the heart of Mumbai with city skyline views, modern amenities, and excellent connectivity to business districts.",
-    price: 8000,
+    price: 800000,
     discount: 1000,
     location: "Mumbai",
     verified: true,
@@ -97,7 +97,7 @@ const properties = [
   {
     title: "Heritage Haveli in Old Delhi",
     description: "Experience royal living in this restored 18th-century haveli featuring traditional architecture, courtyards, and modern comforts in the historic heart of Delhi.",
-    price: 12000,
+    price: 120000,
     discount: 0,
     location: "Delhi",
     verified: true,
@@ -111,7 +111,7 @@ const properties = [
   {
     title: "Tech Hub Condo in Bangalore",
     description: "Ultra-modern 3-bedroom condo in Electronic City with high-speed internet, workspace, gym, and rooftop garden. Ideal for digital nomads and tech professionals.",
-    price: 6000,
+    price: 600000,
     discount: 500,
     location: "Bangalore",
     verified: true,
@@ -125,7 +125,7 @@ const properties = [
   {
     title: "Cozy Studio in Pune Hills",
     description: "Charming studio apartment nestled in the hills of Pune with panoramic valley views, peaceful ambiance, and close to hiking trails.",
-    price: 3500,
+    price: 350000,
     discount: 0,
     location: "Pune",
     verified: false,
@@ -139,7 +139,7 @@ const properties = [
   {
     title: "Marina View Penthouse in Chennai",
     description: "Spectacular penthouse overlooking Marina Beach with private terrace, panoramic ocean views, and luxury amenities. Perfect for special occasions.",
-    price: 20000,
+    price: 2000000,
     discount: 3000,
     location: "Chennai",
     verified: true,
@@ -154,7 +154,7 @@ const properties = [
   {
     title: "Riverside Cottage in Kerala Backwaters",
     description: "Traditional Kerala-style cottage on the backwaters with private boat dock, coconut grove, and authentic local experiences. Includes complimentary boat rides.",
-    price: 7500,
+    price: 750000,
     discount: 1500,
     location: "Kerala",
     verified: true,
@@ -169,7 +169,7 @@ const properties = [
   {
     title: "Mountain Retreat in Shimla",
     description: "Wooden cabin in the mountains with fireplace, forest views, and proximity to snow sports. Ideal for couples and nature lovers seeking tranquility.",
-    price: 5000,
+    price: 500000,
     discount: 0,
     location: "Shimla",
     verified: false,
@@ -184,7 +184,7 @@ const properties = [
   {
     title: "Royal Palace Suite in Jaipur",
     description: "Live like royalty in this palace suite featuring ornate architecture, marble work, royal furniture, and impeccable service in the Pink City.",
-    price: 25000,
+    price: 2500000,
     discount: 5000,
     location: "Jaipur",
     verified: true,
@@ -199,7 +199,7 @@ const properties = [
   {
     title: "Loft Apartment in Kolkata",
     description: "Industrial-chic loft in the cultural heart of Kolkata with exposed brick walls, high ceilings, and walking distance to art galleries and cafes.",
-    price: 4500,
+    price: 450000,
     discount: 0,
     location: "Kolkata",
     verified: true,
@@ -214,7 +214,7 @@ const properties = [
   {
     title: "Desert Camp in Rajasthan",
     description: "Luxury desert camp with traditional tents, camel safari, cultural performances, and stargazing. An authentic Rajasthani desert experience.",
-    price: 9000,
+    price: 900000,
     discount: 1000,
     location: "Rajasthan",
     verified: true,
@@ -229,7 +229,7 @@ const properties = [
   {
     title: "Beach Shack in Pondicherry",
     description: "Charming beach shack steps away from the shore with French colonial influences, yoga deck, and fresh seafood. Perfect for relaxation and rejuvenation.",
-    price: 3000,
+    price: 300000,
     discount: 300,
     location: "Pondicherry",
     verified: false,
@@ -244,7 +244,7 @@ const properties = [
   {
     title: "Luxury Houseboat in Alleppey",
     description: "Experience Kerala's famous backwaters in this luxury houseboat with all modern amenities, chef service, and traditional Kettuvallam design. Includes all meals and guided tours.",
-    price: 11000,
+    price: 1100000,
     discount: 2000,
     location: "Kerala",
     verified: true,
@@ -259,7 +259,7 @@ const properties = [
   {
     title: "Treehouse Resort in Wayanad",
     description: "Unique treehouse experience in the Western Ghats with bird watching, spice plantation tours, and canopy dining. Eco-friendly and sustainable accommodation.",
-    price: 8500,
+    price: 850000,
     discount: 0,
     location: "Kerala",
     verified: true,
@@ -274,7 +274,7 @@ const properties = [
   {
     title: "Boutique Hotel in Udaipur",
     description: "Elegant boutique hotel overlooking Lake Pichola with traditional Rajasthani architecture, rooftop restaurant, and panoramic city views. Royal hospitality guaranteed.",
-    price: 16000,
+    price: 1600000,
     discount: 2500,
     location: "Rajasthan",
     verified: true,
@@ -289,7 +289,7 @@ const properties = [
   {
     title: "Farmstay in Punjab",
     description: "Authentic farm experience with organic vegetables, fresh dairy products, tractor rides, and traditional Punjabi hospitality. Learn about sustainable farming practices.",
-    price: 4000,
+    price: 400000,
     discount: 0,
     location: "Punjab",
     verified: false,
@@ -304,7 +304,7 @@ const properties = [
   {
     title: "Ski Chalet in Manali",
     description: "Cozy mountain chalet near Solang Valley with skiing access, hot tub, fireplace, and stunning Himalayan views. Perfect for adventure enthusiasts and winter sports.",
-    price: 7000,
+    price: 700000,
     discount: 1000,
     location: "Himachal Pradesh",
     verified: true,
@@ -319,7 +319,7 @@ const properties = [
   {
     title: "Business Hotel in Hyderabad",
     description: "Modern business hotel in HITEC City with conference facilities, high-speed internet, fitness center, and easy access to IT companies. Ideal for corporate travelers.",
-    price: 5500,
+    price: 550000,
     discount: 500,
     location: "Hyderabad",
     verified: true,
@@ -334,7 +334,7 @@ const properties = [
   {
     title: "Heritage Haveli in Jodhpur",
     description: "Magnificent blue city haveli with intricate carvings, traditional courtyards, cultural performances, and authentic Rajasthani cuisine. Step back in time to royal era.",
-    price: 13500,
+    price: 1350000,
     discount: 1500,
     location: "Rajasthan",
     verified: true,
@@ -349,7 +349,7 @@ const properties = [
   {
     title: "Ashram Retreat in Rishikesh",
     description: "Peaceful spiritual retreat on the banks of Ganges with yoga classes, meditation sessions, vegetarian meals, and Ayurvedic treatments. Digital detox guaranteed.",
-    price: 2500,
+    price: 250000,
     discount: 0,
     location: "Uttarakhand",
     verified: false,
@@ -364,7 +364,7 @@ const properties = [
   {
     title: "Beach Resort in Andaman",
     description: "Tropical paradise resort on pristine white sand beach with water sports, scuba diving, coral reef tours, and overwater bungalows. Perfect for honeymooners.",
-    price: 18000,
+    price: 1800000,
     discount: 3000,
     location: "Andaman",
     verified: true,
@@ -379,7 +379,7 @@ const properties = [
   {
     title: "Tea Plantation Bungalow in Darjeeling",
     description: "Colonial-era tea plantation bungalow with panoramic mountain views, tea tasting sessions, guided plantation walks, and traditional British charm.",
-    price: 6500,
+    price: 650000,
     discount: 500,
     location: "West Bengal",
     verified: true,
@@ -394,7 +394,7 @@ const properties = [
   {
     title: "Luxury Tents in Ladakh",
     description: "High-altitude glamping experience with heated tents, oxygen supply, stargazing tours, and incredible views of snow-capped peaks. Adventure of a lifetime.",
-    price: 12000,
+    price: 1200000,
     discount: 0,
     location: "Ladakh",
     verified: true,
@@ -409,7 +409,7 @@ const properties = [
   {
     title: "Beachfront Cottage in Gokarna",
     description: "Rustic beachfront cottage steps from pristine Om Beach with surfing lessons, beach volleyball, bonfire nights, and fresh seafood. Backpacker's paradise.",
-    price: 2800,
+    price: 280000,
     discount: 200,
     location: "Karnataka",
     verified: false,
@@ -424,7 +424,7 @@ const properties = [
   {
     title: "Wildlife Lodge in Jim Corbett",
     description: "Jungle lodge near Corbett National Park with safari tours, bird watching, nature walks, and wildlife photography sessions. Spot tigers and elephants.",
-    price: 9500,
+    price: 950000,
     discount: 1500,
     location: "Uttarakhand",
     verified: true,
@@ -439,7 +439,7 @@ const properties = [
   {
     title: "Houseboat in Kashmir",
     description: "Traditional Kashmiri houseboat on Dal Lake with shikara rides, floating market visits, Mughal garden tours, and authentic Wazwan cuisine. Paradise on earth.",
-    price: 10000,
+    price: 1000000,
     discount: 2000,
     location: "Kashmir",
     verified: true,
@@ -454,7 +454,7 @@ const properties = [
   {
     title: "Homestay in Coorg",
     description: "Family-run coffee plantation homestay with plantation tours, coffee tasting, home-cooked meals, and waterfall treks. Experience local Kodava culture.",
-    price: 4500,
+    price: 450000,
     discount: 0,
     location: "Karnataka",
     verified: false,
@@ -469,7 +469,7 @@ const properties = [
   {
     title: "Palace Hotel in Mysore",
     description: "Regal palace hotel with opulent rooms, royal dining, heritage walks, and proximity to Mysore Palace. Experience the grandeur of erstwhile Mysore kingdom.",
-    price: 14000,
+    price: 1400000,
     discount: 1000,
     location: "Karnataka",
     verified: true,
@@ -484,7 +484,7 @@ const properties = [
   {
     title: "Eco Resort in Munnar",
     description: "Sustainable eco-resort in tea gardens with solar power, rainwater harvesting, organic farming, and nature conservation programs. Green luxury at its best.",
-    price: 7500,
+    price: 750000,
     discount: 750,
     location: "Kerala",
     verified: true,
@@ -499,7 +499,7 @@ const properties = [
   {
     title: "Desert Resort in Jaisalmer",
     description: "Luxury desert resort with camel safari, folk dance performances, stargazing sessions, and traditional Rajasthani architecture. Golden city's finest accommodation.",
-    price: 11500,
+    price: 1150000,
     discount: 1500,
     location: "Rajasthan",
     verified: true,
@@ -514,7 +514,7 @@ const properties = [
   {
     title: "Coastal Villa in Alibaug",
     description: "Modern coastal villa with private beach access, infinity pool, water sports, and Mumbai proximity. Perfect weekend getaway for city dwellers.",
-    price: 13000,
+    price: 1300000,
     discount: 0,
     location: "Maharashtra",
     verified: true,
