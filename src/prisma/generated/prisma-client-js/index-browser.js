@@ -183,7 +183,8 @@ exports.Prisma.BookingScalarFieldEnum = {
   totalPrice: 'totalPrice',
   createdAt: 'createdAt',
   userId: 'userId',
-  propertyId: 'propertyId'
+  propertyId: 'propertyId',
+  orderId: 'orderId'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {

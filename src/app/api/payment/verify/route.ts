@@ -26,9 +26,6 @@ export async function POST(request: NextRequest) {
             orderCreationId,
             razorpayPaymentId,
             razorpaySignature,
-            propertyId,
-            checkIn,
-            checkOut,
             totalAmount
         } = await request.json();
 
@@ -57,32 +54,42 @@ export async function POST(request: NextRequest) {
         }
 
         const result = await prisma.$transaction(async (tx) => {
-            const booking = await tx.booking.create({
-                data: {
+            
+            const booking = await tx.booking.findUnique({
+                where: {
                     userId: session.user.id,
-                    propertyId: propertyId,
-                    startDate: new Date(checkIn),
-                    endDate: new Date(checkOut),
-                    totalPrice: Math.round(parseFloat(totalAmount) * 100),
+                    orderId: orderCreationId
                 }
-            });
+            })
+            if(!booking) {
+                return;
+            }
 
-            const payment = await tx.payment.create({
+            const payment = await tx.payment.update({
+                where: {
+                    razorpayOrderId: orderCreationId,
+                },
                 data: {
                     amount: Math.round(parseFloat(totalAmount) * 100),
                     currency: 'INR',
                     status: 'COMPLETED',
-                    razorpayOrderId: orderCreationId,
                     razorpayPaymentId: razorpayPaymentId,
                     razorpaySignature: razorpaySignature,
-                    userId: session.user.id,
-                    bookingId: booking.id
+                    userId: session.user.id
                 }
             });
 
             return { booking, payment };
         });
 
+        if(!result) {
+            return NextResponse.json({
+                success: false,
+                message: "Unable to process Payment",
+            }, {
+                status: 201
+            })
+        }
         return NextResponse.json({
             success: true,
             message: 'Payment verified and booking created successfully',

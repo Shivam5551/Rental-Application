@@ -8,7 +8,6 @@ import { BookedPropertiesCard } from '@/components/bookedPropertiesCard';
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
 
-  // Check if user is authenticated
   if (!session || !session.user?.id) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
@@ -19,7 +18,6 @@ export default async function BookingsPage() {
     );
   }
 
-  // Fetch user's bookings
   const bookings = await getBookedProperties();
 
   return (

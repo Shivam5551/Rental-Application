@@ -240,7 +240,7 @@ export const RentPropertyForm = ({ property, images, id }: { property?: Property
           image2: null
         });
         setTimeout(() => {
-          redirect('/profile')
+          redirect('/profile/renter')
         }, 5000);
         toast.info("Redirecting to profile page...");
       } 

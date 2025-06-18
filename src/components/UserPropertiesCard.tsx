@@ -27,7 +27,7 @@ export const UserPropertiesCard = async () => {
     // console.log(property);
 
     return (
-        <div className="w-full min-h-168 max-h-168 rounded-2xl shadow-md items-center dark:bg-slate-800 p-4 bg-neutral-100 overflow-x-auto">
+        <div className="w-full min-h-180 max-h-180 rounded-2xl shadow-md items-center dark:bg-slate-800 p-4 bg-neutral-100 overflow-x-auto">
         <div className="flex w-full px-2 mb-1 justify-center">
                         <a
                             href="/property/rent"

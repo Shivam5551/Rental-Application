@@ -40,7 +40,7 @@ export default function Signup() {
                             pauseOnHover: true,
                             theme: "colored"
                         });
-                        router.push('/profile');
+                        router.push('/profile/renter');
                     }
                     else {
                         toast.error("Unable to provide token login required!");

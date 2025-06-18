@@ -39,13 +39,16 @@ export default function CheckoutComponent() {
             const createOrderId = async () => {
                 try {
                     const response = await axios.post("/api/payment/order", {
-                        amount: amount
+                        amount: amount,
+                        propertyId,
+                        checkIn,
+                        checkOut
                     });
 
                     if (!response.data.success) {
                         throw new Error("Failed to create payment order");
                     }
-                    
+
                     const orderId = response.data.orderId;
                     idRef.current = orderId;
                     setLoading1(false);
@@ -55,7 +58,7 @@ export default function CheckoutComponent() {
                     setLoading1(false);
                 }
             };
-            
+
             createOrderId();
         }
     }, [propertyExists, amount, session?.user?.id]);
@@ -63,7 +66,7 @@ export default function CheckoutComponent() {
     const processPayment = useCallback(async () => {
         setLoading(true);
         const orderId = idRef.current;
-        
+
         if (!orderId) {
             toast.error("Payment order not created. Please try again.");
             setLoading(false);
@@ -79,7 +82,7 @@ export default function CheckoutComponent() {
         try {
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-                amount: parseFloat(amount!) * 100, 
+                amount: parseFloat(amount!) * 100,
                 currency: "INR",
                 name: "BookIT",
                 description: `Booking for ${nights} nights`,
@@ -91,10 +94,6 @@ export default function CheckoutComponent() {
                         razorpayPaymentId: response.razorpay_payment_id,
                         razorpayOrderId: response.razorpay_order_id,
                         razorpaySignature: response.razorpay_signature,
-                        propertyId,
-                        checkIn,
-                        checkOut,
-                        guests,
                         totalAmount: amount
                     };
 
@@ -120,13 +119,16 @@ export default function CheckoutComponent() {
                     color: "#3399cc",
                 },
                 modal: {
-                    ondismiss: function() {
+                    confirm_close: false,
+                    ondismiss: () => {
                         setLoading(false);
-                        console.log("Payment modal closed");
+                        console.log("Checkout closed");
+                        toast.error("Payment was not completed.");
+                        router.push(`/booking-failed/${orderId}`)
                     }
                 }
             };
-            
+
             const paymentObject = new window.Razorpay(options);
             /* eslint-disable @typescript-eslint/no-explicit-any */
             paymentObject.on("payment.failed", function (response: any) {
@@ -135,7 +137,14 @@ export default function CheckoutComponent() {
                 toast.error("Payment failed: " + response.error.description);
                 router.push(`/booking-failed/${orderId}`)
             });
-            
+            /* eslint-disable @typescript-eslint/no-explicit-any */
+            paymentObject.on("payment.cancelled", function (response: any) {
+                setLoading(false);
+                console.log("Payment cancelled", response.error);
+                toast.error("Payment failed: " + response.error.description);
+                router.push(`/booking-failed/${orderId}`)
+            })
+
             setLoading(false);
             paymentObject.open();
         } catch (error) {
@@ -144,19 +153,19 @@ export default function CheckoutComponent() {
             setLoading(false);
         }
     }, [amount, checkIn, checkOut, guests, nights, propertyId, router, session])
-    
+
 
     useEffect(() => {
         console.log("Reached process payment useEffect", loading1, idRef.current, propertyExists, session?.user.id);
-        
+
         if (!loading1 && idRef.current && propertyExists && session?.user?.id) {
             console.log("will process payment");
-            
+
             processPayment();
         }
     }, [loading1, propertyExists, session?.user?.id, processPayment]);
 
-    
+
     if (status === 'loading') {
         return (
             <div className="container h-screen flex min-w-screen justify-center items-center">
@@ -233,7 +242,7 @@ export default function CheckoutComponent() {
     }
 
     return (
-        <div>            
+        <div>
             {loading && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 flex items-center space-x-3">

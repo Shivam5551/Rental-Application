@@ -94,11 +94,12 @@ model Booking {
   createdAt  DateTime  @default(now())
   userId     String
   propertyId String
+  orderId    String     @unique
   user       User      @relation(fields: [userId], references: [id])
   property   Property  @relation(fields: [propertyId], references: [id])
   payment    Payment[]
 
-  @@unique([userId, propertyId, startDate])
+  @@unique([userId, propertyId, startDate, orderId])
 }
 
 model Payment {
@@ -106,9 +107,9 @@ model Payment {
   amount            Int
   currency          String        @default("INR")
   status            PaymentStatus
-  razorpayOrderId   String
-  razorpayPaymentId String
-  razorpaySignature String
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
   userId            String
   user              User          @relation(fields: [userId], references: [id])
   bookingId         String
@@ -117,6 +118,7 @@ model Payment {
   updatedAt         DateTime      @updatedAt
 
   @@index([userId])
+  @@index([razorpayOrderId])
 }
 
 model Token {

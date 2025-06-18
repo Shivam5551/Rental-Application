@@ -7593,6 +7593,7 @@ export namespace Prisma {
     createdAt: Date | null
     userId: string | null
     propertyId: string | null
+    orderId: string | null
   }
 
   export type BookingMaxAggregateOutputType = {
@@ -7603,6 +7604,7 @@ export namespace Prisma {
     createdAt: Date | null
     userId: string | null
     propertyId: string | null
+    orderId: string | null
   }
 
   export type BookingCountAggregateOutputType = {
@@ -7613,6 +7615,7 @@ export namespace Prisma {
     createdAt: number
     userId: number
     propertyId: number
+    orderId: number
     _all: number
   }
 
@@ -7633,6 +7636,7 @@ export namespace Prisma {
     createdAt?: true
     userId?: true
     propertyId?: true
+    orderId?: true
   }
 
   export type BookingMaxAggregateInputType = {
@@ -7643,6 +7647,7 @@ export namespace Prisma {
     createdAt?: true
     userId?: true
     propertyId?: true
+    orderId?: true
   }
 
   export type BookingCountAggregateInputType = {
@@ -7653,6 +7658,7 @@ export namespace Prisma {
     createdAt?: true
     userId?: true
     propertyId?: true
+    orderId?: true
     _all?: true
   }
 
@@ -7750,6 +7756,7 @@ export namespace Prisma {
     createdAt: Date
     userId: string
     propertyId: string
+    orderId: string
     _count: BookingCountAggregateOutputType | null
     _avg: BookingAvgAggregateOutputType | null
     _sum: BookingSumAggregateOutputType | null
@@ -7779,6 +7786,7 @@ export namespace Prisma {
     createdAt?: boolean
     userId?: boolean
     propertyId?: boolean
+    orderId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     property?: boolean | PropertyDefaultArgs<ExtArgs>
     payment?: boolean | Booking$paymentArgs<ExtArgs>
@@ -7793,6 +7801,7 @@ export namespace Prisma {
     createdAt?: boolean
     userId?: boolean
     propertyId?: boolean
+    orderId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     property?: boolean | PropertyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -7805,6 +7814,7 @@ export namespace Prisma {
     createdAt?: boolean
     userId?: boolean
     propertyId?: boolean
+    orderId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     property?: boolean | PropertyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -7817,9 +7827,10 @@ export namespace Prisma {
     createdAt?: boolean
     userId?: boolean
     propertyId?: boolean
+    orderId?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startDate" | "endDate" | "totalPrice" | "createdAt" | "userId" | "propertyId", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startDate" | "endDate" | "totalPrice" | "createdAt" | "userId" | "propertyId" | "orderId", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     property?: boolean | PropertyDefaultArgs<ExtArgs>
@@ -7850,6 +7861,7 @@ export namespace Prisma {
       createdAt: Date
       userId: string
       propertyId: string
+      orderId: string
     }, ExtArgs["result"]["booking"]>
     composites: {}
   }
@@ -8283,6 +8295,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly userId: FieldRef<"Booking", 'String'>
     readonly propertyId: FieldRef<"Booking", 'String'>
+    readonly orderId: FieldRef<"Booking", 'String'>
   }
     
 
@@ -8928,8 +8941,8 @@ export namespace Prisma {
     currency: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId: string | null
+    razorpaySignature: string | null
     userId: string
     bookingId: string
     createdAt: Date
@@ -9043,8 +9056,8 @@ export namespace Prisma {
       currency: string
       status: $Enums.PaymentStatus
       razorpayOrderId: string
-      razorpayPaymentId: string
-      razorpaySignature: string
+      razorpayPaymentId: string | null
+      razorpaySignature: string | null
       userId: string
       bookingId: string
       createdAt: Date
@@ -11062,7 +11075,8 @@ export namespace Prisma {
     totalPrice: 'totalPrice',
     createdAt: 'createdAt',
     userId: 'userId',
-    propertyId: 'propertyId'
+    propertyId: 'propertyId',
+    orderId: 'orderId'
   };
 
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -11623,6 +11637,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     userId?: StringFilter<"Booking"> | string
     propertyId?: StringFilter<"Booking"> | string
+    orderId?: StringFilter<"Booking"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
     payment?: PaymentListRelationFilter
@@ -11636,6 +11651,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     propertyId?: SortOrder
+    orderId?: SortOrder
     user?: UserOrderByWithRelationInput
     property?: PropertyOrderByWithRelationInput
     payment?: PaymentOrderByRelationAggregateInput
@@ -11643,7 +11659,8 @@ export namespace Prisma {
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId_propertyId_startDate?: BookingUserIdPropertyIdStartDateCompoundUniqueInput
+    orderId?: string
+    userId_propertyId_startDate_orderId?: BookingUserIdPropertyIdStartDateOrderIdCompoundUniqueInput
     AND?: BookingWhereInput | BookingWhereInput[]
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
@@ -11656,7 +11673,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
     payment?: PaymentListRelationFilter
-  }, "id" | "userId_propertyId_startDate">
+  }, "id" | "orderId" | "userId_propertyId_startDate_orderId">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11666,6 +11683,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     propertyId?: SortOrder
+    orderId?: SortOrder
     _count?: BookingCountOrderByAggregateInput
     _avg?: BookingAvgOrderByAggregateInput
     _max?: BookingMaxOrderByAggregateInput
@@ -11684,6 +11702,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     userId?: StringWithAggregatesFilter<"Booking"> | string
     propertyId?: StringWithAggregatesFilter<"Booking"> | string
+    orderId?: StringWithAggregatesFilter<"Booking"> | string
   }
 
   export type PaymentWhereInput = {
@@ -11695,8 +11714,8 @@ export namespace Prisma {
     currency?: StringFilter<"Payment"> | string
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     razorpayOrderId?: StringFilter<"Payment"> | string
-    razorpayPaymentId?: StringFilter<"Payment"> | string
-    razorpaySignature?: StringFilter<"Payment"> | string
+    razorpayPaymentId?: StringNullableFilter<"Payment"> | string | null
+    razorpaySignature?: StringNullableFilter<"Payment"> | string | null
     userId?: StringFilter<"Payment"> | string
     bookingId?: StringFilter<"Payment"> | string
     createdAt?: DateTimeFilter<"Payment"> | Date | string
@@ -11711,8 +11730,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     razorpayOrderId?: SortOrder
-    razorpayPaymentId?: SortOrder
-    razorpaySignature?: SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
+    razorpaySignature?: SortOrderInput | SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
     createdAt?: SortOrder
@@ -11723,22 +11742,22 @@ export namespace Prisma {
 
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    razorpayOrderId?: string
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     amount?: IntFilter<"Payment"> | number
     currency?: StringFilter<"Payment"> | string
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    razorpayOrderId?: StringFilter<"Payment"> | string
-    razorpayPaymentId?: StringFilter<"Payment"> | string
-    razorpaySignature?: StringFilter<"Payment"> | string
+    razorpayPaymentId?: StringNullableFilter<"Payment"> | string | null
+    razorpaySignature?: StringNullableFilter<"Payment"> | string | null
     userId?: StringFilter<"Payment"> | string
     bookingId?: StringFilter<"Payment"> | string
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
-  }, "id">
+  }, "id" | "razorpayOrderId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11746,8 +11765,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     razorpayOrderId?: SortOrder
-    razorpayPaymentId?: SortOrder
-    razorpaySignature?: SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
+    razorpaySignature?: SortOrderInput | SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
     createdAt?: SortOrder
@@ -11768,8 +11787,8 @@ export namespace Prisma {
     currency?: StringWithAggregatesFilter<"Payment"> | string
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
     razorpayOrderId?: StringWithAggregatesFilter<"Payment"> | string
-    razorpayPaymentId?: StringWithAggregatesFilter<"Payment"> | string
-    razorpaySignature?: StringWithAggregatesFilter<"Payment"> | string
+    razorpayPaymentId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    razorpaySignature?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     userId?: StringWithAggregatesFilter<"Payment"> | string
     bookingId?: StringWithAggregatesFilter<"Payment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
@@ -12268,6 +12287,7 @@ export namespace Prisma {
     endDate: Date | string
     totalPrice: number
     createdAt?: Date | string
+    orderId: string
     user: UserCreateNestedOneWithoutBookingsInput
     property: PropertyCreateNestedOneWithoutBookingsInput
     payment?: PaymentCreateNestedManyWithoutBookingInput
@@ -12281,6 +12301,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: string
     propertyId: string
+    orderId: string
     payment?: PaymentUncheckedCreateNestedManyWithoutBookingInput
   }
 
@@ -12290,6 +12311,7 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     property?: PropertyUpdateOneRequiredWithoutBookingsNestedInput
     payment?: PaymentUpdateManyWithoutBookingNestedInput
@@ -12303,6 +12325,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
     payment?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
   }
 
@@ -12314,6 +12337,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: string
     propertyId: string
+    orderId: string
   }
 
   export type BookingUpdateManyMutationInput = {
@@ -12322,6 +12346,7 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookingUncheckedUpdateManyInput = {
@@ -12332,6 +12357,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PaymentCreateInput = {
@@ -12340,8 +12366,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPaymentsInput
@@ -12354,8 +12380,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     userId: string
     bookingId: string
     createdAt?: Date | string
@@ -12368,8 +12394,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
@@ -12382,8 +12408,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     bookingId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12396,8 +12422,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     userId: string
     bookingId: string
     createdAt?: Date | string
@@ -12410,8 +12436,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12422,8 +12448,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     bookingId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12917,10 +12943,11 @@ export namespace Prisma {
     rating?: SortOrder
   }
 
-  export type BookingUserIdPropertyIdStartDateCompoundUniqueInput = {
+  export type BookingUserIdPropertyIdStartDateOrderIdCompoundUniqueInput = {
     userId: string
     propertyId: string
     startDate: Date | string
+    orderId: string
   }
 
   export type BookingCountOrderByAggregateInput = {
@@ -12931,6 +12958,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     propertyId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type BookingAvgOrderByAggregateInput = {
@@ -12945,6 +12973,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     propertyId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type BookingMinOrderByAggregateInput = {
@@ -12955,6 +12984,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
     propertyId?: SortOrder
+    orderId?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
@@ -14003,6 +14033,7 @@ export namespace Prisma {
     endDate: Date | string
     totalPrice: number
     createdAt?: Date | string
+    orderId: string
     property: PropertyCreateNestedOneWithoutBookingsInput
     payment?: PaymentCreateNestedManyWithoutBookingInput
   }
@@ -14014,6 +14045,7 @@ export namespace Prisma {
     totalPrice: number
     createdAt?: Date | string
     propertyId: string
+    orderId: string
     payment?: PaymentUncheckedCreateNestedManyWithoutBookingInput
   }
 
@@ -14033,8 +14065,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     booking: BookingCreateNestedOneWithoutPaymentInput
@@ -14046,8 +14078,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     bookingId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14210,6 +14242,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     userId?: StringFilter<"Booking"> | string
     propertyId?: StringFilter<"Booking"> | string
+    orderId?: StringFilter<"Booking"> | string
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutUserInput = {
@@ -14237,8 +14270,8 @@ export namespace Prisma {
     currency?: StringFilter<"Payment"> | string
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     razorpayOrderId?: StringFilter<"Payment"> | string
-    razorpayPaymentId?: StringFilter<"Payment"> | string
-    razorpaySignature?: StringFilter<"Payment"> | string
+    razorpayPaymentId?: StringNullableFilter<"Payment"> | string | null
+    razorpaySignature?: StringNullableFilter<"Payment"> | string | null
     userId?: StringFilter<"Payment"> | string
     bookingId?: StringFilter<"Payment"> | string
     createdAt?: DateTimeFilter<"Payment"> | Date | string
@@ -14340,6 +14373,7 @@ export namespace Prisma {
     endDate: Date | string
     totalPrice: number
     createdAt?: Date | string
+    orderId: string
     user: UserCreateNestedOneWithoutBookingsInput
     payment?: PaymentCreateNestedManyWithoutBookingInput
   }
@@ -14351,6 +14385,7 @@ export namespace Prisma {
     totalPrice: number
     createdAt?: Date | string
     userId: string
+    orderId: string
     payment?: PaymentUncheckedCreateNestedManyWithoutBookingInput
   }
 
@@ -15132,8 +15167,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPaymentsInput
@@ -15145,8 +15180,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15329,6 +15364,7 @@ export namespace Prisma {
     endDate: Date | string
     totalPrice: number
     createdAt?: Date | string
+    orderId: string
     user: UserCreateNestedOneWithoutBookingsInput
     property: PropertyCreateNestedOneWithoutBookingsInput
   }
@@ -15341,6 +15377,7 @@ export namespace Prisma {
     createdAt?: Date | string
     userId: string
     propertyId: string
+    orderId: string
   }
 
   export type BookingCreateOrConnectWithoutPaymentInput = {
@@ -15412,6 +15449,7 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     property?: PropertyUpdateOneRequiredWithoutBookingsNestedInput
   }
@@ -15424,6 +15462,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateWithoutTokenInput = {
@@ -15555,6 +15594,7 @@ export namespace Prisma {
     totalPrice: number
     createdAt?: Date | string
     propertyId: string
+    orderId: string
   }
 
   export type PaymentCreateManyUserInput = {
@@ -15563,8 +15603,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     bookingId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15694,6 +15734,7 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
     property?: PropertyUpdateOneRequiredWithoutBookingsNestedInput
     payment?: PaymentUpdateManyWithoutBookingNestedInput
   }
@@ -15705,6 +15746,7 @@ export namespace Prisma {
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
     payment?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
   }
 
@@ -15715,6 +15757,7 @@ export namespace Prisma {
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PaymentUpdateWithoutUserInput = {
@@ -15723,8 +15766,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneRequiredWithoutPaymentNestedInput
@@ -15736,8 +15779,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     bookingId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15749,8 +15792,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     bookingId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15792,6 +15835,7 @@ export namespace Prisma {
     totalPrice: number
     createdAt?: Date | string
     userId: string
+    orderId: string
   }
 
   export type InquiryCreateManyPropertyInput = {
@@ -15830,6 +15874,7 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     payment?: PaymentUpdateManyWithoutBookingNestedInput
   }
@@ -15841,6 +15886,7 @@ export namespace Prisma {
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
     payment?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
   }
 
@@ -15851,6 +15897,7 @@ export namespace Prisma {
     totalPrice?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
   }
 
   export type InquiryUpdateWithoutPropertyInput = {
@@ -15904,8 +15951,8 @@ export namespace Prisma {
     currency?: string
     status: $Enums.PaymentStatus
     razorpayOrderId: string
-    razorpayPaymentId: string
-    razorpaySignature: string
+    razorpayPaymentId?: string | null
+    razorpaySignature?: string | null
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15917,8 +15964,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
@@ -15930,8 +15977,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15943,8 +15990,8 @@ export namespace Prisma {
     currency?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     razorpayOrderId?: StringFieldUpdateOperationsInput | string
-    razorpayPaymentId?: StringFieldUpdateOperationsInput | string
-    razorpaySignature?: StringFieldUpdateOperationsInput | string
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpaySignature?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

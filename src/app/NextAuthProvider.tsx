@@ -6,7 +6,7 @@ export const NextAuthProvider = ({ children }: Readonly<{
   children: React.ReactNode;
 }>) => {
     return (
-        <SessionProvider>
+        <SessionProvider refetchInterval={5*60}>
             {children}
             <ToastContainer />
         </SessionProvider>

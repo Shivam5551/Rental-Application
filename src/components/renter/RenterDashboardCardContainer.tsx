@@ -1,18 +1,16 @@
-import { DashboardCard } from "./dashboardCard"
+'use server'
+import { DashboardCard } from "../dashboardCard"
 import { AiOutlineMessage } from "react-icons/ai"
-import { HiOutlineWrenchScrewdriver } from "react-icons/hi2"
+import { HiOutlineHome } from "react-icons/hi2"
 import { LuClipboardList } from "react-icons/lu"
-import { MdOutlinePayments} from "react-icons/md"
-import { getDashboardStats, getPropertyOwnerStats } from "@/actions/getDashboardStats"
+import { MdOutlinePayments, MdOutlineReviews } from "react-icons/md"
+import { getRenterDashboardStats } from "@/actions/getRenterDashboardStats"
 import { Suspense } from "react"
 
-const DashboardContent = async () => {
-    const [dashboardStats, propertyStats] = await Promise.all([
-        getDashboardStats(),
-        getPropertyOwnerStats()
-    ]);
+const RenterDashboardContent = async () => {
+    const renterStats = await getRenterDashboardStats();
 
-    if (!dashboardStats || !propertyStats) {
+    if (!renterStats) {
         return (
             <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
                 <DashboardCard heading="Please Login" value={0}>
@@ -22,7 +20,7 @@ const DashboardContent = async () => {
                     <Icons color="bg-gray-300"><AiOutlineMessage size={25}/></Icons>
                 </DashboardCard>
                 <DashboardCard heading="Login Required" value={0}>
-                    <Icons color="bg-gray-300"><HiOutlineWrenchScrewdriver size={25} /></Icons>
+                    <Icons color="bg-gray-300"><HiOutlineHome size={25} /></Icons>
                 </DashboardCard>
             </div>
         );
@@ -38,37 +36,35 @@ const DashboardContent = async () => {
     };
 
     return (
-        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-            <DashboardCard heading="Unverified Props" value={dashboardStats.unverifiedProperties}>
-                <Icons color="bg-orange-300"><LuClipboardList size={25}/></Icons>
+        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+            <DashboardCard heading="Active Bookings" value={renterStats.activeBookings}>
+                <Icons color="bg-blue-300"><HiOutlineHome size={25}/></Icons>
             </DashboardCard>
             
-            <DashboardCard heading="Enquiry Messages" value={dashboardStats.enquiryMessages}>
-                <Icons color="bg-blue-300"><AiOutlineMessage size={25}/></Icons>
+            <DashboardCard heading="Completed Stays" value={renterStats.completedBookings}>
+                <Icons color="bg-green-300"><LuClipboardList size={25}/></Icons>
             </DashboardCard>
             
-            <DashboardCard heading="Booked Properties" value={dashboardStats.bookedProperties}>
-                <Icons color="bg-green-300"><HiOutlineWrenchScrewdriver size={25} /></Icons>
+            <DashboardCard heading="Reviews Given" value={renterStats.reviewsGiven}>
+                <Icons color="bg-purple-300"><MdOutlineReviews size={25} /></Icons>
             </DashboardCard>
 
-
-            {dashboardStats.totalRevenue > 0 && (
-                <DashboardCard heading="Total Revenue" value={formatCurrency(dashboardStats.totalRevenue)}>
+            {renterStats.totalSpent > 0 && (
+                <DashboardCard heading="Total Spent" value={formatCurrency(renterStats.totalSpent/100)}>
                     <Icons color="bg-emerald-300"><MdOutlinePayments size={25}/></Icons>
                 </DashboardCard>
             )}
 
-            {dashboardStats.pendingPayments > 0 && (
-                <DashboardCard heading="Pending Payments" value={dashboardStats.pendingPayments}>
-                    <Icons color="bg-yellow-300"><MdOutlinePayments size={25}/></Icons>
+            {renterStats.pendingPayments > 0 && (
+                <DashboardCard heading="Pending Payments" value={renterStats.pendingPayments}>
+                    <Icons color="bg-red-300"><MdOutlinePayments size={25}/></Icons>
                 </DashboardCard>
             )}
-
         </div>
     );
 };
 
-const DashboardLoadingSkeleton = () => {
+const RenterDashboardLoadingSkeleton = async () => {
     return (
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
             {[1, 2, 3].map((i) => (
@@ -87,15 +83,15 @@ const DashboardLoadingSkeleton = () => {
     );
 };
 
-export const DashboardCardContainer = () => {
+export const RenterDashboardCardContainer = async () => {
     return (
-        <Suspense fallback={<DashboardLoadingSkeleton />}>
-            <DashboardContent />
+        <Suspense fallback={<RenterDashboardLoadingSkeleton />}>
+            <RenterDashboardContent />
         </Suspense>
     );
 };
 
-export const Icons = ({ children, color }: {children: React.ReactNode, color: string}) => {
+export const Icons = async ({ children, color }: {children: React.ReactNode, color: string}) => {
     return (
         <div className={`${color} p-2 h-10 w-10 rounded-full flex items-center justify-center`}>
             {children}

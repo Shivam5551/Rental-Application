@@ -103,7 +103,7 @@ export const UpdateProfile = () => {
             }
 
             try {
-                const res = await axios.post("api/update/profile", payload);
+                const res = await axios.post("/api/update/profile", payload);
 
                 if (res.data.success) {
                     const sessionUpdateData: Record<string, string> = {};

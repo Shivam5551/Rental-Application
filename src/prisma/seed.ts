@@ -562,6 +562,29 @@ async function main() {
       throw new Error("No users were created successfully");
     }
 
+    // Create refresh tokens for some users
+    console.log("🔑 Creating refresh tokens...");
+    let tokenCount = 0;
+    for (let i = 0; i < Math.min(createdUsers.length, 3); i++) {
+      const user = createdUsers[i];
+      try {
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 30); // 30 days from now
+
+        await prisma.token.create({
+          data: {
+            userId: user.id,
+            refreshToken: `refresh_${Math.random().toString(36).substr(2, 32)}_${Date.now()}`,
+            expiresAt
+          }
+        });
+        tokenCount++;
+        console.log(`   ✓ Created refresh token for user: ${user.name}`);
+      } catch (error) {
+        console.error(`   ❌ Failed to create token for user ${user.name}:`, error);
+      }
+    }
+
     // Create properties
     console.log("🏠 Creating properties...");
     const createdProperties = [];
@@ -601,12 +624,11 @@ async function main() {
       } catch (error) {
         console.error(`   ❌ Failed to create property ${propertyData.title}:`, error);
       }
-    }
-
-    // Create bookings
+    }    // Create bookings
     console.log("📅 Creating bookings...");
     const bookings = [];
     const bookingAttempts = Math.min(20, createdProperties.length * 2);
+    const createdBookings = new Set(); // Track created bookings to avoid duplicates
     
     for (let i = 0; i < bookingAttempts; i++) {
       const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
@@ -616,25 +638,47 @@ async function main() {
       if (randomUser.id === randomProperty.userId) continue;
 
       try {
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 30) + 1);
+        // Create varied booking dates (past, current, future)
+        const baseDate = new Date();
+        let startDate;
+        
+        if (i % 3 === 0) {
+          // Past bookings (completed)
+          startDate = new Date();
+          startDate.setDate(startDate.getDate() - Math.floor(Math.random() * 30) - 5);
+        } else if (i % 3 === 1) {
+          // Current/active bookings
+          startDate = new Date();
+          startDate.setDate(startDate.getDate() - Math.floor(Math.random() * 3));
+        } else {
+          // Future bookings
+          startDate = new Date();
+          startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 60) + 1);
+        }
         
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + Math.floor(Math.random() * 7) + 1);
         
+        // Create a unique key to check for duplicates
+        const bookingKey = `${randomUser.id}-${randomProperty.id}-${startDate.toISOString().split('T')[0]}`;
+        if (createdBookings.has(bookingKey)) continue;
+        
         const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         const totalPrice = (randomProperty.price - randomProperty.discount) * nights;
-
+        const orderId = `order_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
+        
         const booking = await prisma.booking.create({
           data: {
             startDate,
             endDate,
             totalPrice,
+            orderId,
             userId: randomUser.id,
             propertyId: randomProperty.id
           }
         });
         bookings.push(booking);
+        createdBookings.add(bookingKey);
         console.log(`   ✓ Created booking: ${booking.id} for ${randomProperty.title}`);
       } catch (error) {
         console.error(`   ❌ Failed to create booking:`, error);
@@ -646,15 +690,16 @@ async function main() {
     let paymentCount = 0;
     for (const booking of bookings) {
       try {
-        const paymentStatuses = ["COMPLETED", "COMPLETED", "COMPLETED", "PENDING", "FAILED"];
+        const paymentStatuses = ["COMPLETED", "COMPLETED", "COMPLETED", "PENDING", "FAILED", "REFUNDED"];
         const randomStatus = paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)];
+        const uniqueOrderId = `rzp_order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
         await prisma.payment.create({
           data: {
             amount: booking.totalPrice,
             currency: "INR",
-            status: randomStatus as "COMPLETED" | "PENDING" | "FAILED",
-            razorpayOrderId: `order_${Math.random().toString(36).substr(2, 9)}`,
+            status: randomStatus as "COMPLETED" | "PENDING" | "FAILED" | "REFUNDED",
+            razorpayOrderId: uniqueOrderId,
             razorpayPaymentId: randomStatus === "COMPLETED" ? `pay_${Math.random().toString(36).substr(2, 9)}` : "",
             razorpaySignature: randomStatus === "COMPLETED" ? `sig_${Math.random().toString(36).substr(2, 9)}` : "",
             userId: booking.userId,
@@ -764,6 +809,7 @@ async function main() {
     console.log(`
 📊 Final Statistics:
     👥 ${createdUsers.length} users
+    🔑 ${tokenCount} refresh tokens
     🏠 ${createdProperties.length} properties
     📅 ${bookings.length} bookings
     💳 ${paymentCount} payments
