@@ -16,8 +16,10 @@ interface PropertyPricingSidebarProps {
 }
 
 export function PropertyPricingSidebar({ propertyId, price, discount, host }: PropertyPricingSidebarProps) {
-  const discountedPrice = discount > 0 ? price - discount : price;
-  const discountPercentage = discount > 0 ? Math.round((discount / price) * 100) : 0;
+    const discountedPrice: number = discount > 0
+    ? ((price / 100) * (1 - (discount / 10000)))
+    : price / 100;
+
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-lg p-6 sticky top-20">
@@ -33,11 +35,11 @@ export function PropertyPricingSidebar({ propertyId, price, discount, host }: Pr
                 Rs.{discountedPrice.toLocaleString()}
               </span>
               <span className="text-lg text-gray-500 dark:text-gray-400 line-through">
-                Rs.{price.toLocaleString()}
+                Rs.{(price/100).toLocaleString()}
               </span>
             </div>
             <div className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm inline-block">
-              {discountPercentage}% OFF
+              {discount/100}% OFF
             </div>
           </div>
         ) : (

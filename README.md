@@ -2,6 +2,8 @@
 
 A comprehensive rental property platform built with Next.js 15, designed to revolutionize property booking in India. Similar to Airbnb but tailored for the Indian market with advanced features for both property owners and travelers.
 
+> **⚠️ Development Status**: This project is currently under active development. New features are being continuously added and existing functionality is being enhanced. Please check the [Ongoing Features](#-ongoing-features) section for upcoming improvements.
+
 ## 🌟 Key Features
 
 ### 🏡 **Property Management**
@@ -77,6 +79,8 @@ A comprehensive rental property platform built with Next.js 15, designed to revo
 - **Turbopack**: Ultra-fast bundler for development
 - **Recharts**: Beautiful data visualization
 - **PNPM**: Efficient package management
+- **Zustand**: Lightweight state management for React applications
+- **Arcjet**: Advanced email validation and security protection
 
 ## 🚀 Getting Started
 
@@ -276,9 +280,22 @@ npx prisma generate    # Generate Prisma client
 - **Modular Review System**: Component-based review architecture with guided submission
 - **Enhanced Booking Management**: Comprehensive dashboard with status tracking
 - **Multi-Language Ready**: Prepared for localization and regional language support
-- **Payment Flexibility**: Multiple payment options including UPI integration
+- **Payment Flexibility**: Multiple payment options including Pay Later
 - **Verification System**: Multi-level property and user verification
 - **Empty State Excellence**: Beautiful UI for all empty states across the platform
+
+## 🚧 Ongoing Features
+
+*Currently under development - These features are being actively worked on and will be available in upcoming releases:*
+
+- **🔄 Refund System**: Comprehensive refund processing and management for cancelled bookings
+- **🔑 Database Token Management**: Automatic database refresh and token renewal system for enhanced security
+- **📞 Property Enquiry System**: Direct communication channel between property owners and potential renters
+- **📅 Dynamic Booking Calendar**: Advanced calendar with real-time availability updates and booking conflicts resolution
+- **📊 Enhanced Dashboard Analytics**: Advanced charts and data visualization for booking trends, revenue analytics, and property performance metrics
+- **🎯 State Management Integration**: Implementation of Zustand for centralized state management
+- **📧 Automated Email Notifications**: Queue-based email system for booking confirmations
+- **🛡️ Advanced Email Validation**: Integration with Arcjet for enhanced email security and validation
 
 
 **Built with ❤️ for the Indian rental market**

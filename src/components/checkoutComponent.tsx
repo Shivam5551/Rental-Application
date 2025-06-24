@@ -61,7 +61,7 @@ export default function CheckoutComponent() {
 
             createOrderId();
         }
-    }, [propertyExists, amount, session?.user?.id]);
+    }, [propertyExists, amount, session?.user?.id, checkIn, checkOut, propertyId]);
 
     const processPayment = useCallback(async () => {
         setLoading(true);
@@ -152,7 +152,7 @@ export default function CheckoutComponent() {
             toast.error("Failed to process payment");
             setLoading(false);
         }
-    }, [amount, checkIn, checkOut, guests, nights, propertyId, router, session])
+    }, [amount, nights, router, session])
 
 
     useEffect(() => {

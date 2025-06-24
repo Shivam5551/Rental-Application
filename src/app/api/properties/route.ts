@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       update: {
         title,
         description,
-        price: price,
+        price: price*100,
         area: Math.round(area),
         beds: beds,
         baths: baths,
