@@ -44,7 +44,7 @@ export function PropertyPricingSidebar({ propertyId, price, discount, host }: Pr
           </div>
         ) : (
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            Rs.{price.toLocaleString()}
+            Rs.{(price/100).toLocaleString()}
           </span>
         )}
         <span className="text-gray-600 dark:text-gray-300 ml-2">/night</span>
