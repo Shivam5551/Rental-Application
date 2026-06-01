@@ -1,19 +1,16 @@
-import { PrismaClient } from "@/prisma/generated/prisma-client-js/client";
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "../../prisma/generated/prisma-client-js";
 
-const prismaClientSingleton = (): PrismaClient => {
-    return new PrismaClient({
-        datasourceUrl: process.env.DATABASE_URL
-    });
-};
-
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 
 declare global {
     // eslint-disable-next-line no-var
-    var prisma: ReturnType<typeof prismaClientSingleton> | undefined;
+    var prisma: PrismaClient | undefined;
 }
 
-const prisma: PrismaClient = global.prisma ?? prismaClientSingleton();
+const prisma: PrismaClient = global.prisma ?? new PrismaClient({ adapter });
 
 export default prisma;
 
-if(process.env.NODE_ENV != 'production') global.prisma = prisma;
+if (process.env.NODE_ENV != 'production') global.prisma = prisma;

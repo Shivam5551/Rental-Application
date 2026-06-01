@@ -39,7 +39,24 @@ export async function POST(request: NextRequest) {
         const order = await razorpay.orders.create(options);
         console.log('Razorpay order created:', order.id);
         const res = await prisma.$transaction(async (txn) => {
-
+            const conflictingBooking =
+                await txn.booking.findFirst({
+                    where: {
+                        propertyId,
+                        status: {
+                            in: ["PENDING", "CONFIRMED"]
+                        },
+                        startDate: {
+                            lt: new Date(checkOut)
+                        },
+                        endDate: {
+                            gt: new Date(checkIn)
+                        }
+                    }
+                });
+            if(conflictingBooking) {
+                return null;
+            }
             const booking = await txn.booking.create({
                 data: {
                     userId: session.user.id,
@@ -53,7 +70,7 @@ export async function POST(request: NextRequest) {
             const payment = await txn.payment.create({
                 data: {
                     razorpayOrderId: order.id,
-                    amount: amount*100,
+                    amount: amount * 100,
                     userId: session.user.id,
                     status: "PENDING",
                     bookingId: booking.id,
@@ -61,13 +78,18 @@ export async function POST(request: NextRequest) {
             });
             return { booking, payment }
         })
-
+        if(!res) {
+            return NextResponse.json({
+                success: false,
+                message: "These dates are already reserved or booked."
+            }, { status: 409 })
+        }
         return NextResponse.json({
             success: true,
             orderId: order.id,
             amount: order.amount,
             currency: order.currency,
-            bookingId: res.booking.id
+            bookingId: res?.booking.id
         }, { status: 200 });
 
     } catch (error) {

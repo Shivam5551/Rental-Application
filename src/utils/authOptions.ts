@@ -1,409 +1,197 @@
-import { JWT } from "next-auth/jwt";
-import CredentialsProvider from "next-auth/providers/credentials"
+import { Account, NextAuthOptions, Profile, SessionStrategy, User } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "./prismaClient";
 import { compareSync } from "bcrypt-ts";
-import { SessionStrategy } from "next-auth";
+import { googleAuthToken } from "./googleAuthToken";
+import { validateStoredToken } from "./validateStoredToken";
+import { JWT } from "next-auth/jwt";
+import { AdapterUser } from "next-auth/adapters";
 
-const isTokenExpired = (expiresAt: Date) => {
-    return new Date() > expiresAt;
-};
-
-const validateStoredToken = async (userId: string) => {
-    const tokenRecord = await prisma.token.findFirst({
-        where: { userId },
-        select: {
-            refreshToken: true,
-            expiresAt: true,
-            id: true
-        }
-    });
-
-    if (!tokenRecord) {
-        return { valid: false, expired: true };
-    }
-
-    const expired = isTokenExpired(tokenRecord.expiresAt);
-    return {
-        valid: !expired,
-        expired,
-        token: tokenRecord
-    };
-};
-
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const refreshAccessToken = async (token: JWT, account: any) => {
-    // Use provider from token if account is not available
-    const provider = account?.provider || token.provider;
-    
-    if (provider === "google") {
-        try {
-            const url = `https://oauth2.googleapis.com/token?` +
-                new URLSearchParams({
-                    client_id: process.env.GOOGLE_CLIENT_ID || '',
-                    client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
-                    grant_type: "refresh_token",
-                    refresh_token: token.refreshToken ? String(token.refreshToken) : '',
-                }).toString();
-
-            const response = await fetch(url, {
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                method: "POST",
-            });
-
-            const refreshedTokens = await response.json();
-
-            if (!response.ok) {
-                throw refreshedTokens;
-            }
-
-            return {
-                ...token,
-                accessToken: refreshedTokens.access_token,
-                accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
-                refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
-            };
-        } catch (error) {
-            console.log(error);
-            return {
-                ...token,
-                error: "RefreshAccessTokenError",
-            };
-        }
-    } else {
-        return null;
-    }
-};
-
-
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
-            name: 'Credentials',
+            name: "Email & Password",
             credentials: {
-                email: { label: "Email", type: "Email", placeholder: "Enter your email" },
-                password: { label: "Password", type: "password", placeholder: "Enter your password" }
+                email: { label: "Email", type: "email", placeholder: "you@example.com" },
+                password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
+                if (!credentials?.email || !credentials.password) return null;
+
                 try {
-                    if (credentials?.email && credentials.password) {
-                        // console.log("Attempting login for:", credentials.email);
+                    const user = await prisma.user.findUnique({
+                        where: { email: credentials.email },
+                        select: { id: true, name: true, email: true, image: true, password: true },
+                    });
+                    if (!user?.password) return null;
 
-                        const user = await prisma.user.findFirst({
-                            where: {
-                                email: credentials.email
-                            },
-                            select: {
-                                token: {
-                                    select: { refreshToken: true },
-                                },
-                                password: true,
-                                image: true,
-                                email: true,
-                                id: true,
-                                name: true
-                            }
-                        });
+                    if (!compareSync(credentials.password, user.password)) return null;
 
-                        if (!user) {
-                            // console.log("User not found");
-                            return null;
-                        }
-
-                        // console.log("User found:", user.email);
-
-                        // Check if password exists
-                        if (!user.password) {
-                            // console.log("User has no password");
-                            return null;
-                        }
-
-                        // Compare passwords with detailed logging
-                        const passwordMatch = compareSync(credentials.password, user.password);
-                        // console.log("Password match:", passwordMatch);
-
-                        if (!passwordMatch) {
-                            return null;
-                        }
-
-                        // Create refresh token with fallback
-                        const refreshToken = user.token?.[0]?.refreshToken ||
-                            `${Date.now() + 1000 * 60 * 60 * 24 * 30}`;
-
-                        // console.log("Auth successful, returning user");
-
-                        return {
-                            id: user.id,
-                            name: user.name || "",
-                            email: user.email,
-                            image: user.image || undefined,
-                            refreshToken: refreshToken,
-                        };
-                    }
-                    return null;
-                } catch (error) {
-                    console.error("Auth error:", error);
+                    return { id: user.id, name: user.name, email: user.email, image: user.image, refreshToken: "Token" };
+                } catch (err) {
+                    console.error("CredentialsAuthorizeErrortoLowercase", err);
                     return null;
                 }
             },
         }),
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID || "",
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
             authorization: {
                 params: {
                     prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code"
-                }
-            }
-        })
+                    access_type: "offline",  // ensures refresh_token
+                    response_type: "code",
+                },
+            },
+        }),
     ],
-    secret: process.env.NEXTAUTH_SECRET || 'secret',
+
+    session: { strategy: "jwt" as SessionStrategy, maxAge: 24 * 60 * 60 },
+    jwt: { secret: process.env.NEXTAUTH_SECRET! },
+
+    pages: {
+        signIn: "/signin",
+        error: "/signin",
+    },
 
     callbacks: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        session: async ({ session, token }: any) => {
-            if (token) {
-                if (token.error) {
-                    // console.log("Token error detected:", token.error);
-                    session.error = token.error;
-                }
-
-                // Update session with token data (including updates from JWT callback)
-                session.user = {
-                    ...token.user,
-                    name: token.name || token.user?.name,
-                    email: token.email || token.user?.email,
-                    image: token.picture || token.user?.image,
-                };
-                session.accessToken = token.accessToken;
-
-                if (token.uid) {
-                    const tokenValidation = await validateStoredToken(token.uid);
-                    session.tokenValid = tokenValidation.valid;
-                    session.tokenExpired = tokenValidation.expired;
-                }
-            }
+        async session({ session, token }) {
+            session.user = {
+                id: token.user.id as string,
+                name: token.user.name as string,
+                email: token.user.email as string,
+                image: token.user.image as string,
+            };
+            session.accessToken = token.accessToken as string;
+            console.log("Session: ", session, "\nToken", token);
+            
             return session;
         },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        jwt: async ({ user, token, account, trigger, session }: any) => {
-            // Handle session updates (when user profile is updated)
-            if (trigger === "update" && session) {
-                // Update token with new user data from session
-                return {
-                    ...token,
-                    name: session.name || token.name,
-                    email: session.email || token.email,
-                    picture: session.image || token.picture,
-                };
-            }
-            async function createOrUpdateToken(userId: string, refreshToken: string, accessToken?: string) {
-                const expiresTime = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30); // 30 days
 
-                const existingToken = await prisma.token.findFirst({
-                    where: { userId: userId }
-                });
+        async jwt({ token, user, account }: { token: JWT; user: User | AdapterUser; account: Account | null; profile?: Profile | undefined; trigger?: "signIn" | "signUp" | "update" | undefined; isNewUser?: boolean | undefined; session?: any; }): Promise<JWT> {
 
-                if (existingToken) {
-                    const tokenValidation = await validateStoredToken(userId);
-
-                    if (tokenValidation.expired) {
-                        console.log("Existing token expired, updating.....");
-                        await prisma.token.update({
-                            where: { id: existingToken.id },
-                            data: {
-                                refreshToken: refreshToken,
-                                expiresAt: expiresTime,
-                            }
-                        });
-                    }
-
-                    // console.log("Token updated successfully");
-                } else {
-                    await prisma.token.create({
-                        data: {
-                            userId: userId,
-                            refreshToken: refreshToken,
-                            expiresAt: expiresTime
-                        }
+            if (user && account) {
+                const provider = account.provider.toLowerCase();
+                const now = Date.now();
+                let refresh_token = null;
+                let access_token = null;
+                if(account.provider === "google") {
+                    refresh_token = account.refresh_token;
+                    access_token = account.access_token
+                }
+                else if(account.provider === "credentials") {
+                    refresh_token = user.refreshToken;
+                    access_token = "hello"; // generate an access token 
+                }
+                try {
+                    console.log("Token", token);
+                    console.log("Account", account)
+                    console.log("User", user)
+                    
+                    await prisma.token.upsert({
+                        where: { userId: user.id },
+                        create: {
+                            userId: user.id,
+                            refreshToken: refresh_token!,
+                            expiresAt: new Date(now + 30 * 24 * 60 * 60 * 1000),
+                        },
+                        update: {
+                            refreshToken: refresh_token!,
+                            expiresAt: new Date(now + 30 * 24 * 60 * 60 * 1000),
+                        },
                     });
-                    // console.log("New token created successfully");
+                } catch (e) {
+                    console.error("TokenUpsertError", e);
+                    throw new Error("Failed to save refresh token");
                 }
 
                 return {
-                    ...token,
-                    accessToken: accessToken || "credentials-access-token",
-                    accessTokenExpires: account?.expires_in ? Date.now() + account.expires_in * 1000 : Date.now() + 1000 * 60 * 60,
-                    refreshToken: refreshToken,
-                    provider: account?.provider || "credentials",
-                    user,
-                    uid: userId
+                    user: {
+                        id: user.id,
+                        name: user.name!,
+                        email: user.email!,
+                        image: user.image!,
+                    },
+                    provider,
+                    accessToken: access_token!,
+                    refreshToken: refresh_token!,
+                    expiresAt: now + 15 * 60 * 1000,
                 };
             }
 
-            if (account && user) {
-                if (account?.provider === "credentials" && user) {
-                    // console.log("Credentials login - creating/updating token");
-
-                    const tokenValidation = await validateStoredToken(user.id);
-                    if (tokenValidation.valid && !tokenValidation.expired) {
-                        console.log("Valid token exists");
-                        return {
-                            ...token,
-                            accessToken: "credentials-access-token",
-                            accessTokenExpires: Date.now() + 1000 * 60 * 60,
-                            refreshToken: tokenValidation.token?.refreshToken,
-                            provider: "credentials",
-                            user,
-                            uid: user.id
-                        };
-                    }
-
-                    const result = await createOrUpdateToken(user.id, user.refreshToken);
-                    return result;
-                }
-
-                if (account?.provider === "google" && user) {
-
-                    const tokenValidation = await validateStoredToken(user.id);
-                    if (tokenValidation.valid && !tokenValidation.expired && account.access_token) {
-                        return {
-                            ...token,
-                            accessToken: account.access_token,
-                            accessTokenExpires: Date.now() + (account.expires_in || 3600) * 1000,
-                            refreshToken: tokenValidation.token?.refreshToken,
-                            provider: "google",
-                            user,
-                            uid: user.id
-                        };
-                    }
-
-                    const refreshToken = account.refresh_token || `google_${Date.now()}_${user.id}`;
-                    const result = await createOrUpdateToken(user.id, refreshToken, account.access_token);
-                    return result;
-                }
-            }
-
-            // Check if current token is expired and needs refresh
-            if (token.accessTokenExpires && Date.now() >= token.accessTokenExpires) {
-                // console.log("Access token expired, attempting refresh");
-
-                // Only refresh for Google provider
+            const isExpired = Date.now() > (token.expiresAt as number);
+            if (isExpired) {
                 if (token.provider === "google") {
-                    // Validate stored token before refresh
-                    if (token.uid) {
-                        const tokenValidation = await validateStoredToken(token.uid);
-                        if (tokenValidation.expired) {
-                            // console.log("Stored refresh token also expired, user needs to re-authenticate");
-                            return { ...token, error: "RefreshAccessTokenError" };
-                        }
+                    const refreshed = await googleAuthToken(token, account);
+                    if (refreshed && refreshed.error) {
+                        console.error("GoogleRefreshError", refreshed.error);
+                        return { ...token, error: "RefreshError" };
                     }
-
-                    // Ensure we have a refresh token before attempting refresh
-                    if (!token.refreshToken) {
-                        console.log("No refresh token available for Google provider");
-                        return { ...token, error: "RefreshAccessTokenError" };
-                    }
-
-                    return refreshAccessToken(token, account);
-                } else {
-                    // For credentials provider, validate stored refresh token
-                    if (token.uid) {
-                        const tokenValidation = await validateStoredToken(token.uid);
-                        if (tokenValidation.expired) {
-                            // console.log("Stored refresh token expired, user needs to re-authenticate");
-                            return { ...token, error: "RefreshAccessTokenError" };
-                        }
-                        
-                        // If stored token is still valid, extend the access token
-                        return {
-                            ...token,
-                            accessTokenExpires: Date.now() + 1000 * 60 * 60, // 1 hour
-                        };
-                    } else {
-                        // No user ID, force re-authentication
-                        return { ...token, error: "RefreshAccessTokenError" };
-                    }
-                }
-            }
-
-            // Return current token if still valid, but ensure provider is set
-            const finalToken = {
-                ...token,
-                provider: token.provider || "credentials" // Fallback provider
-            };
-            
-            return finalToken;
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        signIn: async ({ account, profile, user }: any) => {
-            async function findUserByEmail(email: string) {
-                const isExists = await prisma.user.findFirst({
-                    where: { email: email },
-                    select: {
-                        id: true,
-                        email: true,
-                        name: true,
-                        provider: true,
-                    }
-                });
-                return isExists;
-            }
-
-            if (account.provider === "credentials") {
-                const isExists = await findUserByEmail(user.email);
-                return isExists ? true : false;
-            }
-
-            if (account.provider === "google" && profile?.email_verified) {
-                // console.log(`Provider: ${account.provider}`);
-
-                const existingUser = await findUserByEmail(profile.email);
-
-                if (!existingUser) {
-                    console.log("Creating new Google user");
                     try {
-                        const newUser = await prisma.user.create({
-                            data: {
-                                id: profile.id,
-                                email: profile.email,
-                                name: profile.name || "",
-                                provider: "Google",
-                                image: profile.picture || null,
+                        console.log("Token:", token)
+                        await prisma.token.upsert({
+                            where: { userId: token.user.id as string },
+                            create: {
+                                userId: token.user.id as string,
+                                refreshToken: refreshed?.refreshToken as string,
+                                expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
                             },
-                            select: {
-                                id: true,
-                                email: true,
-                                name: true,
-                            }
+                            update: {
+                                refreshToken: refreshed?.refreshToken as string,
+                                expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                            },
                         });
-                        // console.log("User created successfully:", newUser.email);
-                        user.id = newUser.id;
-                        return true;
-                    } catch (error) {
-                        console.error("Error creating user:", error);
-                        return false;
+                    } catch (e) {
+                        console.error("TokenRenewUpsertError", e);
                     }
+                    return {
+                        ...token,
+                        accessToken: refreshed?.accessToken as string,
+                        refreshToken: refreshed?.refreshToken as string,
+                        expiresAt: refreshed?.accessTokenExpires as number,
+                    };
                 } else {
-                    user.id = existingUser.id;
-                    // console.log("Google user already exists:", existingUser.email);
-                    return true;
+                    const { valid } = await validateStoredToken(
+                        token.uid as string,
+                        token.refreshToken as string
+                    );
+                    if (!valid) {
+                        console.warn("CredentialsRefreshInvalid");
+                        return { ...token, error: "RefreshError" };
+                    }
+                    // generate new refresh and access token
                 }
+            }
+            return token;
+        },
+
+        async signIn({ account, profile, user }) {
+            if (account?.provider === "credentials") {
+                const found = await prisma.user.findUnique({ where: { email: user.email! } });
+                return !!found;
+            }
+
+            if (account?.provider === "google" && profile?.email) {
+                const existing = await prisma.user.findUnique({ where: { email: profile.email! } });
+                if (!existing) {
+                    const created = await prisma.user.create({
+                        data: {
+                            email: profile.email!,
+                            name: profile.name!,
+                            image: profile?.image,
+                            provider: "Google",
+                        },
+                    });
+                    user.id = created.id;
+                } else {
+                    user.id = existing.id;
+                }
+                return true;
             }
 
             return false;
-        }
+        },
     },
-    session: {
-        strategy: "jwt" as SessionStrategy,
-        maxAge: 30 * 24 * 60 * 60 //30days age
-    },
-    pages: {
-        signIn: '/signin',
-        error: '/signin'
-    }
-}
-
+};

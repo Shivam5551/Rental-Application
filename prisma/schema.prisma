@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -87,16 +86,18 @@ model Review {
 }
 
 model Booking {
-  id         String    @id @default(uuid())
+  id         String        @id @default(uuid())
   startDate  DateTime
   endDate    DateTime
   totalPrice Int
-  createdAt  DateTime  @default(now())
+  createdAt  DateTime      @default(now())
   userId     String
   propertyId String
-  orderId    String    @unique
-  user       User      @relation(fields: [userId], references: [id])
-  property   Property  @relation(fields: [propertyId], references: [id])
+  orderId    String        @unique
+  verified   Boolean       @default(false)
+  status     BookingStatus
+  user       User          @relation(fields: [userId], references: [id])
+  property   Property      @relation(fields: [propertyId], references: [id])
   payment    Payment[]
 
   @@unique([userId, propertyId, startDate, orderId])
@@ -136,6 +137,7 @@ model Token {
 
 enum PaymentStatus {
   PENDING
+  CAPTURED
   COMPLETED
   FAILED
   REFUNDED
@@ -144,4 +146,11 @@ enum PaymentStatus {
 enum Provider {
   Google
   Email
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  EXPIRED
+  CANCELLED
 }

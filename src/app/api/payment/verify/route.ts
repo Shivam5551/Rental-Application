@@ -1,5 +1,5 @@
 import { authOptions } from "@/utils/authOptions";
-import prisma from "@/utils/prismaClient";
+// import prisma from "@/utils/prismaClient";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from 'crypto';
@@ -26,9 +26,11 @@ export async function POST(request: NextRequest) {
             orderCreationId,
             razorpayPaymentId,
             razorpaySignature,
-            totalAmount
+            // totalAmount
         } = await request.json();
 
+        // console.log("Verify Body: ", orderCreationId, razorpayPaymentId, razorpaySignature)
+        
         if (!orderCreationId || !razorpayPaymentId || !razorpaySignature) {
             return NextResponse.json({
                 success: false,
@@ -53,48 +55,31 @@ export async function POST(request: NextRequest) {
             }, { status: 400 });
         }
 
-        const result = await prisma.$transaction(async (tx) => {
-            
-            const booking = await tx.booking.findUnique({
+        const verify = await prisma?.$transaction(async (txn) => {
+            await txn.payment.update({
                 where: {
-                    userId: session.user.id,
-                    orderId: orderCreationId
-                }
-            })
-            if(!booking) {
-                return;
-            }
-
-            const payment = await tx.payment.update({
-                where: {
-                    razorpayOrderId: orderCreationId,
+                    razorpayOrderId: orderCreationId
                 },
                 data: {
-                    amount: Math.round(parseFloat(totalAmount) * 100),
-                    currency: 'INR',
-                    status: 'COMPLETED',
-                    razorpayPaymentId: razorpayPaymentId,
-                    razorpaySignature: razorpaySignature,
-                    userId: session.user.id
+                    razorpayPaymentId,
+                    razorpaySignature
                 }
-            });
-
-            return { booking, payment };
-        });
-
-        if(!result) {
-            return NextResponse.json({
-                success: false,
-                message: "Unable to process Payment",
-            }, {
-                status: 201
             })
-        }
+            const booking = await txn.booking.update({
+                where: {
+                    orderId: orderCreationId
+                }, data: {
+                    verified: true
+                }
+            })
+            return { booking }
+        })
+
         return NextResponse.json({
             success: true,
-            message: 'Payment verified and booking created successfully',
+            message: 'Payment verified and booking is processing',
             paymentId: razorpayPaymentId,
-            bookingId: result.booking.id
+            bookingId: verify?.booking.id
         }, { status: 200 });
 
     } catch (error) {

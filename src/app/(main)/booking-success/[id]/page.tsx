@@ -245,7 +245,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                     <div className="flex items-center space-x-2 mb-3">
                                         <CreditCardIcon className="h-5 w-5 text-green-500" />
                                         <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                            Payment Confirmed
+                                            Payment Pending
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
