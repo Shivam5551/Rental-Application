@@ -31,6 +31,16 @@ export async function POST(request: NextRequest) {
         }
         const event = JSON.parse(body);
         console.log("Webhook evenet:", event.event);
+
+        // creating webhookEvent table record for better debugging 
+        // like if user say payment done but no booking then lookup to this table for debugging
+        const webhookEvent = await prisma?.webhookEvent.create({
+            data: {
+                eventType: event.event,
+                payload: event,
+                processed: false
+            }
+        });
         switch (event.event) {
             case "payment.captured": {
                 const paymentEntity = event.payload.payment.entity;
@@ -48,10 +58,7 @@ export async function POST(request: NextRequest) {
                             "Payment not found"
                         );
                     }
-                    if (
-                        payment.status ===
-                        "COMPLETED"
-                    ) {
+                    if (payment.status === "COMPLETED") {
                         return;
                     }
                     await txn.payment.update({
@@ -74,6 +81,14 @@ export async function POST(request: NextRequest) {
                             status: "CONFIRMED"
                         }
                     });
+                    await txn.webhookEvent.update({
+                        where: {
+                            id: webhookEvent.id
+                        }, 
+                        data: {
+                            processed: true
+                        }
+                    })
                 })
                 break;
             }
@@ -121,10 +136,10 @@ export async function POST(request: NextRequest) {
         });
 
     } catch (error) {
-        console.error("Webhook Error:",error);
+        console.error("Webhook Error:", error);
 
-        return NextResponse.json({ 
-            success: false 
+        return NextResponse.json({
+            success: false
         }, { status: 500 });
     }
 }

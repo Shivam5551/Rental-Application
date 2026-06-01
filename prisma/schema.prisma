@@ -39,7 +39,6 @@ model Property {
   updatedAt     DateTime        @updatedAt
   userId        String
   verified      Boolean         @default(false)
-  booked        Boolean         @default(false)
   petfriendly   Boolean         @default(false)
   area          Int
   beds          Int
@@ -95,7 +94,7 @@ model Booking {
   propertyId String
   orderId    String        @unique
   verified   Boolean       @default(false)
-  status     BookingStatus
+  status     BookingStatus  @default(PENDING)
   user       User          @relation(fields: [userId], references: [id])
   property   Property      @relation(fields: [propertyId], references: [id])
   payment    Payment[]
@@ -133,6 +132,14 @@ model Token {
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model WebhookEvent {
+  id        String   @id @default(uuid())
+  eventType String
+  payload   Json
+  processed Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
 
 enum PaymentStatus {
