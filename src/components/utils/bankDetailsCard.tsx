@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useState } from "react";
 import { LabelledInputBox } from "./labelledInputBox";
-import { SubmitButton } from "./submitButton";
+import { SubmitButton } from "../buttons/submitButton";
 import { toast } from "react-toastify";
 import axios, { isAxiosError } from "axios";
 

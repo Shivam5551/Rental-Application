@@ -1,6 +1,6 @@
 'use server';
 import { getProperty } from "@/actions/getProperty";
-import { RentPropertyForm } from "@/components/RentPropertyForm";
+import { RentPropertyForm } from "@/components/rent/RentPropertyForm";
 
 interface IProperty {
     title: string;

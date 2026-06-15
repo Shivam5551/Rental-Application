@@ -161,7 +161,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                     className="w-10 h-10 rounded-full flex items-center justify-center dark:text-white object-cover border-2 border-gray-200 dark:border-slate-600"
                                 />
                             ) : (
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center border-2 border-gray-200 dark:border-slate-600">
+                                <div className="w-10 h-10 rounded-full bg-linear-to-r from-blue-500 to-purple-600 flex items-center justify-center border-2 border-gray-200 dark:border-slate-600">
                                     <FaUser className="w-4 h-4 text-white" />
                                 </div>
                             )}

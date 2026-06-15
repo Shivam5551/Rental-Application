@@ -1,13 +1,13 @@
 'use client'
 
-import { GoogleContinueButton } from "@/components/googleContinueButton";
-import Heading from "@/components/heading";
-import { LabelledInputBox } from "@/components/labelledInputBox"
-import { ORDIV } from "@/components/orDiv";
-import { PasswordInputBox } from "@/components/passwordInputbox"
-import { SubHeading } from "@/components/subHeading";
-import { SubmitButton } from "@/components/submitButton";
-import WarnHeading from "@/components/warnheading";
+import { GoogleContinueButton } from "@/components/buttons/googleContinueButton";
+import Heading from "@/components/utils/heading";
+import { LabelledInputBox } from "@/components/utils/labelledInputBox"
+import { ORDIV } from "@/components/utils/orDiv";
+import { PasswordInputBox } from "@/components/utils/passwordInputbox"
+import { SubHeading } from "@/components/utils/subHeading";
+import { SubmitButton } from "@/components/buttons/submitButton";
+import WarnHeading from "@/components/utils/warnheading";
 import axios, { isAxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";

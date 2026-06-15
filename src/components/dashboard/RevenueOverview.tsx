@@ -1,8 +1,8 @@
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { Icons } from "./dashboardCardContainer";
 import { RenterBarChart } from "./dashboardRenterBarChart"
-import Heading from "./heading"
-import { SubHeading } from "./subHeading"
+import Heading from "../utils/heading"
+import { SubHeading } from "../utils/subHeading"
 import { FaDownload } from "react-icons/fa";
 
 export const RevenueOverview = () => {

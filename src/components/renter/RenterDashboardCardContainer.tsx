@@ -1,5 +1,5 @@
 'use server'
-import { DashboardCard } from "../dashboardCard"
+import { DashboardCard } from "../dashboard/dashboardCard"
 import { AiOutlineMessage } from "react-icons/ai"
 import { HiOutlineHome } from "react-icons/hi2"
 import { LuClipboardList } from "react-icons/lu"

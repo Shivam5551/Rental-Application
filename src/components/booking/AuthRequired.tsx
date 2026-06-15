@@ -1,4 +1,4 @@
-import { LoginButton } from '@/components/loginButton';
+import { LoginButton } from '@/components/buttons/loginButton';
 
 export function AuthRequired() {
   return (

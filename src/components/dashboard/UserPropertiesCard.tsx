@@ -60,9 +60,6 @@ export const UserPropertiesCard = async () => {
                                     <span className={`text-xs px-2 py-1 rounded ${prop.petfriendly ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-800'}`}>
                                         {prop.petfriendly ? 'Pet Friendly' : 'No Pets'}
                                     </span>
-                                    <span className={`text-xs px-2 py-1 rounded ${prop.booked ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-900'}`}>
-                                        {prop.booked ? 'Booked' : 'Available'}
-                                    </span>
                                 </div>
                                 <a
                                     href={`/property/update/${prop.id}`}

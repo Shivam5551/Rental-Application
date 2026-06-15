@@ -1,5 +1,5 @@
 import { getPopularProperties } from "@/actions/getPopularProperties"
-import { PropertyCardWrapper } from "../propretyCardWrapper";
+import { PropertyCardWrapper } from "../property/propretyCardWrapper";
 
 export const PopularProperties = async () => {
     const properties = await getPopularProperties();

@@ -1,5 +1,5 @@
 import { getProperties } from "@/actions/getProperties";
-import { PropertyPageRedirectButton } from "./propertyPageRedirectButton";
+import { PropertyPageRedirectButton } from "../buttons/propertyPageRedirectButton";
 import { PropertyCardWrapper } from "./propretyCardWrapper";
 
 export const FeaturedProperties = async () => {

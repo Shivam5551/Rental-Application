@@ -5,7 +5,7 @@ import { upload } from '@imagekit/next';
 import { IoCloudUploadOutline } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { ImageKitAuthenticator } from '@/utils/ImagekitAuthenticator';
-import { IAuthenticator } from './UpdateProfile';
+import { IAuthenticator } from '../dashboard/UpdateProfile';
 import Image from 'next/image';
 import axios from 'axios';
 import { redirect } from 'next/navigation';

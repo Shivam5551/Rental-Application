@@ -1,9 +1,9 @@
 
 import HomepageImage from "../../assets/property.jpeg";
-import { Button } from '../../components/button'
+import { Button } from '../../components/buttons/button'
 import Link from "next/link";
-import { FeaturedProperties } from "@/components/featuredProperties";
-import { PlatformStats } from "@/components/platformstats";
+import { FeaturedProperties } from "@/components/property/featuredProperties";
+import { PlatformStats } from "@/components/about/platformstats";
 import { AboutTestimonials } from "@/components/about";
 import Image from "next/image";
 

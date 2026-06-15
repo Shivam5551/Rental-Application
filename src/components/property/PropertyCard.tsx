@@ -1,6 +1,6 @@
 import { Property } from '@/actions/getProperties';
 import { FaStar, FaBed, FaBath, FaRulerCombined, FaPaw, FaShieldAlt, FaCheckCircle } from 'react-icons/fa';
-import { Buttons } from './bookNowViewDetailsButton';
+import { Buttons } from '../buttons/bookNowViewDetailsButton';
 import Image from 'next/image';
 
 interface PropertyCardProps {

@@ -1,13 +1,13 @@
 'use server'
 
 import { ReactNode } from "react";
-import { DarkModeToggle } from "./darkmodetoggle";
+import { DarkModeToggle } from "../buttons/darkmodetoggle";
 import { Searchbar } from "./searchbar";
-import { MenubarToggle } from "./menubartoggle";
-import { LoginButton } from "./loginButton";
+import { MenubarToggle } from "../buttons/menubartoggle";
+import { LoginButton } from "../buttons/loginButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
-import { LogoutButton } from "./logoutButton";
+import { LogoutButton } from "../buttons/logoutButton";
 import { LuNotebookTabs } from "react-icons/lu";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineRateReview } from "react-icons/md";

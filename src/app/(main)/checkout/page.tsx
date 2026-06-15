@@ -1,6 +1,6 @@
 'use server';
 
-import CheckoutComponent from "@/components/checkoutComponent";
+import CheckoutComponent from "@/components/booking/checkoutComponent";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import Script from "next/script";

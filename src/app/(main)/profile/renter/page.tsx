@@ -4,7 +4,7 @@ import { PopularProperties } from "@/components/renter/PopularProperties";
 import { RenterBookingsCard } from "@/components/renter/RenterBookingsCard";
 import { RenterDashboardCardContainer } from "@/components/renter/RenterDashboardCardContainer";
 import { RenterWelcomeCard } from "@/components/renter/RenterWelcomeCard";
-import { UpdateProfile } from "@/components/UpdateProfile";
+import { UpdateProfile } from "@/components/dashboard/UpdateProfile";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import Link from "next/link";

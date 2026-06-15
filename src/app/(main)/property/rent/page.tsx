@@ -1,4 +1,4 @@
-import { RentPropertyForm } from "@/components/RentPropertyForm";
+import { RentPropertyForm } from "@/components/rent/RentPropertyForm";
 
 export default function RentPropertyPage() {
   return (

@@ -1,5 +1,5 @@
 import { getProperties } from "@/actions/getProperties";
-import { PropertiesContainer } from "@/components/PropertiesContainer";
+import { PropertiesContainer } from "@/components/property/PropertiesContainer";
 
 interface PropertiesPageProps {
   searchParams: Promise<{

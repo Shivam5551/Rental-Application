@@ -1,10 +1,10 @@
 import { getUserDetails } from "@/actions/getUserDeatails";
-import { BankDetailsCard } from "@/components/bankDetailsCard";
-import { DashboardCardContainer } from "@/components/dashboardCardContainer";
-import { RevenueOverview } from "@/components/RevenueOverview";
-import { UpdateProfile } from "@/components/UpdateProfile";
-import { UserPropertiesCard } from "@/components/UserPropertiesCard";
-import { IWelcomeCard, WelcomeCard } from "@/components/welcomecard";
+import { BankDetailsCard } from "@/components/utils/bankDetailsCard";
+import { DashboardCardContainer } from "@/components/dashboard/dashboardCardContainer";
+import { RevenueOverview } from "@/components/dashboard/RevenueOverview";
+import { UpdateProfile } from "@/components/dashboard/UpdateProfile";
+import { UserPropertiesCard } from "@/components/dashboard/UserPropertiesCard";
+import { IWelcomeCard, WelcomeCard } from "@/components/dashboard/welcomecard";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import Link from "next/link";

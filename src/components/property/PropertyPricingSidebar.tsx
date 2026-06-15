@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { BookNowButton } from '@/components/BookNowButton';
+import { BookNowButton } from '@/components/buttons/BookNowButton';
 
 interface Host {
   id: string;

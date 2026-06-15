@@ -151,7 +151,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-4">
                                         <div className="flex items-start space-x-3">
-                                            <CalendarIcon className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                                            <CalendarIcon className="h-5 w-5 text-blue-500 mt-0.5 shrink-0" />
                                             <div className="min-w-0">
                                                 <p className="text-sm text-gray-600 dark:text-gray-400">Check-in</p>
                                                 <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
@@ -166,7 +166,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                         </div>
 
                                         <div className="flex items-start space-x-3">
-                                            <CalendarIcon className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                                            <CalendarIcon className="h-5 w-5 text-orange-500 mt-0.5 shrink-0" />
                                             <div className="min-w-0">
                                                 <p className="text-sm text-gray-600 dark:text-gray-400">Check-out</p>
                                                 <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
@@ -183,7 +183,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
 
                                     <div className="space-y-4">
                                         <div className="flex items-start space-x-3">
-                                            <UserIcon className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                                            <UserIcon className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
                                             <div className="min-w-0">
                                                 <p className="text-sm text-gray-600 dark:text-gray-400">Booking ID</p>
                                                 <p className="font-medium text-gray-900 dark:text-white font-mono text-sm">
@@ -193,7 +193,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                         </div>
 
                                         <div className="flex items-start space-x-3">
-                                            <div className="h-5 w-5 bg-purple-500 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                                            <div className="h-5 w-5 bg-purple-500 rounded-full flex items-center justify-center mt-0.5 shrink-0">
                                                 <span className="text-white text-xs font-bold">{nights}</span>
                                             </div>
                                             <div className="min-w-0">

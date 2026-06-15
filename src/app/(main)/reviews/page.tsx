@@ -8,7 +8,7 @@ import {
     ReviewFilters,
     ReviewsContainer
 } from '@/components/reviews';
-import Pagination from '@/components/Pagination';
+import Pagination from '@/components/buttons/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function ReviewsPage() {

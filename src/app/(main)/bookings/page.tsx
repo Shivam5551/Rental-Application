@@ -1,9 +1,9 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 import { getBookedProperties } from '@/actions/getBookedProperties';
-import { EmptyBookingsState } from '@/components/EmptyBookingsState';
-import { UnauthorizedAccess } from '@/components/UnauthorizedAccess';
-import { BookedPropertiesCard } from '@/components/bookedPropertiesCard';
+import { EmptyBookingsState } from '@/components/booking/EmptyBookingsState';
+import { UnauthorizedAccess } from '@/components/utils/UnauthorizedAccess';
+import { BookedPropertiesCard } from '@/components/booked/bookedPropertiesCard';
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);

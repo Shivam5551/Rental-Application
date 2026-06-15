@@ -1,4 +1,4 @@
-import { BookingForm } from '@/components/BookingForm';
+import { BookingForm } from '@/components/booking/BookingForm';
 
 interface BookingFormSectionProps {
   propertyId: string;

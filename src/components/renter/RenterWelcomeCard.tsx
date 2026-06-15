@@ -4,8 +4,8 @@ import DashboardImage from '../../assets/dashboard.png';
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Image from "next/image";
-import Heading from '../heading';
-import { DashboardChart } from '../dashboardChart';
+import Heading from '../utils/heading';
+import { DashboardChart } from '../dashboard/dashboardChart';
 
 export interface IRenterWelcomeCard {
     username: string,

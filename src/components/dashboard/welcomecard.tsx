@@ -1,7 +1,7 @@
 'use client'
 
-import Heading from "./heading"
-import DashboardImage from '../assets/dashboard.png';
+import Heading from "../utils/heading"
+import DashboardImage from '../../assets/dashboard.png';
 import { DashboardChart } from "./dashboardChart";
 import { useSession } from "next-auth/react";
 import { useState } from "react";

@@ -1,5 +1,5 @@
-import { Appbar } from "@/components/appbar";
-import { Footer } from "@/components/footer";
+import { Appbar } from "@/components/utils/appbar";
+import { Footer } from "@/components/utils/footer";
 import '../globals.css';
 import { NextAuthProvider } from "../NextAuthProvider";
 
