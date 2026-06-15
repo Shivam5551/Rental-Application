@@ -11,7 +11,6 @@ interface Property {
     title: string;
     location: string;
     petfriendly: boolean;
-    booked: boolean;
 }
 
 export const UserPropertiesCard = async () => {

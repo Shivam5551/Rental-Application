@@ -532,6 +532,11 @@ const properties = [
   }
 ];
 
+const pickRandom = <T,>(items: readonly T[]) => items[Math.floor(Math.random() * items.length)];
+
+const makeRandomId = (prefix: string) =>
+  `${prefix}_${Math.random().toString(36).slice(2, 11)}_${Date.now()}`;
+
 async function main() {
   console.log("🌱 Starting database seeding...");
 
@@ -542,6 +547,7 @@ async function main() {
     await prisma.booking.deleteMany();
     await prisma.review.deleteMany();
     await prisma.inquiry.deleteMany();
+    await prisma.webhookEvent.deleteMany();
     await prisma.propertyImage.deleteMany();
     await prisma.property.deleteMany();
     await prisma.token.deleteMany();
@@ -594,7 +600,7 @@ async function main() {
     const createdProperties = [];
     for (let i = 0; i < properties.length; i++) {
       const propertyData = properties[i];
-      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomUser = pickRandom(createdUsers);
       
       try {
         const property = await prisma.property.create({
@@ -628,15 +634,17 @@ async function main() {
       } catch (error) {
         console.error(`   ❌ Failed to create property ${propertyData.title}:`, error);
       }
-    }    // Create bookings
+    }
+
+    // Create bookings
     console.log("📅 Creating bookings...");
     const bookings = [];
     const bookingAttempts = Math.min(20, createdProperties.length * 2);
     const createdBookings = new Set(); // Track created bookings to avoid duplicates
     
     for (let i = 0; i < bookingAttempts; i++) {
-      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
-      const randomProperty = createdProperties[Math.floor(Math.random() * createdProperties.length)];
+      const randomUser = pickRandom(createdUsers);
+      const randomProperty = pickRandom(createdProperties);
       
       // Ensure user doesn't book their own property
       if (randomUser.id === randomProperty.userId) continue;
@@ -661,6 +669,9 @@ async function main() {
         
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + Math.floor(Math.random() * 7) + 1);
+        const now = new Date();
+        const bookingStatus = endDate < now ? "EXPIRED" : startDate <= now ? "CONFIRMED" : "PENDING";
+        const isVerified = bookingStatus === "CONFIRMED" || bookingStatus === "EXPIRED";
         
         // Create a unique key to check for duplicates
         const bookingKey = `${randomUser.id}-${randomProperty.id}-${startDate.toISOString().split('T')[0]}`;
@@ -668,7 +679,7 @@ async function main() {
         
         const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         const totalPrice = (randomProperty.price - randomProperty.discount) * nights;
-        const orderId = `order_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
+        const orderId = makeRandomId("order");
         
         const booking = await prisma.booking.create({
           data: {
@@ -676,6 +687,8 @@ async function main() {
             endDate,
             totalPrice,
             orderId,
+            status: bookingStatus,
+            verified: isVerified,
             userId: randomUser.id,
             propertyId: randomProperty.id
           }
@@ -693,18 +706,21 @@ async function main() {
     let paymentCount = 0;
     for (const booking of bookings) {
       try {
-        const paymentStatuses = ["COMPLETED", "COMPLETED", "COMPLETED", "PENDING", "FAILED", "REFUNDED"];
-        const randomStatus = paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)];
-        const uniqueOrderId = `rzp_order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const paymentStatuses = booking.status === "PENDING"
+          ? ["PENDING", "PENDING", "FAILED"]
+          : ["CAPTURED", "COMPLETED", "COMPLETED", "FAILED", "REFUNDED"];
+        const randomStatus = pickRandom(paymentStatuses);
+        const uniqueOrderId = makeRandomId("rzp_order");
+        const isCompletedPayment = randomStatus === "CAPTURED" || randomStatus === "COMPLETED";
 
         await prisma.payment.create({
           data: {
             amount: booking.totalPrice,
             currency: "INR",
-            status: randomStatus as "COMPLETED" | "PENDING" | "FAILED" | "REFUNDED",
+            status: randomStatus as "CAPTURED" | "COMPLETED" | "PENDING" | "FAILED" | "REFUNDED",
             razorpayOrderId: uniqueOrderId,
-            razorpayPaymentId: randomStatus === "COMPLETED" ? `pay_${Math.random().toString(36).substr(2, 9)}` : "",
-            razorpaySignature: randomStatus === "COMPLETED" ? `sig_${Math.random().toString(36).substr(2, 9)}` : "",
+            razorpayPaymentId: isCompletedPayment ? makeRandomId("pay") : null,
+            razorpaySignature: isCompletedPayment ? makeRandomId("sig") : null,
             userId: booking.userId,
             bookingId: booking.id
           }
@@ -713,6 +729,30 @@ async function main() {
         console.log(`   ✓ Created payment for booking ${booking.id} with status ${randomStatus}`);
       } catch (error) {
         console.error(`   ❌ Failed to create payment for booking ${booking.id}:`, error);
+      }
+    }
+
+    // Create webhook events
+    console.log("🪝 Creating webhook events...");
+    let webhookEventCount = 0;
+    for (const booking of bookings.slice(0, Math.min(10, bookings.length))) {
+      try {
+        await prisma.webhookEvent.create({
+          data: {
+            eventType: `booking.${booking.status.toLowerCase()}`,
+            payload: {
+              bookingId: booking.id,
+              userId: booking.userId,
+              propertyId: booking.propertyId,
+              status: booking.status,
+              totalPrice: booking.totalPrice
+            },
+            processed: booking.status !== "PENDING"
+          }
+        });
+        webhookEventCount++;
+      } catch (error) {
+        console.error(`   ❌ Failed to create webhook event for booking ${booking.id}:`, error);
       }
     }
 
@@ -816,6 +856,7 @@ async function main() {
     🏠 ${createdProperties.length} properties
     📅 ${bookings.length} bookings
     💳 ${paymentCount} payments
+    🪝 ${webhookEventCount} webhook events
     ⭐ ${reviewCount} reviews
     💬 ${inquiryCount} inquiries
     `);

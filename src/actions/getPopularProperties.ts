@@ -38,7 +38,6 @@ export const getPopularProperties= async (): Promise<Property[]>  => {
             discount: true,
             location: true,
             verified: true,
-            booked: true,
             petfriendly: true,
             area: true,
             beds: true,

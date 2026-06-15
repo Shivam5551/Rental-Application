@@ -8,7 +8,6 @@ export interface Property {
   discount: number;
   location: string;
   verified: boolean;
-  booked: boolean;
   petfriendly: boolean;
   area: number;
   beds: number;
@@ -55,7 +54,6 @@ export async function getProperties(searchParams: SearchParams = {}): Promise<Pr
     } = searchParams;
 
     const where: Record<string, unknown> = {
-      booked: false,
       verified: true,
     };
 
@@ -150,7 +148,6 @@ export async function getProperties(searchParams: SearchParams = {}): Promise<Pr
       discount: property.discount,
       location: property.location,
       verified: property.verified,
-      booked: property.booked,
       petfriendly: property.petfriendly,
       area: property.area,
       beds: property.beds,

@@ -21,7 +21,6 @@ export const userProperty = async () => {
                 select: {
                     id: true,
                     showcaseimage: true,
-                    booked: true,
                     discount: true,
                     price: true,
                     title: true,

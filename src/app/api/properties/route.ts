@@ -85,7 +85,6 @@ export async function POST(request: NextRequest) {
         location,
         petfriendly: !!petfriendly,
         showcaseimage,
-        booked: false,
         userId: user.id
       },
       update: {
