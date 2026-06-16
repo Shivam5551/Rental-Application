@@ -1,6 +1,6 @@
 # BookIT 🏠
 
-A comprehensive rental property platform built with Next.js 15, designed to revolutionize property booking in India. Similar to Airbnb but tailored for the Indian market with advanced features for both property owners and travelers.
+A comprehensive rental property platform built with Next.js 16, designed to revolutionize property booking in India. Similar to Airbnb but tailored for the Indian market with advanced features for both property owners and travelers.
 
 > **⚠️ Development Status**: This project is currently under active development. New features are being continuously added and existing functionality is being enhanced. Please check the [Ongoing Features](#-ongoing-features) section for upcoming improvements.
 
@@ -57,7 +57,7 @@ A comprehensive rental property platform built with Next.js 15, designed to revo
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- **Next.js 15**: Latest React framework with App Router and Turbopack
+- **Next.js 16**: Latest React framework with App Router and Turbopack
 - **React 19**: Latest React with concurrent features
 - **TypeScript**: Full type safety and developer experience
 - **Tailwind CSS 4**: Modern utility-first CSS framework with dark mode
@@ -265,7 +265,7 @@ npx prisma generate    # Generate Prisma client
 
 ### **What Makes BookIT Special**
 
-- **🚀 Modern Architecture**: Built with the latest Next.js 15 and React 19 features
+- **🚀 Modern Architecture**: Built with the latest Next.js 16 and React 19 features
 - **📱 Mobile-First**: Optimized for mobile usage 
 - **🔒 Security-First**: Comprehensive security measures and payment protection
 - **⚡ Performance**: Optimized for fast loading even on slower connections
