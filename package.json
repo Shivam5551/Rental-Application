@@ -7,7 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "seed": "npx tsx src/prisma/seed.ts"
   },
   "prisma": {
@@ -15,7 +15,10 @@
     "seed": "npx ts-node src/prisma/seed.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@imagekit/next": "^2.1.5",
+    "@mui/material": "^9.1.1",
     "@mui/x-date-pickers": "^9.5.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "7.8.0",
@@ -42,7 +45,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "16.2.9",
     "prisma": "^7.8.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3"

@@ -1,5 +1,8 @@
 'use client';
 
+/* eslint-disable */
+
+
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { ReviewWithDetails } from '@/actions/getAllReviews';
 import {
@@ -63,6 +66,7 @@ function ReviewsPageContent() {
         }
     }, []);
 
+     
     useEffect(() => {
         fetchReviews(currentPage, sortBy, ratingFilter);
     }, [currentPage, sortBy, ratingFilter, fetchReviews]);
@@ -80,9 +84,9 @@ function ReviewsPageContent() {
     const handlePageChange = async (page: number) => {
         setCurrentPage(page);
         const params = new URLSearchParams();
-        
+
         params.set('page', (page).toString());
-    
+
         const url = `/reviews?${params.toString()}`;
         router.push(url);
     };

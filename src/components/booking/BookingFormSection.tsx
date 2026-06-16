@@ -1,4 +1,5 @@
 import { BookingForm } from '@/components/booking/BookingForm';
+import { PropertyPage } from './PropertyPage';
 
 interface BookingFormSectionProps {
   propertyId: string;
@@ -12,7 +13,7 @@ export function BookingFormSection({ propertyId, pricePerNight }: BookingFormSec
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         Booking Details
       </h2>
-      <BookingForm 
+      <PropertyPage 
         propertyId={propertyId} 
         pricePerNight={pricePerNight}
       />

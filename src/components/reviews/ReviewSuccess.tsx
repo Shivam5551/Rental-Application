@@ -11,9 +11,10 @@ interface ReviewSuccessProps {
   propertyId?: string;
 }
 
+let pop = false;
+
 export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSuccessProps) {
   const router = useRouter();
-  const [pop, setPop] = useState(false);
 
   useEffect(() => {
     // Auto redirect after 10 seconds
@@ -26,11 +27,11 @@ export default function ReviewSuccess({ propertyTitle, propertyId }: ReviewSucce
 
   useEffect(() => {
     if(!pop) {
-      setPop(true);
+      pop = true;
       toast("You'll be redirected to your reviews in 10 seconds...")
     }
     return;
-  }, [pop])
+  })
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center px-4">

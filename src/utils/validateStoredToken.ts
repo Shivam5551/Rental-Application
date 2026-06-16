@@ -1,3 +1,5 @@
+import prisma from '@/utils/prismaClient';
+
 export const isTokenExpired = (expiresAt: Date) => {
     return (new Date() > expiresAt)
 }

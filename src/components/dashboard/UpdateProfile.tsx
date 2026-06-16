@@ -5,10 +5,10 @@ import { upload } from "@imagekit/next";
 import axios, { isAxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-export interface IAuthenticator{
+export interface IAuthenticator {
     token: string;
     expire: number;
     signature: string;
@@ -29,16 +29,16 @@ export const UpdateProfile = () => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [updateState, setUpdateState] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const abortController = new AbortController();
+    const abortController = useRef(new AbortController());
 
 
     const authenticator = useCallback(async () => {
         const data = await ImageKitAuthenticator();
-        if(!data) {
+        if (!data) {
             toast.error("Failed to Authenticate")
             return null;
         }
-        const { signature, expire, token, publicKey }: IAuthenticator  = data;
+        const { signature, expire, token, publicKey }: IAuthenticator = data;
         return { signature, expire, token, publicKey };
     }, []);
 
@@ -51,7 +51,7 @@ export const UpdateProfile = () => {
         let authParams;
         try {
             authParams = await authenticator();
-            if(!authParams) {
+            if (!authParams) {
                 throw new Error("Auth Error")
             }
         } catch (authError) {
@@ -62,14 +62,14 @@ export const UpdateProfile = () => {
         const { signature, expire, token, publicKey }: IAuthenticator = authParams;
 
         try {
-            const uploadResponse = await upload({
+                const uploadResponse = await upload({
                 expire,
                 token,
                 signature,
                 publicKey,
                 file,
                 fileName: file.name,
-                abortSignal: abortController.signal,
+                    abortSignal: abortController.current.signal,
             });
             return uploadResponse.url;
         } catch (error) {
@@ -78,15 +78,22 @@ export const UpdateProfile = () => {
             return;
         }
     };
+    useEffect(() => {
+        return () => {
+            if (imagePreview) {
+                URL.revokeObjectURL(imagePreview);
+            }
+        };
+    }, [imagePreview]);
 
     useEffect(() => {
         const submitRequest = async () => {
-            const payload: Record<string,string> = {};
+            const payload: Record<string, string> = {};
             let uploadedImageUrl: string | null = null;
 
             if (updateProfilePhoto && selectedImage) {
                 const uploadResult = await handleUpload();
-                if(!uploadResult) {
+                if (!uploadResult) {
                     toast.error("Unable to update profile try again later!");
                     setUpdateState(false);
                     return;
@@ -107,7 +114,7 @@ export const UpdateProfile = () => {
 
                 if (res.data.success) {
                     const sessionUpdateData: Record<string, string> = {};
-                    
+
                     if (updateName && newName.trim()) {
                         sessionUpdateData.name = newName.trim();
                     }
@@ -121,7 +128,7 @@ export const UpdateProfile = () => {
                     if (Object.keys(sessionUpdateData).length > 0) {
                         await update(sessionUpdateData);
                     }
-                    
+
                     setUpdateName(false);
                     setUpdateEmail(false);
                     setUpdatePassword(false);
@@ -132,7 +139,7 @@ export const UpdateProfile = () => {
                     setOldPassword('');
                     setSelectedImage(null);
                     setImagePreview(null);
-                    
+
                     toast.success("Profile Updated Successfully")
                 } else {
                     toast.error(res.data.message || "Failed to update profile");
@@ -153,18 +160,12 @@ export const UpdateProfile = () => {
         if (updateState) {
             submitRequest();
         }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateState]);
 
-    useEffect(() => {
-        if (selectedImage) {
-            setImagePreview(URL.createObjectURL(selectedImage));
-        }
-        return () => setImagePreview(null);
-    }, [selectedImage]);
 
-      const handleUpdateDetails = useCallback(() => {
+    const handleUpdateDetails = useCallback(() => {
         if (updatePassword && (!oldPassword.trim() || !newPassword.trim())) {
             toast.error("Please fill both password fields");
             return;
@@ -183,19 +184,24 @@ export const UpdateProfile = () => {
     }, [updateEmail, updatePassword, oldPassword, newPassword, updateName, updateProfilePhoto, updateState, newName, newEmail]);
 
 
-    const handleImageChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setSelectedImage(file);
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (imagePreview) {
+            URL.revokeObjectURL(imagePreview);
         }
-    }, []);
+
+        setSelectedImage(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
 
 
     if (!session) {
         return null;
     }
 
-  
+
 
     return (
         <div className="flex flex-col p-5 items-center shadow-md bg-neutral-100 dark:bg-slate-800 rounded-xl justify-center">
@@ -214,7 +220,7 @@ export const UpdateProfile = () => {
                         src={session.user.image}
                         alt=""
                         width={100}
-                        height={100} 
+                        height={100}
                     />
                 ) : <div className="bg-neutral-200 p-8 rounded-full dark:bg-black dark:text-white text-2xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">
@@ -237,7 +243,17 @@ export const UpdateProfile = () => {
                                 PNG, JPG SVG, WEBP, and GIF are Allowed.
                             </p>
                         </div>
-                        <button onClick={() => { setSelectedImage(null); setUpdateProfilePhoto(false); setImagePreview(null) }} className="h-full w-fit flex items-center justify-center p-2 rounded-xl cursor-pointer text-white hover:bg-red-500 bg-red-700">
+                        <button onClick={() => {
+                            if (imagePreview) {
+                                URL.revokeObjectURL(imagePreview);
+                            }
+
+                            setSelectedImage(null);
+                            setUpdateProfilePhoto(false);
+                            setImagePreview(null);
+                        }}
+                            className="h-full w-fit flex items-center justify-center p-2 rounded-xl cursor-pointer text-white hover:bg-red-500 bg-red-700"
+                        >
                             Cancel
                         </button>
                     </div> : ""}

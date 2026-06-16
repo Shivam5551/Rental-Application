@@ -87,7 +87,7 @@ export default function CheckoutComponent() {
                 name: "BookIT",
                 description: `Booking for ${nights} nights`,
                 order_id: orderId,
-                /* eslint-disable @typescript-eslint/no-explicit-any */
+                 
                 handler: async function (response: any) {
                     const data = {
                         orderCreationId: orderId,
@@ -130,14 +130,14 @@ export default function CheckoutComponent() {
             };
 
             const paymentObject = new window.Razorpay(options);
-            /* eslint-disable @typescript-eslint/no-explicit-any */
+             
             paymentObject.on("payment.failed", function (response: any) {
                 setLoading(false);
                 console.log("Payment failed:", response.error);
                 toast.error("Payment failed: " + response.error.description);
                 router.push(`/booking-failed/${orderId}`)
             });
-            /* eslint-disable @typescript-eslint/no-explicit-any */
+             
             paymentObject.on("payment.cancelled", function (response: any) {
                 setLoading(false);
                 console.log("Payment cancelled", response.error);

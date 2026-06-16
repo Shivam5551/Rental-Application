@@ -11,7 +11,7 @@ const Home = async () => {
 
     return (
       <div className="bg-white dark:bg-slate-950 text-gray-900 dark:text-white min-h-screen flex flex-col">
-        <main className="flex-grow">
+        <main className="grow">
           <div className="bg-white dark:bg-slate-950 items-center px-5 flex py-16">
             <div className="container mx-auto px-4">
               <h1 className="text-4xl xl:text-6xl font-bold leading-tight">

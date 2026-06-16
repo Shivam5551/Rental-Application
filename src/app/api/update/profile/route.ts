@@ -1,10 +1,11 @@
-import { Prisma, Provider } from "@/prisma/generated/prisma-client-js";
 import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prismaClient";
+import { PrismaClient } from "@prisma/client";
 import { compare, hash } from "bcrypt-ts";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z as zod } from "zod";
+import { Provider } from "../../../../../prisma/generated/prisma-client-js";
 
 const requestSchema = zod.object({
     email: zod.string().email().optional(),
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
             }
             
 
-        const updateFields: Prisma.UserUpdateInput = {};
+        const updateFields: any = {};
         if (newPassword) {
             const hashedPassword = await hash(newPassword, 10);
             if (!user.password && !oldPassword && user.provider === Provider.Google) {

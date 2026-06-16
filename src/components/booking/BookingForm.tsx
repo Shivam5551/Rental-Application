@@ -2,40 +2,38 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import dayjs, { Dayjs } from 'dayjs';
+import { BookingDatePicker } from './DatePicker';
 
 interface BookingFormProps {
   propertyId: string;
   pricePerNight: number;
+  bookedDates: { endDate: Date; startDate: Date; }[],
 }
 
-export const BookingForm = ({ propertyId, pricePerNight }: BookingFormProps) => {
+export const BookingForm = ({ propertyId, pricePerNight, bookedDates }: BookingFormProps) => {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    checkIn: '',
-    checkOut: '',
-    guests: 1
-  });
+  const [guests, setGuests] = useState(1);
+  const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
+  const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const calculateNights = () => {
-    if (formData.checkIn && formData.checkOut) {
-      const checkIn = new Date(formData.checkIn);
-      const checkOut = new Date(formData.checkOut);
-      const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (checkIn && checkOut) {
+      const diffDays = checkOut.diff(checkIn, "day");
       return diffDays;
     }
     return 0;
   };
 
-  const totalPrice = calculateNights() * pricePerNight;
+  const totalPrice = calculateNights() * Number(pricePerNight);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      if (!formData.checkIn || !formData.checkOut) {
+      if (!checkIn || !checkOut) {
         alert('Please select check-in and check-out dates');
         return;
       }
@@ -50,11 +48,22 @@ export const BookingForm = ({ propertyId, pricePerNight }: BookingFormProps) => 
       const searchParams = new URLSearchParams({
         propertyId,
         amount: totalPrice.toString(),
-        checkIn: formData.checkIn,
-        checkOut: formData.checkOut,
-        guests: formData.guests.toString(),
+        checkIn: checkIn.format("YYYY-MM-DD"),
+        checkOut: checkOut.format("YYYY-MM-DD"),
+        guests: guests.toString(),
         nights: nights.toString()
       });
+      const hasOverlap = bookedDates.some(({ startDate, endDate }) => {
+        return (
+          checkIn.isBefore(dayjs(endDate), "day") &&
+          checkOut.isAfter(dayjs(startDate), "day")
+        );
+      });
+
+      if (hasOverlap) {
+        alert("Selected dates overlap an existing booking");
+        return;
+      }
 
       router.push(`/checkout?${searchParams.toString()}`);
     } catch (error) {
@@ -65,49 +74,17 @@ export const BookingForm = ({ propertyId, pricePerNight }: BookingFormProps) => 
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Check-in Date
-          </label>
-          <input
-            type="date"
-            id="checkIn"
-            name="checkIn"
-            value={formData.checkIn}
-            onChange={handleInputChange}
-            min={today}
-            required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
-          />
-        </div>
-        <div>
-          <label htmlFor="checkOut" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Check-out Date
-          </label>
-          <input
-            type="date"
-            id="checkOut"
-            name="checkOut"
-            value={formData.checkOut}
-            onChange={handleInputChange}
-            min={formData.checkIn || today}
-            required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
-          />
-        </div>
+        <BookingDatePicker
+          bookedDates={bookedDates}
+          checkIn={checkIn}
+          checkOut={checkOut}
+          setCheckIn={setCheckIn}
+          setCheckOut={setCheckOut}
+        />
       </div>
 
       <div>
@@ -117,8 +94,8 @@ export const BookingForm = ({ propertyId, pricePerNight }: BookingFormProps) => 
         <select
           id="guests"
           name="guests"
-          value={formData.guests}
-          onChange={handleInputChange}
+          value={guests}
+          onChange={(e) => setGuests(Number(e.target.value))}
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
         >
           {[1, 2, 3, 4].map(num => (

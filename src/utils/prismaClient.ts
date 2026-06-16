@@ -5,7 +5,7 @@ import { PrismaClient } from "../../prisma/generated/prisma-client-js";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 
 declare global {
-    // eslint-disable-next-line no-var
+     
     var prisma: PrismaClient | undefined;
 }
 

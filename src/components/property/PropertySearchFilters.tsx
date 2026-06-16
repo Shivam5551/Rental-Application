@@ -59,19 +59,6 @@ export const PropertySearchFilters = ({
     onSearch(newFilters);
   };
 
-  useEffect(() => {
-    setFilters({
-      location: initialFilters.location || '',
-      minPrice: initialFilters.minPrice || '',
-      maxPrice: initialFilters.maxPrice || '',
-      beds: initialFilters.beds || '',
-      baths: initialFilters.baths || '',
-      petfriendly: initialFilters.petfriendly || '',
-      firesafety: initialFilters.firesafety || '',
-      verified: initialFilters.verified || '',
-      area: initialFilters.area || '',
-    });
-  }, [initialFilters]);
 
   return (
     <div className="space-y-6">

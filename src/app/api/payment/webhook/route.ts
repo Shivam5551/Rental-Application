@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from '@/utils/prismaClient';
 import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
                     });
                     await txn.webhookEvent.update({
                         where: {
-                            id: webhookEvent.id
+                            id: webhookEvent?.id
                         }, 
                         data: {
                             processed: true

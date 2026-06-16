@@ -23,6 +23,6 @@ export interface IBookedProperties {
         };
     };
     payment: {
-        status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED"
+        status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED"
     }
 }

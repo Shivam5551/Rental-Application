@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Property, SearchParams } from '@/actions/getProperties';
 import { PropertySearchFilters } from './PropertySearchFilters';
@@ -12,35 +12,37 @@ interface PropertiesContainerProps {
   searchParams: SearchParams;
 }
 
-export const PropertiesContainer = ({ 
-  initialProperties, 
-  searchParams 
+export const PropertiesContainer = ({
+  initialProperties,
+  searchParams
 }: PropertiesContainerProps) => {
-  const [properties, setProperties] = useState<Property[]>(initialProperties);
-  const [loading, setLoading] = useState(false);
+  const properties = initialProperties;
   const [showFilters, setShowFilters] = useState(false);
-  
+
   const router = useRouter();
   const urlSearchParams = useSearchParams();
-  
+
+  const [isPending, startTransition] = useTransition();
+
   const currentPage = parseInt(searchParams.page || '1');
 
   const handleSearch = async (filters: SearchParams) => {
-    setLoading(true);
-    
+
     const params = new URLSearchParams();
-    
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value && value.toString().trim()) {
         params.set(key, value.toString());
       }
     });
-    
+
     // Reset to first page when new search
     params.set('page', '1');
-    
+
     const url = `/properties?${params.toString()}`;
-    router.push(url);
+    startTransition(() => {
+      router.push(url);
+    });
   };
 
   const handlePageChange = (page: number) => {
@@ -48,12 +50,6 @@ export const PropertiesContainer = ({
     params.set('page', page.toString());
     router.push(`/properties?${params.toString()}`);
   };
-
-  // Update properties when searchParams change
-  useEffect(() => {
-    setProperties(initialProperties);
-    setLoading(false);
-  }, [initialProperties]);
 
   return (
     <div className="space-y-6">
@@ -72,7 +68,7 @@ export const PropertiesContainer = ({
               </button>
             )}
           </div>
-          
+
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors lg:hidden"
@@ -86,26 +82,27 @@ export const PropertiesContainer = ({
 
         <div className={`${showFilters ? 'block' : 'hidden lg:block'}`}>
           <PropertySearchFilters
+            key={JSON.stringify(searchParams)}
             onSearch={handleSearch}
             initialFilters={searchParams}
-            loading={loading}
+            loading={isPending}
           />
         </div>
       </div>
 
-      {loading && (
+      {isPending && (
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Searching properties...</p>
         </div>
       )}
 
-      {!loading && (
+      {!isPending && (
         <>
           {properties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((property) => (
-                <PropertyCardWrapper key={property.id} property={property}/>
+                <PropertyCardWrapper key={property.id} property={property} />
               ))}
             </div>
           ) : (

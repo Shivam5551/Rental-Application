@@ -10,7 +10,7 @@ interface BookingSummaryProps {
     totalPrice: number;
     createdAt: Date;
     payment: {
-      status: "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
+        status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED"
     }[];
   };
   guests?: number;
