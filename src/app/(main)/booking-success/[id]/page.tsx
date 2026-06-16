@@ -219,7 +219,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                 <div className="flex justify-between">
                                     <span className="text-gray-600 dark:text-gray-400">Rate per night</span>
                                     <span className="text-gray-900 dark:text-white">
-                                        ₹{(booking.property.price).toLocaleString()}
+                                        ₹{(booking.property.price/100).toLocaleString()}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">

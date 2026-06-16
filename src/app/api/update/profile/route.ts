@@ -1,6 +1,5 @@
 import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prismaClient";
-import { PrismaClient } from "@prisma/client";
 import { compare, hash } from "bcrypt-ts";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
