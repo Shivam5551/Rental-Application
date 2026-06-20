@@ -61,11 +61,11 @@ export const AboutMission = () => {
         </div>
 
         <div className="mt-20">
-          <div className="bg-gradient-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-2xl p-12 text-white">
+          <div className="bg-linear-to-r from-orange-600 to-orange-700 dark:from-orange-700 dark:to-orange-800 rounded-2xl p-12 text-white">
             <div className="max-w-4xl mx-auto text-center">
               <h3 className="text-3xl font-bold mb-6">Our Story</h3>
               <p className="text-xl leading-relaxed opacity-95">
-                Founded in 2025, BookIT emerged from a simple observation: finding quality 
+                Founded in {new Date().getFullYear()}, BookIT emerged from a simple observation: finding quality 
                 rental properties in India was unnecessarily complicated and often unreliable. 
                 Our founders, having experienced these challenges firsthand, set out to create 
                 a platform that would revolutionize how people discover, evaluate, and book 
@@ -73,7 +73,7 @@ export const AboutMission = () => {
               </p>
               <div className="mt-8 inline-flex items-center gap-2 bg-white/20 rounded-full px-6 py-3">
                 <span className="w-2 h-2 bg-white rounded-full"></span>
-                <span className="text-sm font-medium">Established 2025</span>
+                <span className="text-sm font-medium">Established {new Date().getFullYear()}</span>
               </div>
             </div>
           </div>

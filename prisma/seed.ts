@@ -168,7 +168,7 @@ const properties = [
     beds: 3,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/riverside_cottage.webp"
   },
   {
     title: "Mountain Retreat in Shimla",
@@ -183,7 +183,7 @@ const properties = [
     beds: 2,
     baths: 1,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1640863393585-f198621cfd8e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Royal Palace Suite in Jaipur",
@@ -228,7 +228,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1539650116574-75c0c6d73a00?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/desert_camp.jpeg"
   },
   {
     title: "Beach Shack in Pondicherry",
@@ -243,7 +243,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: false,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1709744873177-714d7ab0fe02?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Luxury Houseboat in Alleppey",
@@ -258,7 +258,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1714302947502-2472b43f15d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Treehouse Resort in Wayanad",
@@ -273,7 +273,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1604004218771-05c55db4f9f4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Boutique Hotel in Udaipur",
@@ -288,7 +288,7 @@ const properties = [
     beds: 3,
     baths: 3,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/boutique.jpeg"
   },
   {
     title: "Farmstay in Punjab",
@@ -318,7 +318,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1709508496457-e2f9c42493c6?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Business Hotel in Hyderabad",
@@ -363,7 +363,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: false,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1700844192363-501b9e817987?q=80&w=737&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Beach Resort in Andaman",
@@ -378,7 +378,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Tea Plantation Bungalow in Darjeeling",
@@ -393,7 +393,7 @@ const properties = [
     beds: 3,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/Chameli-Memsaab-Bungalow-1.webp"
   },
   {
     title: "Luxury Tents in Ladakh",
@@ -408,7 +408,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1607908560428-36ff9e0363b7?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Beachfront Cottage in Gokarna",
@@ -423,7 +423,7 @@ const properties = [
     beds: 1,
     baths: 1,
     firesafety: false,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://plus.unsplash.com/premium_photo-1682285210821-5d1b5a406b97?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Wildlife Lodge in Jim Corbett",
@@ -438,7 +438,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/lobo-wildlife-lodge.jpg"
   },
   {
     title: "Houseboat in Kashmir",
@@ -453,7 +453,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1780036782018-2d49f377d8b2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Homestay in Coorg",
@@ -468,7 +468,7 @@ const properties = [
     beds: 2,
     baths: 1,
     firesafety: false,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1647771167457-c82f4850bb7e?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Palace Hotel in Mysore",
@@ -483,7 +483,7 @@ const properties = [
     beds: 3,
     baths: 3,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1573363059771-8b2b53b492ff?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Eco Resort in Munnar",
@@ -498,7 +498,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://images.unsplash.com/photo-1754078219069-7565df2033b0?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     title: "Desert Resort in Jaisalmer",
@@ -513,7 +513,7 @@ const properties = [
     beds: 2,
     baths: 2,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/desert_resort.jpeg"
   },
   {
     title: "Coastal Villa in Alibaug",
@@ -528,7 +528,7 @@ const properties = [
     beds: 3,
     baths: 3,
     firesafety: true,
-    showcaseimage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    showcaseimage: "https://ik.imagekit.io/r8s6roxm2/coastal_villa.jpg"
   }
 ];
 

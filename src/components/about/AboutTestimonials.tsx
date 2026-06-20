@@ -164,12 +164,12 @@ export const AboutTestimonials = async () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={'/properties'}>
-              <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200">
+              <button className="bg-orange-600 cursor-pointer hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200">
                 Start Your Search
               </button>
             </Link>
             <Link href={'/reviews'}>
-              <button className="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200">
+              <button className="border-2 cursor-pointer border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200">
                 Read More Reviews
               </button>
             </Link>

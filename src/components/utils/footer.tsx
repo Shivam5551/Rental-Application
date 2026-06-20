@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart, FaGithub } from 'react-icons/fa';
 
 export const Footer = () => {
   const quickLinks = [
@@ -20,7 +20,6 @@ export const Footer = () => {
 
   const socialLinks = [
     { href: '#', icon: FaFacebook },
-    { href: '#', icon: FaTwitter },
     { href: '#', icon: FaInstagram },
     { href: '#', icon: FaLinkedin }
   ];
@@ -29,7 +28,7 @@ export const Footer = () => {
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <h3 className="text-2xl font-bold text-blue-400">BookIT</h3>
@@ -79,15 +78,15 @@ export const Footer = () => {
             <h4 className="text-lg font-semibold text-white">Contact Us</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <FaEnvelope className="text-blue-400 flex-shrink-0" size={16} />
-                <span className="text-gray-300 text-sm">support@bookit.com</span>
+                <FaEnvelope className="text-blue-400 shrink-0" size={16} />
+                <span className="text-gray-300 text-sm">shivamtiwarix9@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <FaPhone className="text-blue-400 flex-shrink-0" size={16} />
+                <FaPhone className="text-blue-400 shrink-0" size={16} />
                 <span className="text-gray-300 text-sm">+91 9999999999</span>
               </div>
               <div className="flex items-center space-x-3">
-                <FaMapMarkerAlt className="text-blue-400 flex-shrink-0" size={16} />
+                <FaMapMarkerAlt className="text-blue-400 shrink-0" size={16} />
                 <span className="text-gray-300 text-sm">134, Connaught Place<br />New Delhi - 110092, India</span>
               </div>
             </div>
@@ -97,12 +96,21 @@ export const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
             <div className="text-gray-300 text-sm">
-              © 2025 BookIT. All rights reserved.
+              © {new Date().getFullYear()} BookIT. All rights reserved.
             </div>
             <div className="flex items-center space-x-1 text-gray-300 text-sm">
               <span>Made with</span>
               <FaHeart className="text-red-500" size={14} />
               <span>for travelers and property owners</span>
+            </div>
+            <div className="flex items-center space-x-1 text-gray-300 text-sm">
+              <span>Made By Shivam</span>
+            </div>
+            <div className="flex justify-center items-center space-x-2 text-gray-300 text-sm">
+              <FaGithub />
+              <Link href={"https://github.com/Shivam5551/Rental-Application"}>
+                Github repo
+              </Link>
             </div>
           </div>
         </div>
