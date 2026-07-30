@@ -1,21 +1,21 @@
-'use server'
+"use server";
 
-import { authOptions } from "@/utils/authOptions"
-import { getServerSession } from "next-auth"
-import prisma from '@/utils/prismaClient';
+import { authOptions } from "@/utils/authOptions";
+import { getServerSession } from "next-auth";
+import prisma from "@/utils/prismaClient";
 import { IBookedProperties } from "@/utils/interfaces";
 
 export const getBookedProperties = async (): Promise<IBookedProperties[]> => {
     try {
         const session = await getServerSession(authOptions);
-        
+
         if (!session || !session.user?.id) {
             return [];
         }
 
         const bookings = await prisma.booking.findMany({
             where: {
-                userId: session.user.id
+                userId: session.user.id,
             },
             include: {
                 property: {
@@ -24,20 +24,20 @@ export const getBookedProperties = async (): Promise<IBookedProperties[]> => {
                             select: {
                                 id: true,
                                 name: true,
-                                image: true
-                            }
-                        }
-                    }
+                                image: true,
+                            },
+                        },
+                    },
                 },
                 payment: {
                     select: {
-                        status: true
-                    }
-                }
+                        status: true,
+                    },
+                },
             },
             orderBy: {
-                createdAt: 'desc'
-            }
+                createdAt: "desc",
+            },
         });
 
         return bookings.map((booking) => ({
@@ -51,21 +51,25 @@ export const getBookedProperties = async (): Promise<IBookedProperties[]> => {
             property: {
                 id: booking.property.id,
                 title: booking.property.title,
-                location: booking.property.location,
+                address: booking.property.address,
+                city: booking.property.city,
+                state: booking.property.state,
+                country: booking.property.country,
+                postalCode: booking.property.postalCode,
                 showcaseimage: booking.property.showcaseimage,
                 price: booking.property.price,
                 discount: booking.property.discount,
                 beds: booking.property.beds,
                 baths: booking.property.baths,
                 area: booking.property.area,
-                user: booking.property.user
+                user: booking.property.user,
             },
             payment: {
-                status: booking.payment[0]?.status
-            }
+                status: booking.payment[0]?.status,
+            },
         }));
     } catch (error) {
-        console.error('Error fetching booked properties:', error);
+        console.error("Error fetching booked properties:", error);
         return [];
     }
-}
+};

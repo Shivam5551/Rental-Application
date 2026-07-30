@@ -1,22 +1,23 @@
+"use server";
 import { RentPropertyForm } from "@/components/rent/RentPropertyForm";
+import { UnauthorizedAccess } from "@/components/utils/UnauthorizedAccess";
+import { authOptions } from "@/utils/authOptions";
+import { getServerSession } from "next-auth";
 
-export default function RentPropertyPage() {
-  return (
-    <div className="min-h-screen dark:bg-slate-900 bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold dark:text-orange-50 text-gray-900 mb-2">
-              List Your Property for Rent
-            </h1>
-            <p className="text-gray-600 dark:text-gray-100">
-              Create a listing for your property and start earning rental income
-            </p>
-          </div>
-          
-          <RentPropertyForm />
+export default async function RentPropertyPage() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return (
+            <div className="py-10 dark:bg-black bg-white">
+                <UnauthorizedAccess />
+            </div>
+        );
+    }
+    return (
+        <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 dark:from-[#1e1f22] dark:to-[#131416]">
+            <div className="bg-white dark:bg-[#2b2d31] rounded-2xl shadow-xl ring-1 ring-black/5 dark:ring-white/5 overflow-hidden">
+                <RentPropertyForm />
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

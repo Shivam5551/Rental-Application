@@ -1,4 +1,4 @@
-'use server';
+"use server";
 import { getProperty } from "@/actions/getProperty";
 import { RentPropertyForm } from "@/components/rent/RentPropertyForm";
 
@@ -10,8 +10,15 @@ interface IProperty {
     baths: number;
     discount: number;
     area: number;
-    location: string;
+    latitude: number | null;
+    longitude: number | null;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    postalCode: string;
     petfriendly: boolean;
+    firesafety: boolean;
 }
 
 interface Images {
@@ -24,13 +31,9 @@ export default async function Update({ params }: { params: Promise<{ id: string 
     const id = (await params).id;
     const result = await getProperty(id);
     if (!result) {
-        return (
-            <div>
-                Nothing to update
-            </div>
-        )
+        return <div>Nothing to update</div>;
     }
-    const { property, images }: { property: IProperty, images: Images } = result;
+    const { property, images }: { property: IProperty; images: Images } = result;
 
     return (
         <div className="min-h-screen dark:bg-slate-900 bg-gray-50 py-8">
@@ -49,6 +52,5 @@ export default async function Update({ params }: { params: Promise<{ id: string 
                 </div>
             </div>
         </div>
-    )
-
+    );
 }

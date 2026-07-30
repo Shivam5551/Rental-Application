@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import CheckoutComponent from "@/components/booking/checkoutComponent";
 import { authOptions } from "@/utils/authOptions";
@@ -12,7 +12,7 @@ export default async function Checkout() {
             <div className="min-h-screen flex items-center justify-center text-center min-w-screen dark:bg-slate-800 dark:text-white">
                 <span className="text-lg sm:text-2xl">Please Login first</span>
             </div>
-        )
+        );
     }
     return (
         <>
@@ -24,5 +24,5 @@ export default async function Checkout() {
 
             <CheckoutComponent />
         </>
-    )
+    );
 }

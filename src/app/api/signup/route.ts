@@ -10,35 +10,44 @@ interface ISignupRequest {
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
-    const {  name, email, password }: ISignupRequest = body;
-    if(!name || !email || !password) {
-        return NextResponse.json({
-            success: false,
-            message: "All inputs are required"
-        }, {
-            status: 400
-        })
+    const { name, email, password }: ISignupRequest = body;
+    if (!name || !email || !password) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "All inputs are required",
+            },
+            {
+                status: 400,
+            }
+        );
     }
-    if(password.length < 8) {
-        return NextResponse.json({
-            message: "Password must contain 8 characters!"
-        }, {
-            status: 400
-        });
+    if (password.length < 8) {
+        return NextResponse.json(
+            {
+                message: "Password must contain 8 characters!",
+            },
+            {
+                status: 400,
+            }
+        );
     }
-    try{
+    try {
         const isExists = await prisma?.user.findFirst({
             where: {
-                email
-            }
+                email,
+            },
         });
-        if(isExists) {
-            return NextResponse.json({
-            success: false,
-            message: "User Exists"
-            }, {
-            status: 201
-            });
+        if (isExists) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "User Exists",
+                },
+                {
+                    status: 201,
+                }
+            );
         }
         const hashedPassword = await hash(password, 10);
         const user = await prisma?.user.create({
@@ -46,32 +55,35 @@ export async function POST(request: NextRequest) {
                 email,
                 password: hashedPassword,
                 name,
-                provider: "Email"
+                provider: "Email",
             },
             select: {
                 id: true,
-                email: true
-            }
+                email: true,
+            },
         });
-        if(!user) {
+        if (!user) {
             throw new Error("Unable to create User with email");
         }
-        return NextResponse.json({
+        return NextResponse.json(
+            {
                 success: true,
-                message: "User created Successfully"
-            }, {
-                status: 200
-            })
-        
-    }
-    catch(e) {
+                message: "User created Successfully",
+            },
+            {
+                status: 200,
+            }
+        );
+    } catch (e) {
         console.log("Signup Error:", e);
-        return NextResponse.json({
-            success: false,
-            message: "Unable to create User"
-        }, {
-            status: 500
-        })
-        
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Unable to create User",
+            },
+            {
+                status: 500,
+            }
+        );
     }
 }

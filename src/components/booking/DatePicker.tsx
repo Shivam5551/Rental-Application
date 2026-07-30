@@ -1,10 +1,10 @@
-'use client';
-import dayjs, { Dayjs } from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+"use client";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 dayjs.extend(isSameOrBefore);
 
@@ -21,18 +21,22 @@ interface BookingDatePickerProps {
 
 let didInit = false;
 
-export function BookingDatePicker({ bookedDates, checkIn, checkOut, setCheckIn, setCheckOut }: BookingDatePickerProps) {
-
+export function BookingDatePicker({
+    bookedDates,
+    checkIn,
+    checkOut,
+    setCheckIn,
+    setCheckOut,
+}: BookingDatePickerProps) {
     const isBooked = (date: Dayjs) => {
         return bookedDates.some((booking) => {
             const start = dayjs(booking.startDate);
             const end = dayjs(booking.endDate);
 
             return (
-                date.isSame(start, 'day') ||
-                date.isSame(end, 'day') ||
-                (date.isAfter(start, 'day') &&
-                    date.isBefore(end, 'day'))
+                date.isSame(start, "day") ||
+                date.isSame(end, "day") ||
+                (date.isAfter(start, "day") && date.isBefore(end, "day"))
             );
         });
     };
@@ -47,11 +51,7 @@ export function BookingDatePicker({ bookedDates, checkIn, checkOut, setCheckIn, 
                     onChange={(newCheckIn) => {
                         setCheckIn(newCheckIn);
 
-                        if (
-                            checkOut &&
-                            newCheckIn &&
-                            checkOut.isSameOrBefore(newCheckIn, "day")
-                        ) {
+                        if (checkOut && newCheckIn && checkOut.isSameOrBefore(newCheckIn, "day")) {
                             setCheckOut(null);
                         }
                     }}

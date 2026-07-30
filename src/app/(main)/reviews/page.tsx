@@ -1,22 +1,20 @@
-'use client';
+"use client";
 
 /* eslint-disable */
 
-
-import { useState, useEffect, useCallback, Suspense } from 'react';
-import { ReviewWithDetails } from '@/actions/getAllReviews';
-import {
-    ReviewsHero,
-    ReviewsHeader,
-    ReviewFilters,
-    ReviewsContainer
-} from '@/components/reviews';
-import Pagination from '@/components/buttons/Pagination';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect, useCallback, Suspense } from "react";
+import { ReviewWithDetails } from "@/actions/getAllReviews";
+import { ReviewsHero, ReviewsHeader, ReviewFilters, ReviewsContainer } from "@/components/reviews";
+import Pagination from "@/components/buttons/Pagination";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ReviewsPage() {
     return (
-        <Suspense fallback={<div className="flex justify-center items-center min-h-screen">Loading...</div>}>
+        <Suspense
+            fallback={
+                <div className="flex justify-center items-center min-h-screen">Loading...</div>
+            }
+        >
             <ReviewsPageContent />
         </Suspense>
     );
@@ -29,44 +27,48 @@ function ReviewsPageContent() {
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(Number(urlSearchParms.get("page")) || 1);
-    const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'rating-high' | 'rating-low'>('newest');
+    const [sortBy, setSortBy] = useState<"newest" | "oldest" | "rating-high" | "rating-low">(
+        "newest"
+    );
     const [ratingFilter, setRatingFilter] = useState<number | null>(null);
     const router = useRouter();
 
-    const fetchReviews = useCallback(async (page: number, sort: typeof sortBy, rating: number | null) => {
-        setLoading(true);
-        try {
-            const params = new URLSearchParams({
-                page: page.toString(),
-                limit: '10',
-                sortBy: sort
-            });
+    const fetchReviews = useCallback(
+        async (page: number, sort: typeof sortBy, rating: number | null) => {
+            setLoading(true);
+            try {
+                const params = new URLSearchParams({
+                    page: page.toString(),
+                    limit: "10",
+                    sortBy: sort,
+                });
 
-            if (rating !== null) {
-                params.append('rating', rating.toString());
+                if (rating !== null) {
+                    params.append("rating", rating.toString());
+                }
+
+                const response = await fetch(`/api/reviews?${params}`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch reviews");
+                }
+
+                const result = await response.json();
+                setReviews(result.reviews);
+                setTotalCount(result.totalCount);
+                setTotalPages(result.totalPages);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+                setReviews([]);
+                setTotalCount(0);
+                setTotalPages(0);
+            } finally {
+                setLoading(false);
             }
+        },
+        []
+    );
 
-            const response = await fetch(`/api/reviews?${params}`);
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch reviews');
-            }
-
-            const result = await response.json();
-            setReviews(result.reviews);
-            setTotalCount(result.totalCount);
-            setTotalPages(result.totalPages);
-        } catch (error) {
-            console.error('Error fetching reviews:', error);
-            setReviews([]);
-            setTotalCount(0);
-            setTotalPages(0);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-     
     useEffect(() => {
         fetchReviews(currentPage, sortBy, ratingFilter);
     }, [currentPage, sortBy, ratingFilter, fetchReviews]);
@@ -85,7 +87,7 @@ function ReviewsPageContent() {
         setCurrentPage(page);
         const params = new URLSearchParams();
 
-        params.set('page', (page).toString());
+        params.set("page", page.toString());
 
         const url = `/reviews?${params.toString()}`;
         router.push(url);

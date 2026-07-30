@@ -3,9 +3,7 @@ import { PropertyPageRedirectButton } from "../buttons/propertyPageRedirectButto
 import { PropertyCardWrapper } from "./propretyCardWrapper";
 
 export const FeaturedProperties = async () => {
-
-    const featuredProperties = await getProperties({ verified: 'true' });
-
+    const featuredProperties = await getProperties({ verified: "true" });
 
     return (
         <section className="py-16 px-4">
@@ -19,5 +17,5 @@ export const FeaturedProperties = async () => {
                 <PropertyPageRedirectButton />
             </div>
         </section>
-    )
-}
+    );
+};

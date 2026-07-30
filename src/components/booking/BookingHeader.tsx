@@ -1,17 +1,33 @@
+// components/booking/BookingHeader.tsx
 interface BookingHeaderProps {
-  propertyTitle: string;
-  location: string;
+    propertyTitle: string;
+    address?: string;
+    city: string;
+    state: string;
+    postalCode?: string;
+    country?: string;
 }
 
-export function BookingHeader({ propertyTitle, location }: BookingHeaderProps) {
-  return (
-    <div className="mb-8">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-        Book {propertyTitle}
-      </h1>
-      <p className="text-gray-600 dark:text-gray-300">
-        Complete your booking for this amazing property in {location}
-      </p>
-    </div>
-  );
+export function BookingHeader({
+    propertyTitle,
+    address,
+    city,
+    state,
+    postalCode,
+    country,
+}: BookingHeaderProps) {
+    const formattedLocation =
+        `${city}, ${state}` +
+        (country ? `, ${country}` : "") +
+        (postalCode ? ` ${postalCode}` : "");
+
+    return (
+        <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                Complete Your Booking
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">{propertyTitle}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{formattedLocation}</p>
+        </div>
+    );
 }

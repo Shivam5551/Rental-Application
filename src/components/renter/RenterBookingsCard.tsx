@@ -1,36 +1,36 @@
-'use client'
+"use client";
 import { IBookedProperties } from "@/utils/interfaces";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { MdCalendarToday, MdLocationOn, MdPerson, MdPayment, MdHome } from "react-icons/md";
 
-export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]}) => {
+export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[] }) => {
     const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
+        return new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
         });
     };
 
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 0
+        return new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            minimumFractionDigits: 0,
         }).format(amount);
     };
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'COMPLETED':
-                return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-            case 'PENDING':
-                return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-            case 'FAILED':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+            case "COMPLETED":
+                return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+            case "PENDING":
+                return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+            case "FAILED":
+                return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
             default:
-                return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+                return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
         }
     };
 
@@ -39,9 +39,20 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
         const start = new Date(startDate);
         const end = new Date(endDate);
 
-        if (now < start) return { status: 'Upcoming', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' };
-        if (now >= start && now <= end) return { status: 'Active', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' };
-        return { status: 'Completed', color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300' };
+        if (now < start)
+            return {
+                status: "Upcoming",
+                color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+            };
+        if (now >= start && now <= end)
+            return {
+                status: "Active",
+                color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+            };
+        return {
+            status: "Completed",
+            color: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300",
+        };
     };
 
     return (
@@ -71,9 +82,12 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
                         const bookingStatus = getBookingStatus(booking.startDate, booking.endDate);
 
                         return (
-                            <div key={booking.id} className="rounded-lg p-4 hover:shadow-xl cursor-pointer transition-all bg-white dark:bg-gray-700">
+                            <div
+                                key={booking.id}
+                                className="rounded-lg p-4 hover:shadow-xl cursor-pointer transition-all bg-white dark:bg-gray-700"
+                            >
                                 <div className="flex gap-4">
-                                    <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                    <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
                                         <Image
                                             src={booking.property.showcaseimage}
                                             alt={booking.property.title}
@@ -87,11 +101,15 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
                                             <h4 className="font-medium text-gray-900 dark:text-white truncate pr-2">
                                                 {booking.property.title}
                                             </h4>
-                                            <div className="flex gap-2 flex-shrink-0">
-                                                <span className={`px-2 py-1 rounded-full text-xs ${bookingStatus.color}`}>
+                                            <div className="flex gap-2 shrink-0">
+                                                <span
+                                                    className={`px-2 py-1 rounded-full text-xs ${bookingStatus.color}`}
+                                                >
                                                     {bookingStatus.status}
                                                 </span>
-                                                <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(booking.payment.status)}`}>
+                                                <span
+                                                    className={`px-2 py-1 rounded-full text-xs ${getStatusColor(booking.payment.status)}`}
+                                                >
                                                     {booking.payment.status}
                                                 </span>
                                             </div>
@@ -100,13 +118,20 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
                                         <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
                                             <div className="flex items-center gap-1">
                                                 <MdLocationOn className="w-3 h-3" />
-                                                <span className="truncate">{booking.property.location}</span>
+                                                <span className="truncate">
+                                                    {booking.property.address},{" "}
+                                                    {booking.property.city},{" "}
+                                                    {booking.property.state}{" "}
+                                                    {booking.property.postalCode},{" "}
+                                                    {booking.property.country}
+                                                </span>
                                             </div>
 
                                             <div className="flex items-center gap-1">
                                                 <MdCalendarToday className="w-3 h-3" />
                                                 <span>
-                                                    {formatDate(booking.startDate)} - {formatDate(booking.endDate)}
+                                                    {formatDate(booking.startDate)} -{" "}
+                                                    {formatDate(booking.endDate)}
                                                 </span>
                                             </div>
 
@@ -117,7 +142,9 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
 
                                             <div className="flex items-center gap-1">
                                                 <MdPayment className="w-3 h-3" />
-                                                <span className="font-medium">{formatCurrency(booking.totalPrice/100)}</span>
+                                                <span className="font-medium">
+                                                    {formatCurrency(booking.totalPrice / 100)}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +152,12 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
                             </div>
                         );
                     })}
-                    <button className="flex w-full items-center justify-center text-white bg-blue-500 rounded-xl cursor-pointer duration-200 transform transition-all hover:rounded-4xl hover:bg-blue-600 text-xl font-medium p-2" onClick={() => redirect('/bookings')}>Go Bookings Page</button>
+                    <button
+                        className="flex w-full items-center justify-center text-white bg-blue-500 rounded-xl cursor-pointer duration-200 transform transition-all hover:rounded-4xl hover:bg-blue-600 text-xl font-medium p-2"
+                        onClick={() => redirect("/bookings")}
+                    >
+                        Go Bookings Page
+                    </button>
                 </div>
             )}
         </div>

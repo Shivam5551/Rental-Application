@@ -1,4 +1,4 @@
-'use server';
+"use server";
 import prisma from "@/utils/prismaClient";
 
 export async function fetchBookedDates(propertyId: string) {
@@ -7,12 +7,12 @@ export async function fetchBookedDates(propertyId: string) {
             where: {
                 propertyId,
                 endDate: {
-                    gte: new Date()
-                }
+                    gte: new Date(),
+                },
             },
             select: {
                 startDate: true,
-                endDate: true
+                endDate: true,
             },
         });
         return bookedDates;

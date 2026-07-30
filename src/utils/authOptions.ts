@@ -13,7 +13,11 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Email & Password",
             credentials: {
-                email: { label: "Email", type: "email", placeholder: "you@example.com" },
+                email: {
+                    label: "Email",
+                    type: "email",
+                    placeholder: "you@example.com",
+                },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
@@ -22,13 +26,25 @@ export const authOptions: NextAuthOptions = {
                 try {
                     const user = await prisma.user.findUnique({
                         where: { email: credentials.email },
-                        select: { id: true, name: true, email: true, image: true, password: true },
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                            password: true,
+                        },
                     });
                     if (!user?.password) return null;
 
                     if (!compareSync(credentials.password, user.password)) return null;
 
-                    return { id: user.id, name: user.name, email: user.email, image: user.image, refreshToken: "Token" };
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        image: user.image,
+                        refreshToken: "Token",
+                    };
                 } catch (err) {
                     console.error("CredentialsAuthorizeErrortoLowercase", err);
                     return null;
@@ -41,7 +57,7 @@ export const authOptions: NextAuthOptions = {
             authorization: {
                 params: {
                     prompt: "consent",
-                    access_type: "offline",  // ensures refresh_token
+                    access_type: "offline", // ensures refresh_token
                     response_type: "code",
                 },
             },
@@ -66,30 +82,40 @@ export const authOptions: NextAuthOptions = {
             };
             session.accessToken = token.accessToken as string;
             console.log("Session: ", session, "\nToken", token);
-            
+
             return session;
         },
 
-        async jwt({ token, user, account }: { token: JWT; user: User | AdapterUser; account: Account | null; profile?: Profile | undefined; trigger?: "signIn" | "signUp" | "update" | undefined; isNewUser?: boolean | undefined; session?: any; }): Promise<JWT> {
-
+        async jwt({
+            token,
+            user,
+            account,
+        }: {
+            token: JWT;
+            user: User | AdapterUser;
+            account: Account | null;
+            profile?: Profile | undefined;
+            trigger?: "signIn" | "signUp" | "update" | undefined;
+            isNewUser?: boolean | undefined;
+            session?: any;
+        }): Promise<JWT> {
             if (user && account) {
                 const provider = account.provider.toLowerCase();
                 const now = Date.now();
                 let refresh_token = null;
                 let access_token = null;
-                if(account.provider === "google") {
+                if (account.provider === "google") {
                     refresh_token = account.refresh_token;
-                    access_token = account.access_token
-                }
-                else if(account.provider === "credentials") {
+                    access_token = account.access_token;
+                } else if (account.provider === "credentials") {
                     refresh_token = user.refreshToken;
-                    access_token = "hello"; // generate an access token 
+                    access_token = "hello"; // generate an access token
                 }
                 try {
                     console.log("Token", token);
-                    console.log("Account", account)
-                    console.log("User", user)
-                    
+                    console.log("Account", account);
+                    console.log("User", user);
+
                     await prisma.token.upsert({
                         where: { userId: user.id },
                         create: {
@@ -130,7 +156,7 @@ export const authOptions: NextAuthOptions = {
                         return { ...token, error: "RefreshError" };
                     }
                     try {
-                        console.log("Token:", token)
+                        console.log("Token:", token);
                         await prisma.token.upsert({
                             where: { userId: token.user.id as string },
                             create: {
@@ -169,12 +195,16 @@ export const authOptions: NextAuthOptions = {
 
         async signIn({ account, profile, user }) {
             if (account?.provider === "credentials") {
-                const found = await prisma.user.findUnique({ where: { email: user.email! } });
+                const found = await prisma.user.findUnique({
+                    where: { email: user.email! },
+                });
                 return !!found;
             }
 
             if (account?.provider === "google" && profile?.email) {
-                const existing = await prisma.user.findUnique({ where: { email: profile.email! } });
+                const existing = await prisma.user.findUnique({
+                    where: { email: profile.email! },
+                });
                 if (!existing) {
                     const created = await prisma.user.create({
                         data: {

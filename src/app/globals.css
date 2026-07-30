@@ -3,11 +3,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-bgContrast: #f9f9f9;
+    --color-bgContrast: #f9f9f9;
 }
 
 @layer theme {
-  .dark {
-    --color-bgContrast: #8be9d8;
-  }
+    .dark {
+        --color-bgContrast: #8be9d8;
+    }
 }

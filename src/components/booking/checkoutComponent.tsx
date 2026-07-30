@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { checkPropertyExists } from "@/actions/propertyidVerifyAction";
 import axios from "axios";
@@ -42,7 +42,7 @@ export default function CheckoutComponent() {
                         amount: amount,
                         propertyId,
                         checkIn,
-                        checkOut
+                        checkOut,
                     });
 
                     if (!response.data.success) {
@@ -87,18 +87,18 @@ export default function CheckoutComponent() {
                 name: "BookIT",
                 description: `Booking for ${nights} nights`,
                 order_id: orderId,
-                 
+
                 handler: async function (response: any) {
                     const data = {
                         orderCreationId: orderId,
                         razorpayPaymentId: response.razorpay_payment_id,
                         razorpayOrderId: response.razorpay_order_id,
                         razorpaySignature: response.razorpay_signature,
-                        totalAmount: amount
+                        totalAmount: amount,
                     };
 
                     try {
-                        const result = await axios.post('/api/payment/verify', data);
+                        const result = await axios.post("/api/payment/verify", data);
                         if (result.data.success) {
                             const bookingId = result.data.bookingId;
                             toast.success("Payment successful! Redirecting...");
@@ -112,8 +112,8 @@ export default function CheckoutComponent() {
                     }
                 },
                 prefill: {
-                    name: session?.user?.name || '',
-                    email: session?.user?.email || '',
+                    name: session?.user?.name || "",
+                    email: session?.user?.email || "",
                 },
                 theme: {
                     color: "#3399cc",
@@ -124,26 +124,26 @@ export default function CheckoutComponent() {
                         setLoading(false);
                         console.log("Checkout closed");
                         toast.error("Payment was not completed.");
-                        router.push(`/booking-failed/${orderId}`)
-                    }
-                }
+                        router.push(`/booking-failed/${orderId}`);
+                    },
+                },
             };
 
             const paymentObject = new window.Razorpay(options);
-             
+
             paymentObject.on("payment.failed", function (response: any) {
                 setLoading(false);
                 console.log("Payment failed:", response.error);
                 toast.error("Payment failed: " + response.error.description);
-                router.push(`/booking-failed/${orderId}`)
+                router.push(`/booking-failed/${orderId}`);
             });
-             
+
             paymentObject.on("payment.cancelled", function (response: any) {
                 setLoading(false);
                 console.log("Payment cancelled", response.error);
                 toast.error("Payment failed: " + response.error.description);
-                router.push(`/booking-failed/${orderId}`)
-            })
+                router.push(`/booking-failed/${orderId}`);
+            });
 
             setLoading(false);
             paymentObject.open();
@@ -152,11 +152,16 @@ export default function CheckoutComponent() {
             toast.error("Failed to process payment");
             setLoading(false);
         }
-    }, [amount, nights, router, session])
-
+    }, [amount, nights, router, session]);
 
     useEffect(() => {
-        console.log("Reached process payment useEffect", loading1, idRef.current, propertyExists, session?.user.id);
+        console.log(
+            "Reached process payment useEffect",
+            loading1,
+            idRef.current,
+            propertyExists,
+            session?.user.id
+        );
 
         if (!loading1 && idRef.current && propertyExists && session?.user?.id) {
             console.log("will process payment");
@@ -165,8 +170,7 @@ export default function CheckoutComponent() {
         }
     }, [loading1, propertyExists, session?.user?.id, processPayment]);
 
-
-    if (status === 'loading') {
+    if (status === "loading") {
         return (
             <div className="container h-screen flex min-w-screen justify-center items-center">
                 <div className="animate-spin rounded-full border-b-2 border-blue-500 h-20 w-20" />
@@ -174,7 +178,7 @@ export default function CheckoutComponent() {
         );
     }
 
-    if (status === 'unauthenticated' || !session || !session.user.id) {
+    if (status === "unauthenticated" || !session || !session.user.id) {
         return (
             <div className="container h-screen flex justify-center items-center">
                 <div className="text-center">
@@ -209,7 +213,9 @@ export default function CheckoutComponent() {
             <div className="container h-screen flex justify-center items-center">
                 <div className="text-center">
                     <h2 className="text-xl font-semibold mb-2">Property Not Found</h2>
-                    <p className="text-gray-600">The property you&apos;re trying to book does not exist.</p>
+                    <p className="text-gray-600">
+                        The property you&apos;re trying to book does not exist.
+                    </p>
                 </div>
             </div>
         );

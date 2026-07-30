@@ -7,6 +7,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 ## 🌟 Key Features
 
 ### 🏡 **Property Management**
+
 - **Advanced Property Listings**: Comprehensive property profiles with multiple images
 - **Smart Search & Filters**: Location, price range, amenities, property type, and more
 - **Property Verification System**: Verified badge system for trusted properties
@@ -16,6 +17,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **User Property Dashboard**: Dedicated management interface for property owners
 
 ### 📅 **Enhanced Booking System**
+
 - **Flexible Rental Periods**: Book for 1 day, weeks, or custom durations
 - **Smart Date Selection**: Intelligent calendar with availability checking
 - **Guest Management**: Support for multiple guests with pricing calculations
@@ -27,6 +29,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **Booking Confirmation**: Automated confirmation and notification system
 
 ### ⭐ **Advanced Reviews & Ratings System**
+
 - **Modular Review Architecture**: Componentized review system for maintainability
 - **Comprehensive Review Form**: Interactive 5-star rating with guided submission
 - **Property Summary Integration**: Contextual property details during review creation
@@ -39,6 +42,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **Property Rating Analytics**: Aggregate ratings and review statistics
 
 ### 👤 **Enhanced User Experience**
+
 - **Modern Dashboard**: Comprehensive user profiles with booking analytics and property management
 - **Booked Properties Interface**: Dedicated dashboard for viewing and managing all bookings
 - **Empty State Management**: Beautiful empty states for users with no content
@@ -50,6 +54,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **Navigation Enhancement**: Intuitive navigation with breadcrumbs and state indicators
 
 ### 🛡️ **Security & Trust**
+
 - **Secure Payments**: PCI-compliant payment processing with Razorpay
 - **Data Protection**: Encrypted user data and secure session management
 - **Trust & Safety**: Property verification and user review systems
@@ -57,6 +62,7 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **Next.js 16**: Latest React framework with App Router and Turbopack
 - **React 19**: Latest React with concurrent features
 - **TypeScript**: Full type safety and developer experience
@@ -64,17 +70,20 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **React Icons**: Comprehensive icon library
 
 ### **Backend & Database**
+
 - **PostgreSQL**: Robust relational database for production
 - **Prisma ORM**: Type-safe database access with advanced querying
 - **NextAuth.js v4**: Complete authentication solution
 - **API Routes**: RESTful API with Next.js API routes
 
 ### **External Services**
+
 - **Razorpay**: Secure payment processing for Indian market
 - **ImageKit**: Advanced image optimization and CDN delivery
 - **Google OAuth**: Social authentication integration
 
 ### **Development Tools**
+
 - **ESLint**: Code quality and consistency
 - **Turbopack**: Ultra-fast bundler for development
 - **Recharts**: Beautiful data visualization
@@ -89,18 +98,20 @@ A comprehensive rental property platform built with Next.js 16, designed to revo
 - **Node.js 18+** - JavaScript runtime
 - **PostgreSQL** - Database for production use
 - **Razorpay Account** - For payment processing in India
-- **ImageKit Account** - For optimized image management 
+- **ImageKit Account** - For optimized image management
 - **Google Cloud Console** - For OAuth authentication
 
 ### Installation
 
 1. **Clone the repository:**
+
 ```bash
 git clone https://github.com/Shivam5551/Rental-Application
 cd next-app
 ```
 
 2. **Install dependencies:**
+
 ```bash
 pnpm install
 # or
@@ -110,7 +121,8 @@ yarn install
 ```
 
 3. **Environment Setup:**
-Create a `.env.local` file in the root directory:
+   Create a `.env.local` file in the root directory:
+
 ```env
 # Database
 DATABASE_URL="postgresql://username:password@localhost:5432/bookit_db"
@@ -136,6 +148,7 @@ IMAGEKIT_PRIVATE_KEY="your-imagekit-private-key"
 ### Database Setup
 
 4. **Initialize the database:**
+
 ```bash
 # Generate Prisma client
 npx prisma generate
@@ -151,6 +164,7 @@ pnpm seed
 ### Development
 
 5. **Start the development server:**
+
 ```bash
 pnpm dev
 # or
@@ -173,6 +187,7 @@ pnpm start
 The application uses a comprehensive PostgreSQL database schema with the following models:
 
 ### **Core Models**
+
 - **User**: User profiles with authentication and provider information
 - **Property**: Comprehensive property listings with amenities and verification
 - **PropertyImage**: Multiple image support for properties with ImageKit integration
@@ -183,6 +198,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **Token**: Refresh token management for enhanced security
 
 ### **Key Relationships & Features**
+
 - Users can own multiple properties and make multiple bookings with comprehensive tracking
 - Properties have multiple images, bookings, reviews, and inquiries with advanced indexing
 - Bookings are linked to users, properties, and payments with status management
@@ -193,6 +209,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 ## 🎯 Feature Implementation
 
 ### **Advanced Authentication System**
+
 - **Multi-Provider Support**: Google OAuth and email/password authentication
 - **Session Management**: Secure session handling with NextAuth.js
 - **Role-Based Access**: Property owners vs. renters with different permissions
@@ -200,6 +217,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **Unauthorized Access Handling**: Elegant error states for protected routes
 
 ### **Smart Property Management**
+
 - **Multi-Image Upload**: ImageKit integration for optimized image handling
 - **Advanced Filtering**: Location, price, amenities, property type filtering
 - **Verification System**: Property verification for enhanced trust
@@ -208,6 +226,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **User Property Dashboard**: Dedicated interface for property owners
 
 ### **Enhanced Booking System Architecture**
+
 - **Intelligent Date Selection**: Conflict-free booking with availability checking
 - **Dynamic Pricing**: Automatic price calculation with discounts
 - **Guest Management**: Multi-guest booking support
@@ -218,12 +237,13 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **Status Tracking**: Real-time booking status updates and notifications
 
 ### **Modular Review System Architecture**
+
 - **Component-Based Design**: Modular review components for maintainability
-  - `AddReviewForm`: Interactive star rating with validation
-  - `PropertySummaryForReview`: Contextual property information
-  - `ReviewGuidelines`: Smart review writing assistance
-  - `BookingSummary`: Complete booking context display
-  - `ReviewSuccess`: Dedicated success confirmation page
+    - `AddReviewForm`: Interactive star rating with validation
+    - `PropertySummaryForReview`: Contextual property information
+    - `ReviewGuidelines`: Smart review writing assistance
+    - `BookingSummary`: Complete booking context display
+    - `ReviewSuccess`: Dedicated success confirmation page
 - **Verified Review Flow**: Only completed bookings can submit reviews
 - **Duplicate Prevention**: Advanced validation to prevent multiple reviews per booking
 - **API Integration**: RESTful review submission with comprehensive validation
@@ -231,6 +251,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **Review Management Dashboard**: Personal review history and editing capabilities
 
 ### **Modern UI/UX Architecture**
+
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Dark/Light Mode**: Complete theme switching with system preference detection
 - **Loading States**: Smooth loading indicators and skeleton screens
@@ -239,6 +260,7 @@ The application uses a comprehensive PostgreSQL database schema with the followi
 - **Component Modularity**: Reusable components for consistent user experience
 
 ### **Performance & Security**
+
 - **Image Optimization**: Automatic image compression and CDN delivery
 - **Database Optimization**: Efficient queries with Prisma ORM and improve performance by indexing relative attribuites in database models.
 - **Security Headers**: XSS protection and secure headers
@@ -266,7 +288,7 @@ npx prisma generate    # Generate Prisma client
 ### **What Makes BookIT Special**
 
 - **🚀 Modern Architecture**: Built with the latest Next.js 16 and React 19 features
-- **📱 Mobile-First**: Optimized for mobile usage 
+- **📱 Mobile-First**: Optimized for mobile usage
 - **🔒 Security-First**: Comprehensive security measures and payment protection
 - **⚡ Performance**: Optimized for fast loading even on slower connections
 - **🌙 Accessibility**: Dark mode and accessibility features for all users
@@ -286,7 +308,7 @@ npx prisma generate    # Generate Prisma client
 
 ## 🚧 Ongoing Features
 
-*Currently under development - These features are being actively worked on and will be available in upcoming releases:*
+_Currently under development - These features are being actively worked on and will be available in upcoming releases:_
 
 - **🔄 Refund System**: Comprehensive refund processing and management for cancelled bookings
 - **🔑 Database Token Management**: Automatic database refresh and token renewal system for enhanced security
@@ -296,6 +318,5 @@ npx prisma generate    # Generate Prisma client
 - **🎯 State Management Integration**: Implementation of Zustand for centralized state management
 - **📧 Automated Email Notifications**: Queue-based email system for booking confirmations
 - **🛡️ Advanced Email Validation**: Integration with Arcjet for enhanced email security and validation
-
 
 **Built with ❤️ for the Indian rental market**

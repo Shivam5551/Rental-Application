@@ -1,12 +1,11 @@
 import prisma from "@/utils/prismaClient";
 
 export const PlatformStats = async () => {
-
     const stats = await Promise.all([
         prisma.property.count(),
         prisma.user.count(),
         prisma.booking.count(),
-        prisma.review.count()
+        prisma.review.count(),
     ]);
 
     const [totalProperties, totalUsers, totalBookings, totalReviews] = stats;
@@ -121,5 +120,5 @@ export const PlatformStats = async () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};

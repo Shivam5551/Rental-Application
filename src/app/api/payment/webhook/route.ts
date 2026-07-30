@@ -1,46 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from '@/utils/prismaClient';
+import prisma from "@/utils/prismaClient";
 import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
-
     // raw body
     try {
         const body = await request.text();
         const razorpaySignature = request.headers.get("x-razorpay-signature");
         if (!razorpaySignature) {
-            return NextResponse.json(
-                { success: false },
-                { status: 400 }
-            );
+            return NextResponse.json({ success: false }, { status: 400 });
         }
         const expectedSignature = crypto
-            .createHmac(
-                "sha256",
-                process.env.RAZORPAY_WEBHOOK_SECRET!
-            ).update(body).digest("hex");
+            .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!)
+            .update(body)
+            .digest("hex");
         if (expectedSignature !== razorpaySignature) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Invalid webhook signature"
+                    message: "Invalid webhook signature",
                 },
                 {
-                    status: 400
+                    status: 400,
                 }
             );
         }
         const event = JSON.parse(body);
         console.log("Webhook evenet:", event.event);
 
-        // creating webhookEvent table record for better debugging 
+        // creating webhookEvent table record for better debugging
         // like if user say payment done but no booking then lookup to this table for debugging
         const webhookEvent = await prisma?.webhookEvent.create({
             data: {
                 eventType: event.event,
                 payload: event,
-                processed: false
-            }
+                processed: false,
+            },
         });
         switch (event.event) {
             case "payment.captured": {
@@ -50,47 +45,42 @@ export async function POST(request: NextRequest) {
                 await prisma?.$transaction(async (txn) => {
                     const payment = await txn.payment.findUnique({
                         where: {
-                            razorpayOrderId: orderId
-                        }
+                            razorpayOrderId: orderId,
+                        },
                     });
 
                     if (!payment) {
-                        throw new Error(
-                            "Payment not found"
-                        );
+                        throw new Error("Payment not found");
                     }
                     if (payment.status === "COMPLETED") {
                         return;
                     }
                     await txn.payment.update({
                         where: {
-                            razorpayOrderId:
-                                orderId
+                            razorpayOrderId: orderId,
                         },
                         data: {
                             status: "COMPLETED",
-                            razorpayPaymentId:
-                                paymentId
-                        }
+                            razorpayPaymentId: paymentId,
+                        },
                     });
                     await txn.booking.update({
                         where: {
-                            id:
-                                payment.bookingId
+                            id: payment.bookingId,
                         },
                         data: {
-                            status: "CONFIRMED"
-                        }
+                            status: "CONFIRMED",
+                        },
                     });
                     await txn.webhookEvent.update({
                         where: {
-                            id: webhookEvent?.id
-                        }, 
+                            id: webhookEvent?.id,
+                        },
                         data: {
-                            processed: true
-                        }
-                    })
-                })
+                            processed: true,
+                        },
+                    });
+                });
                 break;
             }
             case "payemnt.failed": {
@@ -99,48 +89,46 @@ export async function POST(request: NextRequest) {
                 await prisma?.$transaction(async (txn) => {
                     const payemnt = await txn.payment.findUnique({
                         where: {
-                            razorpayOrderId: orderId
-                        }
+                            razorpayOrderId: orderId,
+                        },
                     });
                     if (!payemnt) {
                         return;
                     }
                     await txn.payment.update({
                         where: {
-                            razorpayOrderId: orderId
+                            razorpayOrderId: orderId,
                         },
                         data: {
-                            status: "FAILED"
-                        }
+                            status: "FAILED",
+                        },
                     });
 
                     await txn.booking.update({
                         where: {
-                            id: payemnt.bookingId
+                            id: payemnt.bookingId,
                         },
                         data: {
-                            status: "EXPIRED"
-                        }
+                            status: "EXPIRED",
+                        },
                     });
-                })
+                });
                 break;
             }
             default:
-                console.log(
-                    "Unhandled Event:",
-                    event.event
-                );
-
+                console.log("Unhandled Event:", event.event);
         }
         return NextResponse.json({
-            success: true
+            success: true,
         });
-
     } catch (error) {
         console.error("Webhook Error:", error);
 
-        return NextResponse.json({
-            success: false
-        }, { status: 500 });
+        return NextResponse.json(
+            {
+                success: false,
+            },
+            { status: 500 }
+        );
     }
 }

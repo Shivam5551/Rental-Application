@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 export const BookingsLoading = () => {
     return (
@@ -11,7 +11,10 @@ export const BookingsLoading = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     {[...Array(4)].map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 animate-pulse">
+                        <div
+                            key={i}
+                            className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 animate-pulse"
+                        >
                             <div className="flex items-center justify-between">
                                 <div>
                                     <div className="h-4 w-20 bg-gray-200 dark:bg-slate-700 rounded mb-2"></div>
@@ -25,7 +28,10 @@ export const BookingsLoading = () => {
 
                 <div className="space-y-6">
                     {[...Array(3)].map((_, i) => (
-                        <div key={i} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 animate-pulse">
+                        <div
+                            key={i}
+                            className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 animate-pulse"
+                        >
                             <div className="md:flex">
                                 <div className="md:w-1/3">
                                     <div className="w-full h-48 md:h-full bg-gray-200 dark:bg-slate-700"></div>
@@ -45,7 +51,10 @@ export const BookingsLoading = () => {
 
                                     <div className="flex items-center gap-6 mb-4">
                                         {[...Array(3)].map((_, j) => (
-                                            <div key={j} className="h-4 w-16 bg-gray-200 dark:bg-slate-700 rounded"></div>
+                                            <div
+                                                key={j}
+                                                className="h-4 w-16 bg-gray-200 dark:bg-slate-700 rounded"
+                                            ></div>
                                         ))}
                                     </div>
 

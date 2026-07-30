@@ -1,9 +1,28 @@
-import { FcGoogle } from "react-icons/fc"
+import { FcGoogle } from "react-icons/fc";
 
-export const GoogleContinueButton = ({ onClickHandler }: { onClickHandler: () => void })=> {
+interface GoogleContinueButtonProps {
+    onClickHandler: () => void;
+}
+
+export function GoogleContinueButton({ onClickHandler }: GoogleContinueButtonProps) {
     return (
-        <div className=" w-full flex">
-            <button onClick={onClickHandler} className="w-full text-black items-center justify-center border-[#e4e4ea] border-solid border cursor-pointer hover:border-black hover:bg-neutral-300 duration-200 transition-all hover:rounded-2xl hover:text-black/70 rounded-lg bg-neutral-100 backdrop-blur-lg flex gap-x-2 p-2"><FcGoogle size={25}/> <span className="sm:flex hidden">Continue With Google</span></button>
-        </div>
-    )
+        <button
+            type="button"
+            onClick={onClickHandler}
+            className="w-full py-3.5 px-6 rounded-xl text-sm font-semibold
+                 bg-white dark:bg-slate-800 
+                 text-gray-700 dark:text-slate-200
+                 border-2 border-gray-300 dark:border-slate-700
+                 hover:bg-gray-50 dark:hover:bg-slate-750
+                 hover:border-gray-400 dark:hover:border-slate-600 dark:hover:text-black
+                 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 
+                 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900
+                 transform transition-all duration-200
+                 hover:scale-[1.02] active:scale-[0.98]
+                 flex items-center justify-center gap-3"
+        >
+            <FcGoogle className="w-5 h-5" />
+            Continue with Google
+        </button>
+    );
 }

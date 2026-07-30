@@ -1,34 +1,33 @@
-'use server';
+"use server";
 import { authOptions } from "@/utils/authOptions";
 import prisma from "@/utils/prismaClient";
 import { getServerSession } from "next-auth";
 import { Property } from "./getProperties";
 
-
-export const getPopularProperties= async (): Promise<Property[]>  => {
+export const getPopularProperties = async (): Promise<Property[]> => {
     const session = await getServerSession(authOptions);
     if (!session) {
         return [];
     }
     const propretyId = await prisma.booking.groupBy({
-        by: ['propertyId'],
+        by: ["propertyId"],
         _count: {
-            propertyId: true
+            propertyId: true,
         },
         orderBy: {
             _count: {
-                propertyId: "desc"
-            }
+                propertyId: "desc",
+            },
         },
-        take: 10
+        take: 10,
     });
     const pIds = propretyId.map((p) => p.propertyId);
 
     const properties = await prisma.property.findMany({
         where: {
             id: {
-                in: pIds
-            }
+                in: pIds,
+            },
         },
         select: {
             id: true,
@@ -36,7 +35,11 @@ export const getPopularProperties= async (): Promise<Property[]>  => {
             description: true,
             price: true,
             discount: true,
-            location: true,
+            address: true,
+            city: true,
+            state: true,
+            country: true,
+            postalCode: true,
             verified: true,
             petfriendly: true,
             area: true,
@@ -50,15 +53,15 @@ export const getPopularProperties= async (): Promise<Property[]>  => {
                     id: true,
                     name: true,
                     image: true,
-                }
+                },
             },
             _count: {
                 select: {
                     reviews: true,
                 },
             },
-        }
+        },
     });
 
     return properties;
-}
+};

@@ -9,9 +9,8 @@ export const ImageKitAuthenticator = async () => {
         const data = await response.json();
         const { signature, expire, token, publicKey } = data;
         return { signature, expire, token, publicKey };
-
     } catch (error) {
         console.error("Authentication error:", error);
         return;
     }
-}
+};

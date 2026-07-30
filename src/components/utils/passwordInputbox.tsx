@@ -1,18 +1,45 @@
-'use client'
+"use client";
 
-import { useState } from "react"
-import { InputBox } from "./labelledInputBox"
-import { FaRegEye } from "react-icons/fa6";
-import { FaRegEyeSlash } from "react-icons/fa";
+import { useState } from "react";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { PiPassword } from "react-icons/pi";
 
-export const PasswordInputBox = ({ label, type, placeholder }: InputBox)=> {
+interface PasswordInputBoxProps {
+    label: string;
+    placeholder: string;
+    type: string;
+}
+
+export function PasswordInputBox({ label, placeholder }: PasswordInputBoxProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <div id="passwordInputBox" className="flex relative flex-col w-full mb-3">
-            <label className="text-black font-semibold text-xl md:text-2xl mb-0.5" htmlFor={label}>{label}</label>
-            <input minLength={8} required type={!showPassword ? type : 'text'} className="focus:rounded-2xl  text-gray-600 text-base sm:text-xl font-medium p-2 focus:outline-0 focus:border-2 border rounded-md w-full" aria-label={label} id={label} name={label} placeholder={placeholder}/>
-            <button onClick={() => setShowPassword(!showPassword)} aria-label="show password button" type="button" className="text-black items-center justify-center mb-0.5 right-2 text-3xl absolute flex sm:h-10 h-7 w-7 bottom-1 sm:bottom-0.5 sm:w-10">{!!!showPassword ? <FaRegEye/> : <FaRegEyeSlash/> }</button>
+        <div className="relative">
+            <PiPassword className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500" />
+            <input
+                name={label}
+                type={showPassword ? "text" : "password"}
+                placeholder={placeholder}
+                required
+                className="w-full pl-10 pr-12 py-3 text-sm rounded-xl border border-gray-300 dark:border-slate-700
+                   bg-white text-gray-900 
+                   placeholder:text-gray-400 dark:placeholder:text-slate-500
+                   focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 
+                   focus:border-transparent
+                   transition-all duration-200
+                   hover:border-gray-400 dark:hover:border-slate-600"
+            />
+            <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 transition-colors"
+            >
+                {showPassword ? (
+                    <IoEyeOffOutline className="w-5 h-5" />
+                ) : (
+                    <IoEyeOutline className="w-5 h-5" />
+                )}
+            </button>
         </div>
-    )
+    );
 }

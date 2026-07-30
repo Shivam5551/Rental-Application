@@ -3,11 +3,11 @@ import prisma from "@/utils/prismaClient";
 export const getRatings = async (propertyId: string) => {
     const rating = await prisma?.review.aggregate({
         where: {
-            propertyId: propertyId
+            propertyId: propertyId,
         },
         _avg: {
-            rating: true
-        }
+            rating: true,
+        },
     });
     return rating._avg;
-}
+};

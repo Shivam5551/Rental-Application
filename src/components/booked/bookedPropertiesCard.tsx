@@ -1,26 +1,42 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 import { IBookedProperties } from "@/utils/interfaces";
-import { FaBed, FaBath, FaRulerCombined, FaCalendarAlt, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import {
+    FaBed,
+    FaBath,
+    FaRulerCombined,
+    FaCalendarAlt,
+    FaMapMarkerAlt,
+    FaUser,
+} from "react-icons/fa";
 
-export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: IBookedProperties }) => {
+export const BookedPropertiesCard = ({
+    bookedProperties,
+}: {
+    bookedProperties: IBookedProperties;
+}) => {
     const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
+        return new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
         });
     };
 
     const calculateNights = () => {
-        const diffTime = Math.abs(new Date(bookedProperties.endDate).getTime() - new Date(bookedProperties.startDate).getTime());
+        const diffTime = Math.abs(
+            new Date(bookedProperties.endDate).getTime() -
+                new Date(bookedProperties.startDate).getTime()
+        );
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     };
 
     const isUpcoming = new Date(bookedProperties.startDate) > new Date();
-    const isOngoing = new Date(bookedProperties.startDate) <= new Date() && new Date(bookedProperties.endDate) >= new Date();
+    const isOngoing =
+        new Date(bookedProperties.startDate) <= new Date() &&
+        new Date(bookedProperties.endDate) >= new Date();
     const isPast = new Date(bookedProperties.endDate) < new Date();
 
     const getStatusBadge = () => {
@@ -45,10 +61,11 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
         }
     };
 
-
-    const discountedPrice: number = bookedProperties.property.discount > 0
-        ? ((bookedProperties.property.price / 100) * (1 - (bookedProperties.property.discount / 10000)))
-        : bookedProperties.property.price / 100;
+    const discountedPrice: number =
+        bookedProperties.property.discount > 0
+            ? (bookedProperties.property.price / 100) *
+              (1 - bookedProperties.property.discount / 10000)
+            : bookedProperties.property.price / 100;
 
     return (
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-slate-700 mb-6">
@@ -62,9 +79,7 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                         className="w-full h-48 md:h-full object-cover"
                     />
 
-                    <div className="absolute top-3 right-3">
-                        {getStatusBadge()}
-                    </div>
+                    <div className="absolute top-3 right-3">{getStatusBadge()}</div>
 
                     {bookedProperties.property.discount > 0 && (
                         <div className="absolute top-3 left-3">
@@ -83,7 +98,10 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                             </h3>
                             <p className="text-gray-600 dark:text-gray-300 flex items-center gap-1 mb-3">
                                 <FaMapMarkerAlt className="w-4 h-4 text-red-500" />
-                                {bookedProperties.property.location}
+                                {bookedProperties.property.address},{" "}
+                                {bookedProperties.property.city}, {bookedProperties.property.state}{" "}
+                                {bookedProperties.property.postalCode},{" "}
+                                {bookedProperties.property.country}
                             </p>
                         </div>
 
@@ -92,14 +110,15 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                 Rs.{(bookedProperties.totalPrice / 100).toLocaleString()}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                Total for {calculateNights()} {calculateNights() === 1 ? 'night' : 'nights'}
+                                Total for {calculateNights()}{" "}
+                                {calculateNights() === 1 ? "night" : "nights"}
                             </p>
                             {bookedProperties.property.discount > 0 && (
-                                <div className='flex justify-center items-center gap-2'>
+                                <div className="flex justify-center items-center gap-2">
                                     <p className="text-xs text-gray-400 line-through">
                                         Rs.{bookedProperties.property.price / 100}
                                     </p>
-                                    <p className='text-xs text-black dark:text-white'>
+                                    <p className="text-xs text-black dark:text-white">
                                         Rs.{discountedPrice}
                                     </p>
                                 </div>
@@ -110,11 +129,13 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                     <div className="flex items-center gap-6 mb-4 text-sm text-gray-600 dark:text-gray-300">
                         <span className="flex items-center gap-1">
                             <FaBed className="w-3 h-3 text-blue-500" />
-                            {bookedProperties.property.beds} {bookedProperties.property.beds === 1 ? 'bed' : 'beds'}
+                            {bookedProperties.property.beds}{" "}
+                            {bookedProperties.property.beds === 1 ? "bed" : "beds"}
                         </span>
                         <span className="flex items-center gap-1">
                             <FaBath className="w-3 h-3 text-cyan-500" />
-                            {bookedProperties.property.baths} {bookedProperties.property.baths === 1 ? 'bath' : 'baths'}
+                            {bookedProperties.property.baths}{" "}
+                            {bookedProperties.property.baths === 1 ? "bath" : "baths"}
                         </span>
                         <span className="flex items-center gap-1">
                             <FaRulerCombined className="w-3 h-3 text-green-500" />
@@ -129,7 +150,9 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                     <FaCalendarAlt className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Check-in</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                        Check-in
+                                    </p>
                                     <p className="font-semibold text-gray-900 dark:text-white">
                                         {formatDate(bookedProperties.startDate)}
                                     </p>
@@ -141,7 +164,9 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
                                     <FaCalendarAlt className="w-4 h-4 text-orange-600 dark:text-orange-400" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Check-out</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                        Check-out
+                                    </p>
                                     <p className="font-semibold text-gray-900 dark:text-white">
                                         {formatDate(bookedProperties.endDate)}
                                     </p>
@@ -192,11 +217,12 @@ export const BookedPropertiesCard = ({ bookedProperties }: { bookedProperties: I
 
                     <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-600">
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                            Booked on {formatDate(bookedProperties.createdAt)} • Booking ID: {bookedProperties.id.slice(0, 8)}...
+                            Booked on {formatDate(bookedProperties.createdAt)} • Booking ID:{" "}
+                            {bookedProperties.id.slice(0, 8)}...
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};

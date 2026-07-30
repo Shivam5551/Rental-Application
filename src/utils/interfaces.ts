@@ -9,7 +9,11 @@ export interface IBookedProperties {
     property: {
         id: string;
         title: string;
-        location: string;
+        address: string; // ✅ add these
+        city: string;
+        state: string;
+        country: string;
+        postalCode: string;
         showcaseimage: string;
         price: number;
         discount: number;
@@ -23,6 +27,6 @@ export interface IBookedProperties {
         };
     };
     payment: {
-        status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED"
-    }
+        status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED";
+    };
 }

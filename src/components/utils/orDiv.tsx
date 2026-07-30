@@ -1,9 +1,11 @@
-export const ORDIV = () => {
+export function ORDIV() {
     return (
-        <div className="relative flex py-8 items-center justify-center w-full">
-            <div className="border-t border-gray-500 flex w-full justify-center items-center">
-                <div className="absolute p-1 flex whitespace-pre bg-white text-gray-500">Or<span className="sm:flex hidden"> continue with</span></div>
-            </div>
+        <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-linear-to-r from-transparent via-gray-300 dark:via-slate-700 to-transparent"></div>
+            <span className="text-xs font-medium text-gray-500 dark:text-slate-500 uppercase tracking-wider">
+                Or
+            </span>
+            <div className="flex-1 h-px bg-linear-to-r from-transparent via-gray-300 dark:via-slate-700 to-transparent"></div>
         </div>
-    )
+    );
 }
