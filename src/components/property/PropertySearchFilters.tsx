@@ -52,7 +52,6 @@ export const PropertySearchFilters = ({
         });
     };
 
-    // Quick search for location
     const handleQuickSearch = (location: string) => {
         const newFilters = { ...filters, location };
         setFilters(newFilters);

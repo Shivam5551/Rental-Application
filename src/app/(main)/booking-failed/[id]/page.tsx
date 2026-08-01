@@ -42,6 +42,10 @@ export default async function Failed({
                     <p className="text-gray-600">
                         Unfortunately, your payment could not be processed.
                     </p>
+                    <p className="text-gray-600">
+                        Try booking the property in other dates or contact support if the issue
+                        persists.
+                    </p>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">

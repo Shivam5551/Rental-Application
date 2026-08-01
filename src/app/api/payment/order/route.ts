@@ -107,13 +107,13 @@ export async function POST(request: NextRequest) {
                     startDate: new Date(checkIn),
                     orderId: order.id,
                     endDate: new Date(checkOut),
-                    totalPrice: Math.round(parseFloat(amountInPaise.toString()) * 100),
+                    totalPrice: Math.round(parseFloat(amountInPaise.toString())),
                 },
             });
             const payment = await txn.payment.create({
                 data: {
                     razorpayOrderId: order.id,
-                    amount: amountInPaise * 100,
+                    amount: amountInPaise,
                     userId: session.user.id,
                     status: "PENDING",
                     bookingId: booking.id,

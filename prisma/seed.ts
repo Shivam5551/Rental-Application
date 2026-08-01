@@ -785,6 +785,7 @@ async function main() {
         }
 
         // Create refresh tokens for some users
+        // Create refresh tokens for some users
         console.log("🔑 Creating refresh tokens...");
         let tokenCount = 0;
         for (let i = 0; i < Math.min(createdUsers.length, 3); i++) {
@@ -793,20 +794,24 @@ async function main() {
                 const expiresAt = new Date();
                 expiresAt.setDate(expiresAt.getDate() + 30); // 30 days from now
 
+                // Generate a raw token (this is what would normally be issued to the client)
+                const rawRefreshToken = `refresh_${Math.random().toString(36).slice(2, 34)}_${Date.now()}`;
+
                 await prisma.token.create({
                     data: {
                         userId: user.id,
-                        refreshToken: `refresh_${Math.random().toString(36).substr(2, 32)}_${Date.now()}`,
+                        refreshTokenHash: hashSync(rawRefreshToken, 10), // 👈 store the hash, not the raw token
                         expiresAt,
                     },
                 });
                 tokenCount++;
                 console.log(`   ✓ Created refresh token for user: ${user.name}`);
+                // NOTE: rawRefreshToken is intentionally not logged/stored anywhere —
+                // in a real flow it would only ever be sent to the client once (at login).
             } catch (error) {
                 console.error(`   ❌ Failed to create token for user ${user.name}:`, error);
             }
         }
-
         // Create properties
         console.log("🏠 Creating properties...");
         const createdProperties = [];
@@ -924,18 +929,16 @@ async function main() {
                 const paymentStatuses =
                     booking.status === "PENDING"
                         ? ["PENDING", "PENDING", "FAILED"]
-                        : ["CAPTURED", "COMPLETED", "COMPLETED", "FAILED", "REFUNDED"];
+                        : ["CAPTURED", "FAILED", "REFUNDED"];
                 const randomStatus = pickRandom(paymentStatuses);
                 const uniqueOrderId = makeRandomId("rzp_order");
-                const isCompletedPayment =
-                    randomStatus === "CAPTURED" || randomStatus === "COMPLETED";
+                const isCompletedPayment = randomStatus === "CAPTURED";
 
                 await prisma.payment.create({
                     data: {
                         amount: booking.totalPrice,
                         currency: "INR",
-                        status: randomStatus as
-                            "CAPTURED" | "COMPLETED" | "PENDING" | "FAILED" | "REFUNDED",
+                        status: randomStatus as "CAPTURED" | "PENDING" | "FAILED" | "REFUNDED",
                         razorpayOrderId: uniqueOrderId,
                         razorpayPaymentId: isCompletedPayment ? makeRandomId("pay") : null,
                         razorpaySignature: isCompletedPayment ? makeRandomId("sig") : null,

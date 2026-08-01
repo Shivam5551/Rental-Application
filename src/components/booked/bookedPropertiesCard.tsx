@@ -69,18 +69,16 @@ export const BookedPropertiesCard = ({
 
     return (
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-slate-700 mb-6">
-            <div className="md:flex">
-                <div className="md:w-1/3 relative">
+            <div className="md:flex  md:items-stretch">
+                <div className="relative h-48 md:h-auto md:w-1/3 shrink-0">
+                    {" "}
                     <Image
                         src={bookedProperties.property.showcaseimage}
                         alt={bookedProperties.property.title}
-                        width={300}
-                        height={200}
-                        className="w-full h-48 md:h-full object-cover"
+                        fill 
+                        className="object-cover" 
                     />
-
                     <div className="absolute top-3 right-3">{getStatusBadge()}</div>
-
                     {bookedProperties.property.discount > 0 && (
                         <div className="absolute top-3 left-3">
                             <span className="px-2 py-1 text-xs font-bold rounded bg-red-500 text-white">
@@ -217,7 +215,6 @@ export const BookedPropertiesCard = ({
 
                     <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-600">
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                            Booked on {formatDate(bookedProperties.createdAt)} • Booking ID:{" "}
                             {bookedProperties.id.slice(0, 8)}...
                         </p>
                     </div>

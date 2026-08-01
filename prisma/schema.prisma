@@ -135,14 +135,13 @@ model Payment {
 }
 
 model Token {
-  id           String   @id @default(uuid())
-  userId       String   @unique
-  refreshToken String
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  refreshTokenHash String
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -158,7 +157,6 @@ model WebhookEvent {
 enum PaymentStatus {
   PENDING
   CAPTURED
-  COMPLETED
   FAILED
   REFUNDED
 }

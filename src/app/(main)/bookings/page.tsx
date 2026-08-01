@@ -51,10 +51,7 @@ export default async function BookingsPage() {
                                     Confirmed
                                 </h3>
                                 <p className="text-2xl font-bold text-green-600">
-                                    {
-                                        bookings.filter((b) => b.payment.status === "COMPLETED")
-                                            .length
-                                    }
+                                    {bookings.filter((b) => b.payment.status === "CAPTURED").length}
                                 </p>
                             </div>
 
@@ -69,7 +66,7 @@ export default async function BookingsPage() {
 
                             <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-gray-200 dark:border-slate-700">
                                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    Completed
+                                    Refunded
                                 </h3>
                                 <p className="text-2xl font-bold text-blue-600">
                                     {bookings.filter((b) => b.payment.status === "REFUNDED").length}

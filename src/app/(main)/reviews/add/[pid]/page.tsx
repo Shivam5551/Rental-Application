@@ -96,7 +96,7 @@ export default async function AddReviewPage({ params, searchParams }: AddReviewP
                 userId: session.user.id,
                 propertyId: propertyId,
                 endDate: {
-                    lt: new Date(), // Only completed bookings
+                    lt: new Date(),
                 },
             },
             include: {

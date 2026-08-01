@@ -84,11 +84,10 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
     const resolvedParams = await params;
     const bookingId = resolvedParams.id;
 
-    // Fetch booking details with related data
     const booking = await prisma.booking.findUnique({
         where: {
             id: bookingId,
-            userId: session.user.id, // Ensure user can only see their own bookings
+            userId: session.user.id,
         },
         include: {
             property: {
@@ -102,6 +101,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                     postalCode: true,
                     showcaseimage: true,
                     price: true,
+                    discount: true,
                     user: {
                         select: {
                             name: true,
@@ -127,12 +127,15 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
     if (!booking) {
         notFound();
     }
-
+    const discountedPrice =
+        booking.property.discount > 0
+            ? ((booking.property.price / 100) * (1 - booking.property.discount / 10000)).toFixed(2)
+            : (booking.property.price / 100).toFixed(2);
+    console.log("Booking details:", booking);
     // Calculate booking details
     const startDate = new Date(booking.startDate);
     const endDate = new Date(booking.endDate);
     const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    const totalAmount = booking.totalPrice / 100; // Convert from paise to rupees
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
@@ -264,7 +267,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                         Rate per night
                                     </span>
                                     <span className="text-gray-900 dark:text-white">
-                                        ₹{(booking.property.price / 100).toLocaleString()}
+                                        ₹{discountedPrice}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
@@ -272,7 +275,12 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                         {nights} {nights === 1 ? "night" : "nights"}
                                     </span>
                                     <span className="text-gray-900 dark:text-white">
-                                        ₹{totalAmount.toLocaleString()}
+                                        ₹
+                                        {booking.payment?.[0]?.amount
+                                            ? (booking.payment[0].amount / 100).toLocaleString(
+                                                  "en-IN"
+                                              )
+                                            : "N/A"}
                                     </span>
                                 </div>
                                 <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
@@ -281,7 +289,12 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                             Total Paid
                                         </span>
                                         <span className="text-lg font-semibold text-green-600">
-                                            ₹{totalAmount.toLocaleString()}
+                                            ₹
+                                            {booking.payment[0]?.amount
+                                                ? (booking.payment[0].amount / 100).toLocaleString(
+                                                      "en-IN"
+                                                  )
+                                                : "N/A"}
                                         </span>
                                     </div>
                                 </div>
@@ -292,7 +305,12 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                     <div className="flex items-center space-x-2 mb-3">
                                         <CreditCardIcon className="h-5 w-5 text-green-500" />
                                         <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                            Payment Pending
+                                            Payment{" "}
+                                            {booking.payment[0].status === "CAPTURED" ? (
+                                                <span className="text-green-500">Successful</span>
+                                            ) : (
+                                                <span className="text-yellow-500">Pending</span>
+                                            )}
                                         </span>
                                     </div>
                                     <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">

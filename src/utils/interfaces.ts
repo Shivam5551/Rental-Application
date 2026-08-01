@@ -27,6 +27,6 @@ export interface IBookedProperties {
         };
     };
     payment: {
-        status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED";
+        status: "PENDING" | "CAPTURED" | "FAILED" | "REFUNDED";
     };
 }

@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
                     if (!payment) {
                         throw new Error("Payment not found");
                     }
-                    if (payment.status === "COMPLETED") {
+                    if (payment.status === "CAPTURED") {
                         return;
                     }
                     await txn.payment.update({
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
                             razorpayOrderId: orderId,
                         },
                         data: {
-                            status: "COMPLETED",
+                            status: "CAPTURED",
                             razorpayPaymentId: paymentId,
                         },
                     });
@@ -83,16 +83,16 @@ export async function POST(request: NextRequest) {
                 });
                 break;
             }
-            case "payemnt.failed": {
+            case "payment.failed": {
                 const paymentEntity = event.payload.payment.entity;
                 const orderId = paymentEntity.order_id;
                 await prisma?.$transaction(async (txn) => {
-                    const payemnt = await txn.payment.findUnique({
+                    const payment = await txn.payment.findUnique({
                         where: {
                             razorpayOrderId: orderId,
                         },
                     });
-                    if (!payemnt) {
+                    if (!payment) {
                         return;
                     }
                     await txn.payment.update({
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
 
                     await txn.booking.update({
                         where: {
-                            id: payemnt.bookingId,
+                            id: payment.bookingId,
                         },
                         data: {
                             status: "EXPIRED",

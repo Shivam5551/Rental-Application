@@ -47,7 +47,7 @@ export const getRenterDashboardStats = async (): Promise<IRenterDashboardStats |
 
         const totalSpent = bookings.reduce((total, booking) => {
             const hasCompletedPayment = booking.payment.some(
-                (payment) => payment.status === "COMPLETED"
+                (payment) => payment.status === "CAPTURED"
             );
             return hasCompletedPayment ? total + booking.totalPrice : total;
         }, 0);

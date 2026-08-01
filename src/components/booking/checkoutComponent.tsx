@@ -46,7 +46,9 @@ export default function CheckoutComponent() {
                     });
 
                     if (!response.data.success) {
-                        throw new Error("Failed to create payment order");
+                        throw new Error(
+                            "Someone has already booked this property for the selected dates. Please choose different dates."
+                        );
                     }
 
                     const orderId = response.data.orderId;
@@ -54,14 +56,17 @@ export default function CheckoutComponent() {
                     setLoading1(false);
                 } catch (error) {
                     console.error("Error creating payment order:", error);
-                    toast.error("Failed to create payment order");
+                    toast.error(
+                        "Someone has already booked this property for the selected dates. Please choose different dates."
+                    );
                     setLoading1(false);
+                    router.push(`/booking-failed/${propertyId}`);
                 }
             };
 
             createOrderId();
         }
-    }, [propertyExists, amount, session?.user?.id, checkIn, checkOut, propertyId]);
+    }, [propertyExists, amount, session?.user?.id, checkIn, checkOut, propertyId, router]);
 
     const processPayment = useCallback(async () => {
         setLoading(true);

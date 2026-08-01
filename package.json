@@ -28,6 +28,7 @@
         "country-state-city": "^3.2.1",
         "dayjs": "^1.11.21",
         "dotenv": "^17.4.2",
+        "jsonwebtoken": "^9.0.3",
         "next": "^16.2.6",
         "next-auth": "^4.24.14",
         "nodemon": "^3.1.14",
@@ -43,6 +44,7 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.5",
         "@tailwindcss/postcss": "^4.3.0",
+        "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^20.19.41",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",

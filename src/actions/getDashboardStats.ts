@@ -57,7 +57,7 @@ export async function getDashboardStats(): Promise<DashboardStats | null> {
                             userId: userId,
                         },
                     },
-                    status: "COMPLETED",
+                    status: "CAPTURED",
                 },
                 _sum: {
                     amount: true,

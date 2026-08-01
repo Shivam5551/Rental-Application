@@ -10,7 +10,7 @@ interface BookingSummaryProps {
         totalPrice: number;
         createdAt: Date;
         payment: {
-            status: "PENDING" | "CAPTURED" | "COMPLETED" | "FAILED" | "REFUNDED";
+            status: "PENDING" | "CAPTURED" | "FAILED" | "REFUNDED";
         }[];
     };
     guests?: number;
@@ -125,7 +125,7 @@ export default function BookingSummary({ booking, guests }: BookingSummaryProps)
                             Total Paid:
                         </span>
                         <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
-                            ₹{booking.totalPrice.toLocaleString()}
+                            ₹{(booking.totalPrice / 100).toLocaleString("en-IN")}
                         </span>
                     </div>
                 </div>
