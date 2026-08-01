@@ -41,7 +41,7 @@ export function BookingDatePicker({
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="bg-amber-50 w-fit rounded-xl shadow-xs p-2">
+            <div className="bg-amber-50 rounded-xl shadow-xs p-2">
                 <DatePicker
                     label="Check In"
                     shouldDisableDate={isBooked}
@@ -55,7 +55,7 @@ export function BookingDatePicker({
                     }}
                 />
             </div>
-            <div className="bg-amber-50 w-fit rounded-xl shadow-xs p-2">
+            <div className="bg-amber-50 rounded-xl shadow-xs p-2">
                 <DatePicker
                     label="Check Out"
                     disablePast
