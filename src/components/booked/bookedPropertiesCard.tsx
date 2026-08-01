@@ -18,7 +18,7 @@ export const BookedPropertiesCard = ({
     bookedProperties: IBookedProperties;
 }) => {
     const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString("en-US", {
+        return new Date(date).toLocaleDateString("en-IN", {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -75,8 +75,8 @@ export const BookedPropertiesCard = ({
                     <Image
                         src={bookedProperties.property.showcaseimage}
                         alt={bookedProperties.property.title}
-                        fill 
-                        className="object-cover" 
+                        fill
+                        className="object-cover"
                     />
                     <div className="absolute top-3 right-3">{getStatusBadge()}</div>
                     {bookedProperties.property.discount > 0 && (

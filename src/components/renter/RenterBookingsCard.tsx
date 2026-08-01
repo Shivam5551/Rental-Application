@@ -6,19 +6,11 @@ import { MdCalendarToday, MdLocationOn, MdPerson, MdPayment, MdHome } from "reac
 
 export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[] }) => {
     const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString("en-US", {
+        return new Date(date).toLocaleDateString("en-IN", {
             year: "numeric",
             month: "short",
             day: "numeric",
         });
-    };
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("en-IN", {
-            style: "currency",
-            currency: "INR",
-            minimumFractionDigits: 0,
-        }).format(amount);
     };
 
     const getStatusColor = (status: string) => {
@@ -143,7 +135,9 @@ export const RenterBookingsCard = ({ bookings }: { bookings: IBookedProperties[]
                                             <div className="flex items-center gap-1">
                                                 <MdPayment className="w-3 h-3" />
                                                 <span className="font-medium">
-                                                    {formatCurrency(booking.totalPrice / 100)}
+                                                    {Number(
+                                                        booking.totalPrice / 100
+                                                    ).toLocaleString("en-IN")}
                                                 </span>
                                             </div>
                                         </div>

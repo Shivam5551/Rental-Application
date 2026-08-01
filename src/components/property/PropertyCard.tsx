@@ -158,15 +158,18 @@ export const PropertyCard = ({ property, rating }: PropertyCardProps) => {
                         {property.discount > 0 ? (
                             <div className="flex items-center gap-2">
                                 <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                                    Rs.{discountedPrice}
+                                    ₹{Number(discountedPrice).toLocaleString("en-IN")}
                                 </span>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
-                                    Rs.{(property.price / 100).toFixed(2)}
+                                    ₹
+                                    {Number((property.price / 100).toFixed(2)).toLocaleString(
+                                        "en-IN"
+                                    )}
                                 </span>
                             </div>
                         ) : (
                             <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                                Rs.{(property.price / 100).toFixed(2)}
+                                ₹{Number((property.price / 100).toFixed(2)).toLocaleString("en-IN")}
                             </span>
                         )}
                         <span className="text-sm text-gray-600 dark:text-gray-300">/Night</span>

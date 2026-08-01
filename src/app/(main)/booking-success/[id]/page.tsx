@@ -267,7 +267,7 @@ export default async function BookingSuccess({ params }: BookingSuccessProps) {
                                         Rate per night
                                     </span>
                                     <span className="text-gray-900 dark:text-white">
-                                        ₹{discountedPrice}
+                                        ₹{Number(discountedPrice).toLocaleString("en-IN")}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
